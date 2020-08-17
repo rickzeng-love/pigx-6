@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.OtcompanyMapper">
+
+  <resultMap id="otcompanyMap" type="com.pig4cloud.pigx.admin.entity.Otcompany">
+                  <id property="compid" column="CompID"/>
+                        <result property="corpid" column="CorpID"/>
+                        <result property="corpcode" column="corpcode"/>
+                        <result property="compcode" column="CompCode"/>
+                        <result property="title" column="Title"/>
+                        <result property="compabbr" column="CompAbbr"/>
+                        <result property="adminid" column="AdminID"/>
+                        <result property="regTel" column="Reg_Tel"/>
+                        <result property="compgrade" column="CompGrade"/>
+                        <result property="comptype" column="CompType"/>
+                        <result property="comparea" column="CompArea"/>
+                        <result property="effectdate" column="EffectDate"/>
+                        <result property="lawyer" column="Lawyer"/>
+                        <result property="address" column="Address"/>
+                        <result property="regaddress" column="RegAddress"/>
+                        <result property="tel" column="Tel"/>
+                        <result property="fax" column="Fax"/>
+                        <result property="postcode" column="PostCode"/>
+                        <result property="website" column="WebSite"/>
+                        <result property="compmail" column="CompMail"/>
+                        <result property="isdisabled" column="isDisabled"/>
+                        <result property="disableddate" column="DisabledDate"/>
+                        <result property="remark" column="Remark"/>
+                        <result property="xorder" column="xorder"/>
+                        <result property="groupname" column="GroupName"/>
+                        <result property="groupid" column="GroupID"/>
+                        <result property="groupemail" column="GroupEmail"/>
+                        <result property="director" column="Director"/>
+                        <result property="operaterange" column="OperateRange"/>
+                        <result property="wxworkorgid" column="WXWorkOrgID"/>
+                        <result property="createdate" column="CreateDate"/>
+                        <result property="updatedate" column="UpdateDate"/>
+                        <result property="dingorgid" column="DingOrgID"/>
+                        <result property="delFlag" column="del_flag"/>
+                        <result property="tenantId" column="tenant_id"/>
+                        <result property="isou" column="ISOU"/>
+	  <result property="isregister" column="isregister"/>
+	  <result property="orgfunction" column="orgfunction"/>
+	  <result property="decription" column="decription"/>
+            </resultMap>
+	<resultMap id="otcompanyAliasMap" type="com.pig4cloud.pigx.admin.entity.Otcompany">
+		<id property="sid" column="sid"/>
+		<result property="corpid" column="CorpID"/>
+		<result property="corpcode" column="corpcode"/>
+		<result property="title" column="Title"/>
+		<result property="adminid" column="pid"/>
+		<result property="stype" column="stype"/>
+		<result property="people" column="people"/>
+	</resultMap>
+	<resultMap id="systcorpinfoAliasMap" type="com.pig4cloud.pigx.admin.entity.Systcorpinfo">
+		<id property="corpcode" column="corpcode"/>
+		<id property="corpname" column="corpname"/>
+		<result property="people" column="people"/>
+	</resultMap>
+	<select id="listCompany" resultType="java.util.Map" parameterType="com.pig4cloud.pigx.admin.entity.Otcompany">
+
+		select a.*,
+			case when exists(select 1 from
+				(	select concat('C',compid) as id,title,concat('C',adminid) as pid,'C' as stype
+					from otcompany where corpcode=#{corpcode}
+					union all
+					select concat('D',depid) as id,title,case  when adminid is null then concat('C',compid) else concat('D',adminid) end pid,'D' as stype from otdepartment
+					where corpcode=#{corpcode} and ifnull(isdisabled,0) = 0
+				) b
+				where a.id = b.pid) then '0' else '1' end  as flag
+		from
+			(select concat('C',a.compid) as id,a.title,concat('C',a.adminid) as pid,'C' as stype,a.xorder,
+				(select count(1) from etemployee b where b.CompID=a.CompID ) people
+				from otcompany a where corpcode=#{corpcode}
+			union all
+			select concat('D',a.depid) as id,a.title,case  when a.adminid is null then concat('C',a.compid) else concat('D',a.adminid) end pid,'D' as stype,a.xorder,
+				(select count(1) from etemployee b where DepID=a.depid ) people
+			from otdepartment a where a.corpcode=#{corpcode}  and ifnull(a.isdisabled,0) = 0
+		) a
+		order by stype,xorder
+
+	</select>
+
+	<select id="listCompanySecondLevel" resultType="java.util.Map" parameterType="java.util.Map">
+
+		select a.*,
+			case when exists(select 1 from
+				(	select concat('C',compid) as id,title,concat('C',adminid) as pid,'C' as stype
+					from otcompany where corpcode=#{corpcode} and compid = #{compid}
+					union all
+					select concat('D',depid) as id,title,concat('C',compid) as pid,'D' as stype from otdepartment
+					where corpcode=#{corpcode} and compid = #{compid}
+				) b
+				where a.id = b.pid) then '0' else '1' end  as flag
+		from
+			(select concat('C',compid) as id,title,concat('C',adminid) as pid,'C' as stype,xorder,
+				(select count(1) from etemployee where CompID=#{compid} ) people
+				from otcompany where corpcode=#{corpcode} and compid = #{compid}
+			union all
+			select concat('D',depid) as id,title,concat('C',compid) as pid,'D' as stype,xorder,
+				(select count(1) from etemployee where DepID=#{deptid} ) people
+			from otdepartment where corpcode=#{corpcode} and compid = #{compid}
+		) a
+		order by stype,xorder
+
+	</select>
+
+	<select id="listDept" resultType="java.util.Map" parameterType="java.util.Map">
+
+		select a.*,
+			case when exists(select 1 from
+				(
+					select concat('D',depid) as id,title,concat('C',compid) as pid,'D' as stype from otdepartment
+					where corpcode=#{corpcode} and depid=#{depid}
+				) b
+				where a.id = b.pid) then '0' else '1' end  as flag
+		from
+			(
+			select concat('D',depid) as id,title,concat('C',compid) as pid,'D' as stype,xorder,
+				(select count(1) from etemployee where DepID=#{deptid} ) people
+			from otdepartment where corpcode=#{corpcode} and depid=#{depid}
+		) a
+		order by xorder
+
+	</select>
+
+	<select id="listCorp" resultType="java.util.Map" parameterType="com.pig4cloud.pigx.admin.entity.Otcompany">
+
+		select corpcode,corpname,(select count(1) from etemployee where corpcode =#{corpcode} ) people from systcorpinfo
+
+		where corpcode=#{corpcode}
+
+
+	</select>
+
+	<select id="listOrganizationTree" resultType="com.pig4cloud.pigx.admin.api.dto.TreeOrg" parameterType="com.pig4cloud.pigx.admin.entity.Otcompany">
+
+				select concat('C',a.compid) as id,
+		concat(a.title,concat('(',concat((select count(1) from etemployee where corpcode=a.CorpCode),'人)'))) title,
+		concat('C',a.adminid) as pid,'C' as stype,a.xorder,false isExpand
+
+				from otcompany a
+			union all
+			select concat('D',b.depid) as id,
+					concat(b.title,concat('(',concat((select count(1) from etemployee where depid=b.depid),'人)'))) title,
+			case  when b.adminid is null then concat('C',b.compid)
+			else concat('D',b.adminid)
+		end pid
+		,'D' as stype,b.xorder,false isExpand
+			from otdepartment b
+
+		union all
+		select concat('J',c.jobID) as id,
+					concat(c.title,concat('(',concat((select count(1) from etemployee where jobid=c.jobid),'人)'))) title,
+			case  when c.adminid is null then concat('D',c.depid)
+			else concat('J',c.adminid)
+		end pid
+		,'J' as stype,c.xorder,false isExpand
+		from otjob c
+
+	</select>
+
+
+	<select id="listOrganizationToDeptTree" resultType="com.pig4cloud.pigx.admin.api.dto.TreeOrg" parameterType="com.pig4cloud.pigx.admin.entity.Otcompany">
+
+				select concat('C',a.compid) as id,ifnull(a.title,'') title,
+					(select ifnull(count(1),0) from etemployee where corpcode=a.CorpCode) renshu,'' as depnum,
+					ifnull(director,'') director,
+					(select  ifnull(max(portrait),'') from etemployee where name=a.director) imgs,
+					concat('C',a.adminid) as pid,'C' as stype,a.xorder,false isExpand
+
+				from otcompany a where a.corpcode = #{corpcode}
+			union all
+			select concat('D',b.depid) as id,ifnull(b.title,0) title,
+					(select count(1) from etemployee where depid=b.depid) renshu,ifnull(b.depnum,0) depnum,
+					(select  ifnull(max(name),'') from etemployee where eid=b.director) director,
+					(select  ifnull(max(portrait),'') from etemployee where eid=b.director) imgs,
+
+			case  when b.adminid is null then concat('C',b.compid)
+			else concat('D',b.adminid)
+		end pid
+		,'D' as stype,b.xorder,false isExpand
+			from otdepartment b where b.corpcode = #{corpcode}
+
+	</select>
+
+
+	<select id="listOrganizationTreeMobile" resultType="com.pig4cloud.pigx.admin.api.dto.TreeOrg" parameterType="com.pig4cloud.pigx.admin.entity.Otcompany">
+
+			select concat('C',a.compid) as id,
+		concat(a.title,concat('|',ifnull(Lawyer,''))) title,
+		concat((select count(1) from etemployee where corpcode=a.CorpCode),'人') people,
+		concat('C',a.adminid) as pid,'C' as stype,a.xorder,false isExpand
+
+				from otcompany a where a.corpcode = #{corpcode}
+			union all
+			select concat('D',b.depid) as id,
+					concat(b.title,concat('|',(select  ifnull(max(name),'') from etemployee where eid=b.director))) title,
+					concat((select count(1) from etemployee where  depid=b.depid),'人') people,
+			case  when b.adminid is null then concat('C',b.compid)
+			else concat('D',b.adminid)
+		end pid
+		,'D' as stype,b.xorder,false isExpand
+			from otdepartment b where b.corpcode = #{corpcode}
+
+		union all
+		select concat('J',c.jobID) as id,
+					c.title title,
+					concat((select count(1) from etemployee where  jobid=c.jobid),'人') people,
+			case  when c.adminid is null then concat('D',c.depid)
+			else concat('J',c.adminid)
+		end pid
+		,'J' as stype,c.xorder,false isExpand
+		from otjob c where c.corpcode = #{corpcode}
+
+	</select>
+
+
+	<select id="listToDeptTreeMobile" resultType="com.pig4cloud.pigx.admin.api.dto.TreeOrg" parameterType="com.pig4cloud.pigx.admin.entity.Otcompany">
+
+			select concat('C',a.compid) as id,
+		a.title  title,
+		concat('C',a.adminid) as pid,'C' as stype,a.xorder,false isExpand
+
+				from otcompany a where a.corpcode= #{corpcode}
+			union all
+			select concat('D',b.depid) as id,
+					b.title title,
+			case  when b.adminid is null then concat('C',b.compid)
+			else concat('D',b.adminid)
+		end pid
+		,'D' as stype,b.xorder,false isExpand
+			from otdepartment b where b.corpcode= #{corpcode}
+
+	</select>
+
+	<select id="listToPeoPleTreeMobile" resultType="com.pig4cloud.pigx.admin.api.dto.TreeOrg" parameterType="com.pig4cloud.pigx.admin.entity.Otcompany">
+
+			select concat('C',a.compid) as id,
+		a.title  title,
+		concat('C',a.adminid) as pid,'C' as stype,a.xorder,false isExpand
+
+				from otcompany a
+			union all
+			select concat('D',b.depid) as id,
+					b.title title,
+			case  when b.adminid is null then concat('C',b.compid)
+			else concat('D',b.adminid)
+		end pid
+		,'D' as stype,b.xorder,false isExpand
+			from otdepartment b
+		union all
+		select from etempoyee
+
+	</select>
+
+
+	<!--PC端部门管理 -->
+	<select id="listOrganizationTreePC" resultType="com.pig4cloud.pigx.admin.api.dto.DeptTreeOrg" parameterType="com.pig4cloud.pigx.admin.entity.Otdepartment">
+
+			select b.depid as id,b.depid, b.title,b.depcode,b.compid,
+			depabbr,deptype,(select label from sys_dict_item where id = b.deptype) deptypename ,
+			adminid,(select  title from otdepartment where depid=b.adminid) adminname,
+			effectdate,orgfunction,decription,remark,
+					(select count(1) from etemployee where  depid=b.depid and empstatus in(1,2,4)) zaizhi,
+					(select count(1) from etemployee where  depid=b.depid and empstatus in(1,2,4) and emptype !=7) qrz,
+					(select count(1) from etemployee where  depid=b.depid and empstatus in(1,2,4) and emptype=7) fqrz,
+					depnum,
+					((select ifnull(count(1),0) from etemployee where  depid=b.depid and empstatus in(1,2,4)) -ifnull(depnum,0)) qbcb,
+		director,(select  ifnull(max(name),'') from etemployee where eid=b.director) directorname,
+		director2,(select  ifnull(max(name),'') from etemployee where eid=b.director2) director2name,
+		b.isou,case when b.isou =1 then '否' else '是' end isouname,
+					b.xorder,
+					false isExpand,
+					case when (select max(adminid) from otdepartment where  adminid = b.depid) is null then false
+					 else true end hasChildren
+			from otdepartment b where b.corpcode = #{query.corpcode} and b.adminid is null
+			<if test="query.title != null and query.title!= ''">
+				AND b.title LIKE CONCAT('%',#{query.title},'%')
+			</if>
+			and b.isdisabled = 0
+	</select>
+
+
+	<!--PC端部门管理 -->
+	<select id="listOrganizationTreePCSecond" resultType="com.pig4cloud.pigx.admin.api.dto.DeptTreeOrg" parameterType="com.pig4cloud.pigx.admin.entity.Otdepartment">
+
+			select b.depid as id,b.depid, b.title,b.depcode,b.compid,
+		b.depabbr,b.deptype,(select label from sys_dict_item where id = b.deptype) deptypename ,
+		b.adminid,(select  title from otdepartment where depid=b.adminid) adminname,
+		b.effectdate,b.orgfunction,b.decription,
+					(select count(1) from etemployee where  depid=b.depid and empstatus in(1,2,4)) zaizhi,
+					(select count(1) from etemployee where  depid=b.depid and empstatus in(1,2,4) and emptype !=7) qrz,
+					(select count(1) from etemployee where  depid=b.depid and empstatus in(1,2,4) and emptype=7) fqrz,
+					depnum,
+					((select ifnull(count(1),0) from etemployee where  depid=b.depid and empstatus in(1,2,4)) -ifnull(depnum,0)) qbcb,
+		b.director,(select  ifnull(max(name),'') from etemployee where eid=b.director) directorname,
+		b.director2,(select  ifnull(max(name),'') from etemployee where eid=b.director2) director2name,
+					b.isou,case when b.isou =1 then '否' else '是' end isouname,
+					b.xorder,
+					false isExpand,
+					case when (select max(adminid) from otdepartment where  adminid = b.depid) is null then false
+					 else true end hasChildren
+
+			from otdepartment b where b.corpcode = #{corpcode} and b.adminid = #{adminid}
+		<if test="title != null and title!= ''">
+			AND b.title LIKE CONCAT('%',#{title},'%')
+		</if>
+		and b.isdisabled = 0
+	</select>
+
+
+	<!--PC端部门管理 -->
+	<select id="listOrganizationTreePC2" resultType="com.pig4cloud.pigx.admin.api.dto.TreeOrg" parameterType="com.pig4cloud.pigx.admin.entity.Otdepartment">
+			select b.depid as id,b.depid, b.title,b.depcode,b.compid,
+					(select count(1) from etemployee where  depid=b.depid and empstatus in(1,2,4)) zaizhi,
+					(select count(1) from etemployee where  depid=b.depid and empstatus in(1,2,4) emptype !=7) qrz,
+					(select count(1) from etemployee where  depid=b.depid and empstatus in(1,2,4) emptype=7) fqrz,
+					depnum,
+					((select ifnull(count(1),0) from etemployee where  depid=b.depid and empstatus in(1,2,4)) -ifnull(depnum,0)) qbcb,
+					(select  ifnull(max(name),'') from etemployee where eid=b.director) director,
+					(select  ifnull(max(name),'') from etemployee where eid=b.director2) director2,
+					case when b.isou ==1 then '否' else '是' end isou,
+					case  when b.adminid is null then concat('C',b.compid)
+					else b.adminid
+					end pid,
+					b.xorder,
+					false isExpand
+			from otdepartment b where b.corpcode = #{corpcode}
+	</select>
+
+	<!--根据compid获取公司详情-->
+	<select id="listCompDeitalByCompid" resultType="java.util.Map"  parameterType="com.pig4cloud.pigx.admin.entity.Otcompany">
+
+				select a.title,a.corpcode,b.trade,b.scale,b.contact,a.province,a.city,a.district,a.adress,a.postcode,
+				(select label from sys_dict_item where id = b.trade) tradename,
+				(select label from sys_dict_item where id = b.scale) scalename
+				from otcompany a,systcorpinfo b where a.corpcode = #{corpcode} and b.corpcode = #{corpcode}
+
+	</select>
+
+
+
+</mapper>

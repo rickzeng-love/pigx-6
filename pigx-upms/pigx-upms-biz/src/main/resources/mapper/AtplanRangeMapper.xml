@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.AtplanRangeMapper">
+
+  <resultMap id="atplanRangeMap" type="com.pig4cloud.pigx.admin.entity.AtplanRange">
+                  <id property="term" column="Term"/>
+                        <result property="eid" column="EID"/>
+                        <result property="groupid" column="GroupID"/>
+                        <result property="shift" column="Shift"/>
+                        <result property="daytype" column="DayType"/>
+                        <result property="begintime" column="BeginTime"/>
+                        <result property="endtime" column="EndTime"/>
+                        <result property="scanbegintime" column="ScanBeginTime"/>
+                        <result property="scanendtime" column="ScanEndTime"/>
+                        <result property="analymode" column="AnalyMode"/>
+                        <result property="processflag" column="ProcessFlag"/>
+                        <result property="initialized" column="Initialized"/>
+                        <result property="initializedby" column="InitializedBy"/>
+                        <result property="initializedtime" column="InitializedTime"/>
+                        <result property="submit" column="Submit"/>
+                        <result property="submitby" column="SubmitBy"/>
+                        <result property="submittime" column="Submittime"/>
+                        <result property="closed" column="Closed"/>
+                        <result property="closedby" column="ClosedBy"/>
+                        <result property="closedtime" column="ClosedTime"/>
+                        <result property="remark" column="Remark"/>
+                        <result property="cardbegintime1" column="CardBeginTime1"/>
+                        <result property="cardendtime1" column="CardEndTime1"/>
+                        <result property="cardbegintime2" column="CardBeginTime2"/>
+                        <result property="cardendtime2" column="CardEndTime2"/>
+                        <result property="cardbegintime3" column="CardBeginTime3"/>
+                        <result property="cardendtime3" column="CardEndTime3"/>
+                        <result property="shouldworktime" column="ShouldWorkTime"/>
+                        <result property="begintime2" column="BeginTime2"/>
+                        <result property="endtime2" column="EndTime2"/>
+                        <result property="begintime3" column="BeginTime3"/>
+                        <result property="endtime3" column="EndTime3"/>
+                        <result property="worknum" column="WorkNum"/>
+                        <result property="corpid" column="CorpID"/>
+                        <result property="corpcode" column="CorpCode"/>
+            </resultMap>
+
+	<select id="listAtShiftDayByEid" resultType="com.pig4cloud.pigx.admin.entity.AvwShiftDay">
+
+		select  term,eid,badge,name,compid,depid,jobid,groupid,shift,isexception,begintime,endtime,dnan,
+		cardbegintime1,cardendtime1,cardbegintime2,cardendtime2,cardbegintime3,cardendtime3,
+		processflag,analymode,cder,pnhr,pndy,wkhr,wkdy,limn,eomn,litm,eotm,abhr,abdy,uahr,
+		otab,ot1,ot2,ot3,clot,sicl,perl,annl,coml,marl,prpl,matl,patl,otcl,puhl,nurl,isjl,
+		fanf,ofal,lvwk,rewk,otcd,nudy,initialized
+
+			from aVW_Shift_Day where
+			eid= #{eid}
+			and
+			date_format(term, '%Y-%m') = date_format((select term from atAttend_Process where corpcode =#{corpcode}), '%Y-%m')
+
+	</select>
+	<!--手机端考勤统计-->
+	<select id="listAtShiftDayByEidForStatistics" resultType="com.pig4cloud.pigx.admin.entity.AvwShiftDay">
+
+		select  portrait,term,eid,badge,name,compid,depid,jobid,groupid,shift,isexception,begintime,endtime,dnan,
+		cardbegintime1,cardendtime1,cardbegintime2,cardendtime2,cardbegintime3,cardendtime3,
+		processflag,analymode,cder,pnhr,pndy,wkhr,wkdy,limn,eomn,litm,eotm,abhr,abdy,uahr,
+		otab,ot1,ot2,ot3,clot,sicl,perl,annl,coml,marl,prpl,matl,patl,otcl,puhl,nurl,isjl,
+		fanf,ofal,lvwk,rewk,otcd,nudy,initialized
+
+			from aVW_Shift_Day where
+			corpcode= #{query.corpcode}
+			and date_format(term, '%Y-%m-%d') = date_format(now(), '%Y-%m-%d')
+		<if test="query.limn != null and query.limn!= ''">
+			AND limn is not null
+		</if>
+		<if test="query.eomn != null and query.eomn!= ''">
+			AND eomn is not null
+		</if>
+		<if test="query.cardbegintime1 != null ">
+			AND (cardbegintime1 is null or  cardendtime1 is null)
+		</if>
+
+
+	</select>
+	<!--手机端考勤统计2-->
+	<select id="listAtShiftDayForStatistics2" resultType="com.pig4cloud.pigx.admin.entity.AvwShiftDay">
+
+		select  portrait,term,eid,badge,name,compid,depid,jobid,groupid,shift,isexception,begintime,endtime,dnan,
+		cardbegintime1,cardendtime1,cardbegintime2,cardendtime2,cardbegintime3,cardendtime3,
+		processflag,analymode,cder,pnhr,pndy,wkhr,wkdy,limn,eomn,litm,eotm,abhr,abdy,uahr,
+		otab,ot1,ot2,ot3,clot,sicl,perl,annl,coml,marl,prpl,matl,patl,otcl,puhl,nurl,isjl,
+		fanf,ofal,lvwk,rewk,otcd,nudy,initialized
+
+		from aVW_Shift_Day where
+		corpcode= #{corpcode}
+		and date_format(term, '%Y-%m-%d') = date_format(now(), '%Y-%m-%d')
+		order by cardbegintime1 desc
+
+	</select>
+</mapper>

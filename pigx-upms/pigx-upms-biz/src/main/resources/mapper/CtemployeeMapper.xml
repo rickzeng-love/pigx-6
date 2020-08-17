@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.CtemployeeMapper">
+
+  <resultMap id="ctemployeeMap" type="com.pig4cloud.pigx.admin.entity.Ctemployee">
+                  <id property="eid" column="EID"/>
+                        <result property="term" column="Term"/>
+                        <result property="badge" column="Badge"/>
+                        <result property="name" column="Name"/>
+                        <result property="corpid" column="CorpID"/>
+                        <result property="corpcode" column="corpcode"/>
+                        <result property="compid" column="CompID"/>
+                        <result property="costid" column="CostID"/>
+                        <result property="salarystatus" column="SalaryStatus"/>
+                        <result property="salarytype" column="SalaryType"/>
+                        <result property="salarygrade" column="SalaryGrade"/>
+                        <result property="salarykind" column="SalaryKind"/>
+                        <result property="salarycity" column="SalaryCity"/>
+                        <result property="paymode" column="PayMode"/>
+                        <result property="paystatus" column="PayStatus"/>
+                        <result property="bankstatus" column="BankStatus"/>
+                        <result property="bankid" column="BankID"/>
+                        <result property="bankno" column="BankNo"/>
+                        <result property="openbankemp" column="OpenBankEmp"/>
+                        <result property="bankid2" column="BankID2"/>
+                        <result property="bankno2" column="BankNo2"/>
+                        <result property="openbankemp2" column="OpenBankEmp2"/>
+                        <result property="a1" column="A1"/>
+                        <result property="a2" column="A2"/>
+                        <result property="a3" column="A3"/>
+                        <result property="a4" column="A4"/>
+                        <result property="a5" column="A5"/>
+                        <result property="remark" column="Remark"/>
+                        <result property="calcway" column="CalcWay"/>
+                        <result property="is80" column="Is80"/>
+                        <result property="bankname" column="BankName"/>
+                        <result property="bankrelateid" column="BankRelateID"/>
+                        <result property="createdate" column="createdate"/>
+            </resultMap>
+
+	<select id="sysSPcInit1" statementType="CALLABLE" resultType="java.util.Map"  parameterType="java.util.HashMap" >
+
+		{call sysSPcInit1(#{term,mode=IN,jdbcType=VARCHAR},#{userid,mode=IN,jdbcType=INTEGER},#{result,mode=OUT,jdbcType=INTEGER})}
+	</select>
+
+	<select id="sysSPcCalc1" statementType="CALLABLE"  parameterType="java.util.HashMap" >
+
+		{call sysSPcCalc1(#{userid,mode=IN,jdbcType=INTEGER},#{result,mode=OUT,jdbcType=INTEGER})}
+	</select>
+	<select id="cSPPayrollConfirm" statementType="CALLABLE"  parameterType="java.util.HashMap" >
+
+		{call cSP_PayrollConfirm(#{gid,mode=IN,jdbcType=INTEGER},#{userid,mode=IN,jdbcType=INTEGER},#{result,mode=OUT,jdbcType=INTEGER})}
+	</select>
+	<select id="cSPPayrollUnConfirm" statementType="CALLABLE"  parameterType="java.util.HashMap" >
+
+		{call cSP_PayrollUnConfirm(#{gid,mode=IN,jdbcType=INTEGER},#{userid,mode=IN,jdbcType=INTEGER},#{result,mode=OUT,jdbcType=INTEGER})}
+	</select>
+	<select id="sysSPcClose1" statementType="CALLABLE"  parameterType="java.util.HashMap" >
+
+		{call sysSPcClose1(#{userid,mode=IN,jdbcType=INTEGER},#{result,mode=OUT,jdbcType=INTEGER})}
+	</select>
+	<!--薪资报表部分
+	<select id="listCtstandardAllGroupByEmpstatus" resultType="java.util.Map">
+		select round(sum(xValue),2) as xvalue  from ctstandard_all a,etemployee b where a.corpcode = #{corpcode} and a.eid = b.eid and b.empstatus = {empstatus}
+  		and date_format( term, '%Y-%m' ) = #{term}
+		and  a.paystditemid  in(select id from systpaystditem where corpcode = #{corpcode} and type = 1)
+
+	</select>-->
+	<select id="listCtstandardAllGroupByEmpstatus" resultType="java.util.Map">
+		select round(sum(FactValue),2) as xvalue  from systpayitemfactvalue_all a,etemployee b where a.corpcode = #{corpcode} and a.eid = b.eid and b.empstatus = #{empstatus}
+  		and date_format( term, '%Y-%m' ) = #{term}
+		and  a.PayItem  in(select id from systpayrollitem_all where   corpcode = #{corpcode} and title = '应发工资')
+
+	</select>
+
+	<!--薪资支出占比-->
+	<select id="listCtstandardAllByType" resultType="java.util.Map">
+		select round(sum(xValue),2) as xvalue  from ctstandard_all a,etemployee b where a.corpcode = #{corpcode} and a.eid = b.eid and b.empstatus in(1,2,4)
+  		and date_format( term, '%Y-%m' ) = #{term}
+		and  a.paystditemid  in(select id from systpaystditem where corpcode = #{corpcode} and type = #{type})
+
+	</select>
+
+	<select id="listGGJAndShebao" resultType="java.util.Map">
+
+
+		select round(sum(BenCorp_Total),2) as bencorptotal ,round(sum(AccuCorp_Total),2) as accucorptotal  from ctBenCalc_All where corpcode = #{corpcode} and date_format( term, '%Y-%m' ) = #{term}
+
+	</select>
+
+	<!--部门人均工资排名-->
+	<select id="listBMRJGZ" resultType="java.util.LinkedHashMap">
+
+		select round(sum(FactValue),2) as factvalue,b.depid,(select title from otdepartment where id = b.depid) depname  from systpayitemfactvalue_all a,etemployee b where a.corpcode = #{corpcode} and a.eid = b.eid and b.empstatus in(1,2,4)
+  		 and date_format( term, '%Y-%m' ) = #{term}
+		and a.PayItem in(select id from systpayrollitem_all where corpcode = #{corpcode} and title = '应发工资')
+		group by b.depid,depname
+		order by factvalue desc
+	</select>
+
+	<!--部门支出工资排名-->
+	<select id="listBMZCGZPM" resultType="java.util.LinkedHashMap">
+
+		select round(sum(FactValue),2) as count,b.depid,(select title from otdepartment where id = b.depid) title  from systpayitemfactvalue_all a,etemployee b where a.corpcode = #{corpcode} and a.eid = b.eid and b.empstatus in(1,2,4)
+  		 and date_format( term, '%Y-%m' ) = #{term}
+		and a.PayItem in(select id from systpayrollitem_all where corpcode = #{corpcode} and title = '应发工资')
+		group by b.depid,title
+		order by count desc
+
+	</select>
+
+	<!--岗位支出工资排名-->
+	<select id="listGWZCGZPM" resultType="java.util.LinkedHashMap">
+
+		select round(sum(FactValue),2) as count,b.jobid,(select title from otjob where id = b.jobid) title  from systpayitemfactvalue_all a,etemployee b where a.corpcode = #{corpcode} and a.eid = b.eid and b.empstatus in(1,2,4)
+  		 and date_format( term, '%Y-%m' ) = #{term}
+		and a.PayItem in(select id from systpayrollitem_all where corpcode = #{corpcode} and title = '应发工资')
+		group by b.jobid,title
+		order by count desc
+
+	</select>
+
+	<!--近六个月工资趋势分析-->
+	<select id="listGZQSFX" resultType="java.util.LinkedHashMap">
+
+		select round(sum(FactValue),2) as count,date_format( term, '%Y-%m' ) as term  from systpayitemfactvalue_all a,etemployee b where a.corpcode = #{corpcode} and a.eid = b.eid and b.empstatus in(1,2,4)
+  		 and date_format( term, '%Y-%m' ) = #{term}
+		and a.PayItem in(select id from systpayrollitem_all where corpcode = #{corpcode} and title = '应发工资')
+		group by term
+		order by count desc
+		limit 0,6
+
+	</select>
+
+	<!--近六个月人力成本趋势分析-->
+	<select id="listRLCBQSFX" resultType="java.util.LinkedHashMap">
+
+		select round(sum(FactValue),2) as count,date_format( term, '%Y-%m' ) as term  from systpayitemfactvalue_all a,etemployee b where a.corpcode = #{corpcode} and a.eid = b.eid and b.empstatus in(1,2,4)
+  		 and date_format( term, '%Y-%m' ) = #{term}
+		and a.PayItem in(select id from systpayrollitem_all where corpcode = #{corpcode} and title = '总支出')
+		group by term
+		order by count desc
+
+	</select>
+
+
+	<!--近六个月人计薪人数趋势分析-->
+	<select id="listJXRSQSFX" resultType="java.util.LinkedHashMap">
+
+		select  count(b.eid) count,date_format( a.term, '%Y-%m' ) as term from systpayrollitem_all a,systpayiteminputvalue_all b where a.corpcode = #{corpcode} and b.corpcode = #{corpcode}
+		and a.id = b.PayItem and date_format( a.term, '%Y-%m' ) = date_format( b.term, '%Y-%m' )
+		group by a.term,b.eid
+		order by count desc
+
+
+	</select>
+</mapper>

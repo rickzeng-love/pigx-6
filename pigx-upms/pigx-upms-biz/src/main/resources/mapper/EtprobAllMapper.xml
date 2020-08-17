@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.EtprobAllMapper">
+
+  <resultMap id="etprobAllMap" type="com.pig4cloud.pigx.admin.entity.EtprobAll">
+                  <id property="id" column="id"/>
+                        <result property="seqid" column="SeqID"/>
+                        <result property="type" column="type"/>
+                        <result property="eid" column="eid"/>
+                        <result property="badge" column="badge"/>
+                        <result property="name" column="name"/>
+                        <result property="compid" column="compid"/>
+                        <result property="depid" column="depid"/>
+                        <result property="jobid" column="jobid"/>
+                        <result property="empstatus" column="EmpStatus"/>
+                        <result property="jobstatus" column="JobStatus"/>
+                        <result property="joindate" column="joindate"/>
+                        <result property="probbegindate" column="ProbBeginDate"/>
+                        <result property="probterm" column="Probterm"/>
+                        <result property="probenddate" column="Probenddate"/>
+                        <result property="newProbbegindate" column="New_ProbBeginDate"/>
+                        <result property="newProbterm" column="New_Probterm"/>
+                        <result property="newProbenddate" column="New_ProbEnddate"/>
+                        <result property="effectdate" column="Effectdate"/>
+                        <result property="result" column="Result"/>
+                        <result property="corpcode" column="corpcode"/>
+                        <result property="errormsg" column="ErrorMsg"/>
+                        <result property="regby" column="regby"/>
+                        <result property="regdate" column="regdate"/>
+                        <result property="initialized" column="initialized"/>
+                        <result property="initializedby" column="initializedby"/>
+                        <result property="initializedtime" column="initializedtime"/>
+                        <result property="submit" column="submit"/>
+                        <result property="submitby" column="submitby"/>
+                        <result property="submittime" column="submitTime"/>
+                        <result property="closed" column="closed"/>
+                        <result property="closedby" column="closedby"/>
+                        <result property="closedtime" column="closedTime"/>
+                        <result property="remark" column="remark"/>
+            </resultMap>
+
+</mapper>

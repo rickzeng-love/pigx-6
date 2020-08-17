@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.OtcdPositionMapper">
+
+  <resultMap id="otcdPositionMap" type="com.pig4cloud.pigx.admin.entity.OtcdPosition">
+                  <id property="id" column="id"/>
+                        <result property="code" column="code"/>
+                        <result property="corpcode" column="CorpCode"/>
+                        <result property="compid" column="CompID"/>
+                        <result property="title" column="Title"/>
+                        <result property="description" column="description"/>
+                        <result property="competencies" column="Competencies"/>
+                        <result property="xorder" column="xorder"/>
+                        <result property="isdisabled" column="isDisabled"/>
+                        <result property="isdefault" column="isDefault"/>
+                        <result property="remark" column="remark"/>
+					  <result property="regby" column="regby"/>
+					  <result property="regname" column="regname"/>
+					  <result property="regdate" column="regdate"/>
+	  <result property="corpid" column="corpid"/>
+
+
+            </resultMap>
+
+	<!--pc端职务列表-->
+	<select id="listOtcdPosition" resultType="java.util.Map">
+		select a.id,a.title,a.code,
+		(select count(1) from etemployee where corpcode = #{query.corpcode} and position = a.id and empstatus in(1,2,4)) zzcount,
+		(select count(1) from etemployee where corpcode = #{query.corpcode} and position = a.id and empstatus in(1,2,4) and jobcategory != 1 ) qzcount,
+		(select count(1) from etemployee where corpcode = #{query.corpcode} and position = a.id and empstatus in(1,2,4) and jobcategory = 1 ) fqzcount,
+		a.description,
+		a.competencies
+		from otcd_position a
+		where a.corpcode = #{query.corpcode}
+		<if test="query.title != null and query.title!= ''">
+			AND a.title LIKE CONCAT('%',#{query.title},'%')
+		</if>
+		and ifnull(a.isDisabled,0)=0
+	</select>
+
+	<!--PC端职务在职人员-->
+	<select id="listEtempoyeeByPosition" resultType="java.util.Map">
+		select a.name,a.badge,(select title from otjob where jobid = a.jobid) jobname,
+		(select ifnull(title,'未设置') from etcd_emptype where id=a.jobcategory) jobcategory,
+		joindate
+		from etemployee a where a.corpcode = #{corpcode} and a.position = #{id} and a.empstatus in(1,2,4)
+
+	</select>
+
+	<!--PC端职务获取在职人员数量-->
+	<select id="listZaiZhiPersonByPosition" resultType="java.util.Map">
+		select count(1) person
+		from etemployee a where a.corpcode = #{corpcode} and a.position = #{id} and a.empstatus in(1,2,4)
+
+	</select>
+
+	<!--PC端职务获取离职人员数量-->
+	<select id="listLizhiPersonByPosition" resultType="java.util.Map">
+		select count(1) person
+		from etemployee a where a.corpcode = #{corpcode} and a.position = #{id} and a.empstatus in(6)
+
+	</select>
+
+
+
+</mapper>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.AtcdAgentmodeMapper">
+
+  <resultMap id="atcdAgentmodeMap" type="com.pig4cloud.pigx.admin.entity.AtcdAgentmode">
+                  <id property="id" column="ID"/>
+                        <result property="title" column="Title"/>
+                        <result property="isdisabled" column="IsDisabled"/>
+                        <result property="remark" column="Remark"/>
+                        <result property="compid" column="CompID"/>
+                        <result property="compcode" column="CompCode"/>
+                        <result property="corpid" column="CorpID"/>
+                        <result property="corpcode" column="CorpCode"/>
+            </resultMap>
+
+
+	<!--考勤账套查询列表-->
+	<select id="ListAtcdAgentmode" resultType="java.util.Map">
+		select a.*,
+		CONCAT('当月',b.StartDay,'号') As StartDayStr,
+		b.StartDay
+		from atCD_AgentMode a,atCD_AttendPeriod b
+		where a.ID=b.AgentMode
+		and a.corpcode = #{query.corpcode}
+
+		<if test="query.title != null and query.title!= ''">
+			AND a.title LIKE CONCAT('%',#{query.title},'%')
+		</if>
+	</select>
+
+	<!--获取编辑界面上的数据-->
+	<select id="listAtcdAgentmodeInfo" resultType="java.util.Map">
+		select a.*,
+				b.StartDay,b.ID As id2
+		from atCD_AgentMode a,atCD_AttendPeriod b
+		where a.ID=b.AgentMode
+		  and a.corpcode = #{corpcode}
+		  and a.ID=#{id}
+	</select>
+
+	<!--根据考勤管理员为用户ID获取相应的考勤账套选项-->
+	<select id="listAtcdAgentmodeByUserId" resultType="java.util.Map">
+		Select ID,Title from atCD_AgentMode
+		Where ID In(Select AID from atCD_AgentMode_User Where UserID=#{UserID})
+		  and corpcode = #{corpcode}
+	</select>
+
+</mapper>

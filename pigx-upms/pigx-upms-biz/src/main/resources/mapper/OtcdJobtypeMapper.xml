@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.OtcdJobtypeMapper">
+
+  <resultMap id="otcdJobtypeMap" type="com.pig4cloud.pigx.admin.entity.OtcdJobtype">
+                  <id property="id" column="ID"/>
+                        <result property="code" column="Code"/>
+                        <result property="title" column="Title"/>
+                        <result property="xorder" column="xorder"/>
+                        <result property="isdisabled" column="isDisabled"/>
+                        <result property="isdefault" column="isDefault"/>
+                        <result property="remark" column="Remark"/>
+                        <result property="corpcode" column="CorpCode"/>
+	  					<result property="description" column="description"/>
+					    <result property="regby" column="regby"/>
+					    <result property="regname" column="regname"/>
+					    <result property="regdate" column="regdate"/>
+	  <result property="corpid" column="corpid"/>
+
+            </resultMap>
+	<!--根据条件获取岗位列表-->
+	<select id="listOtcdJobtypeByCorpcodeWithPeople" resultType="java.util.Map">
+		SELECT a.code,a.title,a.description,(select count(1) from otjob b where b.JobType = a.id) jobnum ,
+		(select count(1) from etemployee where jobid in(select jobid from otjob c where c.JobType = a.id)) people
+		from OtcdJobtype a where a.id = #{id} and ifnull(a.isDisabled,0)=0
+	</select>
+
+	<!--pc端岗位类型列表-->
+	<select id="listotcdJobtype" resultType="java.util.Map">
+		select a.id,a.title,a.code,
+		(select count(1) from otcd_jobtype where id=a.id) jobtypesum,
+		(select count(1) from etemployee where corpcode = #{query.corpcode} and jobid in (select jobid from otcd_jobtype where id=a.id) and empstatus in(1,2,4)) zzcount,
+		(select count(1) from etemployee where corpcode = #{query.corpcode} and jobid in (select jobid from otcd_jobtype where id=a.id) and empstatus in(1,2,4) and jobcategory != 1 ) qzcount,
+		(select count(1) from etemployee where corpcode = #{query.corpcode} and jobid in (select jobid from otcd_jobtype where id=a.id) and empstatus in(1,2,4) and jobcategory = 1 ) fqzcount,
+		a.description
+		from otcd_jobtype a
+		where a.corpcode = #{query.corpcode}
+		<if test="query.title != null and query.title!= ''">
+			AND a.title LIKE CONCAT('%',#{query.title},'%')
+		</if>
+		and ifnull(a.isDisabled,0)=0
+	</select>
+
+	<!--pc端通过岗位类型查询岗位-->
+	<select id="listOtJobByotcdJobtype" resultType="java.util.Map">
+		select a.jobid,a.title
+		from otjob a
+		where a.corpcode = #{corpcode}
+		and jobid in (select jobid from otcd_jobtype where id=#{id})
+		and ifnull(a.isDisabled,0)=0
+	</select>
+</mapper>

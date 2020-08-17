@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.CtbencalcAllMapper">
+
+  <resultMap id="ctbencalcAllMap" type="com.pig4cloud.pigx.admin.entity.CtbencalcAll">
+                  <id property="id" column="id"/>
+                        <result property="gid" column="GID"/>
+                        <result property="term" column="Term"/>
+                        <result property="eid" column="EID"/>
+                        <result property="badge" column="Badge"/>
+                        <result property="name" column="Name"/>
+                        <result property="compid" column="CompID"/>
+                        <result property="depid" column="DepID"/>
+                        <result property="jobid" column="JobID"/>
+                        <result property="benstatus" column="BenStatus"/>
+                        <result property="bencity" column="BenCity"/>
+                        <result property="benarea" column="BenArea"/>
+                        <result property="beartype" column="BearType"/>
+                        <result property="benbase" column="BenBase"/>
+                        <result property="isaccu" column="IsAccu"/>
+                        <result property="accubase" column="AccuBase"/>
+                        <result property="accuSelf" column="Accu_Self"/>
+                        <result property="accuCorp" column="Accu_Corp"/>
+                        <result property="ispens" column="IsPens"/>
+                        <result property="pensbase" column="PensBase"/>
+                        <result property="penSelf" column="Pen_Self"/>
+                        <result property="penCorp" column="Pen_Corp"/>
+                        <result property="ismdcl" column="IsMdcl"/>
+                        <result property="mdclbase" column="MdclBase"/>
+                        <result property="mdclSelf" column="Mdcl_Self"/>
+                        <result property="mdclCorp" column="Mdcl_Corp"/>
+                        <result property="isunem" column="IsUnem"/>
+                        <result property="unembase" column="UnemBase"/>
+                        <result property="uempSelf" column="Uemp_Self"/>
+                        <result property="uempCorp" column="Uemp_Corp"/>
+                        <result property="isbabs" column="IsBabs"/>
+                        <result property="babsbase" column="BabsBase"/>
+                        <result property="babySelf" column="Baby_Self"/>
+                        <result property="babyCorp" column="Baby_Corp"/>
+                        <result property="isinjs" column="IsInjs"/>
+                        <result property="injsbase" column="InjsBase"/>
+                        <result property="injurySelf" column="Injury_Self"/>
+                        <result property="injuryCorp" column="Injury_Corp"/>
+                        <result property="corpcode" column="CorpCode"/>
+                        <result property="issmdcl" column="IsSMdcl"/>
+                        <result property="smdclbase" column="SMdclBase"/>
+                        <result property="smdclSelf" column="SMdcl_Self"/>
+                        <result property="smdclCorp" column="SMdcl_Corp"/>
+                        <result property="issuaccu" column="IsSuAccu"/>
+                        <result property="suaccubase" column="SuAccuBase"/>
+                        <result property="suaccSelf" column="SuAcc_Self"/>
+                        <result property="suaccCorp" column="SuAcc_Corp"/>
+                        <result property="issumdcl" column="IsSuMdcl"/>
+                        <result property="sumdclbase" column="SuMdclBase"/>
+                        <result property="sumdclSelf" column="SuMdcl_Self"/>
+                        <result property="sumdclCorp" column="SuMdcl_Corp"/>
+                        <result property="issupen" column="IsSuPen"/>
+                        <result property="supenbase" column="SuPenBase"/>
+                        <result property="supenSelf" column="SuPen_Self"/>
+                        <result property="supenCorp" column="SuPen_Corp"/>
+                        <result property="accubucorp" column="AccuBuCorp"/>
+                        <result property="accubuself" column="AccuBuSelf"/>
+                        <result property="benebucorp" column="BeneBuCorp"/>
+                        <result property="benebuself" column="BeneBuSelf"/>
+                        <result property="bencorpTotal" column="BenCorp_Total"/>
+                        <result property="benselfTotal" column="BenSelf_Total"/>
+                        <result property="accucorpTotal" column="AccuCorp_Total"/>
+                        <result property="accuselfTotal" column="AccuSelf_Total"/>
+                        <result property="remark" column="Remark"/>
+                        <result property="corpid" column="CorpID"/>
+                        <result property="pensbaseSelf" column="PensBase_Self"/>
+                        <result property="mdclbaseSelf" column="MdclBase_Self"/>
+                        <result property="smdclbaseSelf" column="SMdclBase_Self"/>
+                        <result property="unembaseSelf" column="UnemBase_Self"/>
+                        <result property="isinss" column="IsInss"/>
+                        <result property="inssbase" column="InssBase"/>
+                        <result property="inssCorp" column="Inss_Corp"/>
+                        <result property="inssSelf" column="Inss_Self"/>
+            </resultMap>
+</mapper>

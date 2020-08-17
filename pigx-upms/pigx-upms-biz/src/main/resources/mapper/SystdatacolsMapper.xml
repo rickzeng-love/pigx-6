@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.SystdatacolsMapper">
+
+  <resultMap id="systdatacolsMap" type="com.pig4cloud.pigx.admin.entity.Systdatacols">
+                  <id property="id" column="ID"/>
+                        <result property="objid" column="ObjID"/>
+                        <result property="colname" column="ColName"/>
+                        <result property="objname" column="ObjName"/>
+                        <result property="colkey" column="ColKey"/>
+                        <result property="title" column="Title"/>
+                        <result property="title2" column="Title2"/>
+                        <result property="title3" column="Title3"/>
+                        <result property="title4" column="Title4"/>
+                        <result property="title5" column="Title5"/>
+                        <result property="xpkey" column="xPKey"/>
+                        <result property="xidentity" column="xIdentity"/>
+                        <result property="xmultilingual" column="xMultilingual"/>
+                        <result property="xnotnull" column="xNotNull"/>
+                        <result property="xencrypt" column="xEncrypt"/>
+                        <result property="cansearch" column="CanSearch"/>
+                        <result property="canfilter" column="CanFilter"/>
+                        <result property="cansort" column="CanSort"/>
+                        <result property="xrefresh" column="xRefresh"/>
+                        <result property="xsummary" column="xSummary"/>
+                        <result property="datawidth" column="DataWidth"/>
+                        <result property="xprec" column="xPrec"/>
+                        <result property="audit" column="Audit"/>
+                        <result property="dtid" column="DTID"/>
+                        <result property="nfid" column="NFID"/>
+                        <result property="width" column="Width"/>
+                        <result property="dpid" column="DPID"/>
+                        <result property="rsid" column="RSID"/>
+                        <result property="rsvalid" column="RSValid"/>
+                        <result property="rstran" column="RSTran"/>
+                        <result property="rsource" column="RSource"/>
+                        <result property="editmask" column="EditMask"/>
+                        <result property="locked" column="Locked"/>
+                        <result property="hidden" column="Hidden"/>
+                        <result property="hiddenx" column="Hiddenx"/>
+                        <result property="align" column="Align"/>
+                        <result property="sqlvaladdnew" column="SQLValAddNew"/>
+                        <result property="sqlvalupdate" column="SQLValUpdate"/>
+                        <result property="sqlval" column="SQLVal"/>
+                        <result property="sqlvalcheck" column="SQLValCheck"/>
+                        <result property="xtop" column="xTop"/>
+                        <result property="xleft" column="xLeft"/>
+                        <result property="xheight" column="xHeight"/>
+                        <result property="xwidth" column="xWidth"/>
+                        <result property="xwidthlbl" column="xWidthlbl"/>
+                        <result property="xrow" column="xRow"/>
+                        <result property="xcol" column="xCol"/>
+                        <result property="xrows" column="xRows"/>
+                        <result property="xcols" column="xCols"/>
+                        <result property="xlblcol" column="xLblCol"/>
+                        <result property="system" column="System"/>
+                        <result property="xorder" column="xOrder"/>
+                        <result property="remark" column="Remark"/>
+                        <result property="xcrlf" column="xCrLf"/>
+                        <result property="xaudit" column="xAudit"/>
+                        <result property="agentid" column="AgentID"/>
+                        <result property="hyperlink" column="HyperLink"/>
+                        <result property="xcolspan" column="xColSpan"/>
+                        <result property="ispayds" column="IsPayDS"/>
+
+            </resultMap>
+</mapper>

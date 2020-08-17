@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.CtsalaryAllMapper">
+
+  <resultMap id="ctsalaryAllMap" type="com.pig4cloud.pigx.admin.entity.CtsalaryAll">
+                  <id property="id" column="ID"/>
+                        <result property="eid" column="EID"/>
+                        <result property="badge" column="Badge"/>
+                        <result property="name" column="Name"/>
+                        <result property="compid" column="CompID"/>
+                        <result property="depid" column="DepID"/>
+                        <result property="jobid" column="JobID"/>
+                        <result property="empstatus" column="EmpStatus"/>
+                        <result property="emptype" column="EmpType"/>
+                        <result property="joindate" column="JoinDate"/>
+                        <result property="workcity" column="WorkCity"/>
+                        <result property="paystatus" column="PayStatus"/>
+                        <result property="salarystatus" column="SalaryStatus"/>
+                        <result property="paymode" column="PayMode"/>
+                        <result property="costid" column="CostID"/>
+                        <result property="bankid" column="BankID"/>
+                        <result property="bankno" column="BankNo"/>
+                        <result property="openbankemp" column="OpenBankEmp"/>
+                        <result property="bankid2" column="BankID2"/>
+                        <result property="bankno2" column="BankNo2"/>
+                        <result property="openbankemp2" column="OpenBankEmp2"/>
+                        <result property="salarytype" column="SalaryType"/>
+                        <result property="salarygrade" column="SalaryGrade"/>
+                        <result property="salarykind" column="SalaryKind"/>
+                        <result property="salarycity" column="SalaryCity"/>
+                        <result property="a1" column="A1"/>
+                        <result property="a2" column="A2"/>
+                        <result property="a3" column="A3"/>
+                        <result property="a4" column="A4"/>
+                        <result property="a5" column="A5"/>
+                        <result property="effectdate" column="EffectDate"/>
+                        <result property="regby" column="RegBy"/>
+                        <result property="regdate" column="RegDate"/>
+                        <result property="initialized" column="Initialized"/>
+                        <result property="initializedby" column="InitializedBy"/>
+                        <result property="initializedtime" column="InitializedTime"/>
+                        <result property="submit" column="Submit"/>
+                        <result property="submitby" column="SubmitBy"/>
+                        <result property="submittime" column="SubmitTime"/>
+                        <result property="remark" column="Remark"/>
+                        <result property="isspecial" column="IsSpecial"/>
+                        <result property="corpcode" column="CorpCode"/>
+                        <result property="corpid" column="CorpID"/>
+                        <result property="empgroup" column="EmpGroup"/>
+                        <result property="empkind" column="EmpKind"/>
+                        <result property="empgrade" column="EmpGrade"/>
+                        <result property="empcategory" column="EmpCategory"/>
+                        <result property="empproperty" column="EmpProperty"/>
+            </resultMap>
+</mapper>

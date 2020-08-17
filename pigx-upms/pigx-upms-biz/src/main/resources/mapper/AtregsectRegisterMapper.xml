@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.AtregsectRegisterMapper">
+
+  <resultMap id="atregsectRegisterMap" type="com.pig4cloud.pigx.admin.entity.AtregsectRegister">
+                  <id property="id" column="ID"/>
+                        <result property="sheetid" column="SheetID"/>
+                        <result property="term" column="Term"/>
+                        <result property="badge" column="Badge"/>
+                        <result property="eid" column="EID"/>
+                        <result property="name" column="Name"/>
+                        <result property="depid" column="DepID"/>
+                        <result property="type" column="Type"/>
+                        <result property="freqtype" column="FreqType"/>
+                        <result property="attendid" column="AttendID"/>
+                        <result property="twid" column="TWID"/>
+                        <result property="begindate" column="BeginDate"/>
+                        <result property="bshift" column="BShift"/>
+                        <result property="bsecttype" column="BSectType"/>
+                        <result property="enddate" column="EndDate"/>
+                        <result property="eshift" column="EShift"/>
+                        <result property="esecttype" column="EsectType"/>
+                        <result property="amount" column="Amount"/>
+                        <result property="unit" column="Unit"/>
+                        <result property="divtype" column="DivType"/>
+                        <result property="seqid" column="SeqID"/>
+                        <result property="initialized" column="Initialized"/>
+                        <result property="initializedby" column="InitializedBy"/>
+                        <result property="initializedtime" column="InitializedTime"/>
+                        <result property="wfstatus" column="WfStatus"/>
+                        <result property="wfinstanceid" column="WfInstanceID"/>
+                        <result property="submit" column="Submit"/>
+                        <result property="submitby" column="SubmitBy"/>
+                        <result property="submittime" column="SubmitTime"/>
+                        <result property="closed" column="Closed"/>
+                        <result property="closedby" column="ClosedBy"/>
+                        <result property="closedtime" column="ClosedTime"/>
+                        <result property="remark" column="Remark"/>
+                        <result property="shift" column="Shift"/>
+                        <result property="reason" column="Reason"/>
+                        <result property="errmsg" column="ErrMsg"/>
+            </resultMap>
+</mapper>

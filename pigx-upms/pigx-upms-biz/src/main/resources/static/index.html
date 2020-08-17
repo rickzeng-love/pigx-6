@@ -1,0 +1,331 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="font_3/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="css/jquery.orgchart.css">
+
+		<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+
+       <script type="text/javascript" src="js/jquery.orgchart.js"></script>
+        <script type="text/javascript" src="js/jquery-ui.min.js"></script>
+       <style>
+        /*自定义样式（）*/
+       	.orgchart .lines .downLine{
+       		background:#aaa;
+       		height:10px;
+
+       	}
+       	.orgchart .node .title{
+       		width:180px;
+       		height: inherit;
+       		font-size: 13px;
+       		background: #d6f7d0;
+		    color: #57bb45;
+		    border: 1px solid #57bb45;
+		    margin-bottom: -1px;
+            padding: 5px;
+       	}
+       	.orgchart .node .content{
+       		width: 180px;
+       		height: 90px;
+       		font-size: 13px;
+       		border:1px solid #57bb45;
+       		padding: 0;
+       		display: flex;
+       		padding: 8px;
+       	}
+
+       	.orgchart .node .content .contbm{
+       		width: 65%;
+       	}
+       	.orgchart .node .content .contimg{
+       		width: 35%;
+       		line-height: 60px;
+       	}
+       	.orgchart .node .content .contimg img{height: 60px;width: 100%;}
+
+   		.orgchart .node .content .contbm .fzr{
+   			display: flex;
+   			color: #57bb45;
+   			font-size: 12px;
+   		}
+   		.orgchart .node .content .contbm .fzr p{
+   			margin-bottom: 0;
+   		}
+   		.orgchart .node .content .contbm .fzr span{
+
+   		}
+
+   		.orgchart .node .content .contbm .renshu{
+   			display: flex;
+   			margin-top: 8px;
+   			color: #666;
+   			font-size: 12px;
+   		}
+   		.orgchart .node .content .contbm .renshu p{
+   			margin-bottom: 0;
+   		}
+   		.orgchart .node .content .contbm .renshu p span{
+   			margin: 0 2px 0 2px;
+   			color: #999;
+   		}
+
+   		.orgchart .node .content .contbm .bianz{
+   			display: flex;
+   			margin-top: 8px;
+   			color: #666;
+   			font-size: 12px;
+   		}
+   		.orgchart .node .content .contbm .bianz p{
+   			margin-bottom: 0;
+   		}
+   		.orgchart .node .content .contbm .bianz p span{
+   			margin: 0 2px 0 2px;
+   			color: #999;
+   		}
+
+   		.orgchart .node .content .contbm p.rss{
+   			overflow: hidden;
+            text-overflow: ellipsis;
+   		}
+
+
+
+
+
+       	.orgchart .node .title .symbol::before{
+       		background: #57bb45;
+       	}
+       	.orgchart .node .title .symbol::after{
+       		background: #57bb45;
+       	}
+
+   	 	.orgchart .node{
+   	 		margin: 0 15px;
+   	 	}
+   	 	.orgchart .node .icon{
+   	 		text-decoration:none;
+   	 		position: absolute;
+   	 		width: 25px;
+   	 		display: none;
+   	 	}
+   	 	.orgchart .node .icon:hover i{
+   	 		color:#57bb45;
+   	 	}
+   	 	.orgchart .node .aiconadd{
+   	 		right: -25px;
+   	 		top: 3px;
+   	 	}
+   	 	.orgchart .node .aiconedit{
+   	 		right: -25px;
+   	 		top: 25px;
+   	 	}
+   	 	.orgchart .node .aicondet{
+   	 		right: -25px;
+   	 		top: 45px;
+   	 	}
+   	 	.orgchart .node .icon i{
+   	 		color: #888;
+   	 		font-size: 15px;
+   	 	}
+   	 	.orgchart .node{
+   	 		border: 0;
+   	 	}
+   	 	.orgchart .node:hover .icon{
+   	 		display: block;
+   	 	}
+   	 	.orgchart .lines .rightLine{border-color: #aaa;border-width: 1px;}
+   	 	.orgchart .lines .leftLine{border-color: #aaa;border-width: 1px;}
+   	 	.orgchart .lines .topLine{border-color: #aaa;border-width: 1px;}
+
+   	 	.orgchart .node .topEdge,.orgchart .node .rightEdge,.orgchart .node .leftEdge{ display: none;}
+
+       </style>
+	</head>
+	<body>
+
+		<div class="ante-tuxing">
+			<div class="txnav">
+				<div id="chart-container"></div>
+			</div>
+		</div>
+
+		<!--弹框（添加，编辑）-->
+		<div class="chartadd">
+			<div class="tab">
+				<table>
+					<tr></tr>
+				</table>
+			</div>
+		</div>
+	</body>
+	<script src="https://cdn.bootcss.com/html2canvas/0.5.0-beta4/html2canvas.js"></script>
+	<script type="text/javascript">
+  $(function() {
+
+
+      $('#chart-container').empty();
+      var datascource = [];
+      $.ajax({
+//        url: "/admin/hasnoauthority/getOrganizationToDeptTree",
+		  url: "http://192.168.8.187:8080/admin/hasnoauthority/getOrganizationToDeptTree",
+
+          type: "POST",
+          async:false,
+          dataType: "json",
+          success:function (res) {
+          	console.log(res)
+              //开始加载家谱图
+              //setTreeView(res, flag);
+              //debugger;
+              datascource= res.data;
+              //alert(datascource);
+             // console.log(datascource);
+/*
+              $('#chart-container').orgchart({
+                  'data' : data,
+                  'nodeContent': 'title'
+              });*/
+              console.log("数据加载成功！");
+          },
+          error: function(){
+              console.log("加载数据异常！");
+          }
+      });
+
+
+    /*var datascource = {
+      'userid':'1',
+      'name': '企业',
+      'userName': '张三',
+      'imgs':'image/antechtop/nvtu1 (2).jpg',
+      'children': [
+        { 'userid':'2','name': '财务部', 'userName': '小明明','imgs':'image/antechtop/AnterLogo.png' },
+        {  'userid':'3','name': '开发项目组', 'userName': '小明明','imgs':'image/antechtop/AnterLogo.png',
+          'children': [
+            { 'userid':'4','name': '开发部', 'userName': '小明小明','imgs':'null'},
+            { 'userid':'5', 'name': '研发部', 'userName': '小明','imgs':'image/antechtop/nvtu1 (2).jpg',
+              'children': [
+                { 'userid':'6', 'name': '前端开发', 'userName': '小明小明','imgs':'image/antechtop/nvtu1 (2).jpg'},
+                { 'userid':'7','name': '.net开发', 'userName': '小明小明','imgs':'image/antechtop/nvtu1 (2).jpg' },
+                { 'userid':'8','name': 'java开发', 'userName': '小明小明','imgs':'image/antechtop/nvtu1 (2).jpg',
+                 'children': [
+                 {'userid':'08','name': 'java前端', 'userName': '小明','imgs':'image/antechtop/nvtu1 (2).jpg',}
+                  ]
+                 }
+              ]
+            }
+          ]
+        },
+        { 'userid':'9', 'name': '人事部', 'userName': '小明','imgs':'image/antechtop/nvtu1 (2).jpg' },
+        { 'userid':'10', 'name': '销售部', 'userName': '小明','imgs':'image/antechtop/nvtu1 (2).jpg' },
+        { 'userid':'11', 'name': '实施部', 'userName': '小明','imgs':'' },
+        { 'userid':'9', 'name': '人事部', 'userName': '小明','imgs':'image/antechtop/nvtu1 (2).jpg' },
+        { 'userid':'10', 'name': '销售部', 'userName': '小明','imgs':'image/antechtop/nvtu1 (2).jpg' },
+        { 'userid':'11', 'name': '实施部', 'userName': '小明','imgs':'' },
+        { 'userid':'9', 'name': '人事部', 'userName': '小明','imgs':'image/antechtop/nvtu1 (2).jpg' },
+        { 'userid':'10', 'name': '销售部', 'userName': '小明','imgs':'image/antechtop/nvtu1 (2).jpg' },
+        { 'userid':'11', 'name': '实施部', 'userName': '小明','imgs':'' },
+        { 'userid':'9', 'name': '人事部', 'userName': '小明','imgs':'image/antechtop/nvtu1 (2).jpg' },
+        { 'userid':'10', 'name': '销售部', 'userName': '小明','imgs':'image/antechtop/nvtu1 (2).jpg' },
+        { 'userid':'11', 'name': '实施部', 'userName': '小明','imgs':'' },
+        { 'userid':'12', 'name': '销售部', 'userName': '小明','imgs':'image/antechtop/nvtu1 (2).jpg',
+        'children': [
+                { 'userid':'6', 'name': '前端开发', 'userName': '小明小明','imgs':'image/antechtop/nvtu1 (2).jpg'},
+                { 'userid':'7','name': '.net开发', 'userName': '小明小明','imgs':'image/antechtop/nvtu1 (2).jpg' },
+                { 'userid':'8','name': 'java开发', 'userName': '小明小明','imgs':'image/antechtop/nvtu1 (2).jpg',
+                 'children': [
+                 {'userid':'08','name': 'java前端', 'userName': '小明','imgs':'image/antechtop/nvtu1 (2).jpg',}
+                  ]
+                 }
+              ]},
+         { 'userid':'12', 'name': '销售部', 'userName': '小明','imgs':'image/antechtop/nvtu1 (2).jpg',
+        'children': [
+                { 'userid':'6', 'name': '前端开发', 'userName': '小明小明','imgs':'image/antechtop/nvtu1 (2).jpg'},
+                { 'userid':'7','name': '.net开发', 'userName': '小明小明','imgs':'image/antechtop/nvtu1 (2).jpg' },
+                { 'userid':'8','name': 'java开发', 'userName': '小明小明','imgs':'image/antechtop/nvtu1 (2).jpg',
+                 'children': [
+                 {'userid':'08','name': 'java前端', 'userName': '小明','imgs':'image/antechtop/nvtu1 (2).jpg',}
+                  ]
+                 }
+              ]},
+
+
+
+      ]
+    };*/
+    var oc = $('#chart-container').orgchart({
+      'data' : datascource, //数据
+      'nodeContent': 'title', //部门名称
+      'nodeId': 'id',//部门id
+      'nodeImg': 'imgs',//负责人头像
+      'nodeName': 'director',//部门负责人名称
+      'nodeRS': 'renshu',//部门人数
+      'nodeBZ': 'depnum',//部门编制
+
+     'exportButton': true,//导出
+     'exportFilename': 'MyOrgChart',//导出名字
+
+     'zoom':true,//鼠标放大缩小
+     'zoominLimit':8,//最大
+     'zoomoutLimit':0.5,//最小
+     'visibleLevel':3,
+     'pan':true,  //去掉下面滚动条，页面可以拖动
+     'draggable':true,//用户可以拖动节点,该功能在IE上不起作用。
+     'dropCriteria': function($draggedNode, $dragZone, $dropZone) {
+        if($draggedNode.find('.content').text().indexOf('manager') > -1 && $dropZone.find('.content').text().indexOf('engineer') > -1) {
+          return false;
+        }
+        return true;
+      },
+     'createNode':function($node, data) {//点击当前节点
+      	//点击
+      	//console.log($node,data);
+      	$node.on('click',function(){//每个节点的点击事件
+
+      	console.log($(this).attr("id"));
+
+      	})
+      }
+
+    });
+
+//让公司显示居中，
+    var $top = $(".orgchart").closest('div');
+    var $chart = $("#chart-container");
+    var newX = window.parseInt(($chart.outerWidth(true) / 2) - ($top.offset().left - $chart.offset().left) - ($top.outerWidth(true) / 2));
+    var newY = window.parseInt(($chart.outerHeight(true) / 2) - ($top.offset().top - $chart.offset().top) - ($top.outerHeight(true) / 2)) - 100;
+    $(".orgchart").css("transform", "matrix(0.6, 0, 0, 0.6, " + newX + ", " + newY + ")");
+
+
+    $(".oc-export-btn").text("导出");//翻译
+    //拖拽获取拖拽的id和他的上级id
+     oc.$chart.on('nodedrop.orgchart', function(event, extraParams) {
+      console.log('draggedNode:' + extraParams.draggedNode.children('.title').attr("id")
+        + ', dragZone:' + extraParams.dragZone.children('.title').attr("id")
+        + ', dropZone:' + extraParams.dropZone.children('.title').attr("id")
+      );
+
+    });
+  });
+
+function addTu(obj){
+	var bmid=$(obj).attr("data-id");
+	alert("添加"+bmid)
+}
+function editTu(obj){
+	var bmid=$(obj).attr("data-id");
+	alert("编辑"+bmid);
+}
+function deleteTu(obj){
+	var bmid=$(obj).attr("data-id");
+	alert("编辑"+bmid);
+}
+
+
+	</script>
+</html>

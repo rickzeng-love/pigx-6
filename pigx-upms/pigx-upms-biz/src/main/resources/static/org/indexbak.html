@@ -1,0 +1,567 @@
+﻿<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="font_3/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="css/jquery.orgchart.css">
+
+		<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+
+		<script type="text/javascript" src="js/jquery.orgchart.js"></script>
+		<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+		<style>
+			/*自定义样式（）*/
+
+			.orgchart .lines .downLine {
+				background: #aaa;
+				height: 10px;
+			}
+
+			.orgchart .node .title {
+				width: 180px;
+				height: inherit;
+				font-size: 13px;
+				background: #d6f7d0;
+				color: #57bb45;
+				border: 1px solid #57bb45;
+				margin-bottom: -1px;
+				padding: 5px;
+			}
+
+			.orgchart .node .content {
+				width: 180px;
+				height: 90px;
+				font-size: 13px;
+				border: 1px solid #57bb45;
+				padding: 0;
+				display: flex;
+				padding: 8px;
+			}
+
+			.orgchart .node .content .contbm {
+				width: 65%;
+			}
+
+			.orgchart .node .content .contimg {
+				width: 35%;
+				line-height: 60px;
+			}
+
+			.orgchart .node .content .contimg img {
+				height: 60px;
+				width: 100%;
+			}
+
+			.orgchart .node .content .contbm .fzr {
+				display: flex;
+				color: #57bb45;
+				font-size: 12px;
+			}
+
+			.orgchart .node .content .contbm .fzr p {
+				margin-bottom: 0;
+			}
+
+			.orgchart .node .content .contbm .fzr span {}
+
+			.orgchart .node .content .contbm .renshu {
+				display: flex;
+				margin-top: 8px;
+				color: #666;
+				font-size: 12px;
+			}
+
+			.orgchart .node .content .contbm .renshu p {
+				margin-bottom: 0;
+			}
+
+			.orgchart .node .content .contbm .renshu p span {
+				margin: 0 2px 0 2px;
+				color: #999;
+			}
+
+			.orgchart .node .content .contbm .bianz {
+				display: flex;
+				margin-top: 8px;
+				color: #666;
+				font-size: 12px;
+			}
+
+			.orgchart .node .content .contbm .bianz p {
+				margin-bottom: 0;
+			}
+
+			.orgchart .node .content .contbm .bianz p span {
+				margin: 0 2px 0 2px;
+				color: #999;
+			}
+
+			.orgchart .node .content .contbm p.rss {
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+
+			.orgchart .node .title .symbol::before {
+				background: #57bb45;
+			}
+
+			.orgchart .node .title .symbol::after {
+				background: #57bb45;
+			}
+
+			.orgchart .node {
+				margin: 0 15px;
+			}
+
+			.orgchart .node .icon {
+				text-decoration: none;
+				position: absolute;
+				width: 25px;
+				display: none;
+			}
+
+			.orgchart .node .icon:hover i {
+				color: #57bb45;
+			}
+
+			.orgchart .node .aiconadd {
+				right: -25px;
+				top: 3px;
+			}
+
+			.orgchart .node .aiconedit {
+				right: -25px;
+				top: 25px;
+			}
+
+			.orgchart .node .aicondet {
+				right: -25px;
+				top: 45px;
+			}
+
+			.orgchart .node .icon i {
+				color: #888;
+				font-size: 15px;
+			}
+
+			.orgchart .node {
+				border: 0;
+			}
+
+			.orgchart .node:hover .icon {
+				display: block;
+			}
+
+			.orgchart .lines .rightLine {
+				border-color: #aaa;
+				border-width: 1px;
+			}
+
+			.orgchart .lines .leftLine {
+				border-color: #aaa;
+				border-width: 1px;
+			}
+
+			.orgchart .lines .topLine {
+				border-color: #aaa;
+				border-width: 1px;
+			}
+
+			.orgchart .node .topEdge,
+			.orgchart .node .rightEdge,
+			.orgchart .node .leftEdge {
+				display: none;
+			}
+
+
+			.layerAddBg,.layerDelBg{width: 100%;height: 100%;position: fixed;left: 0;top: 0;z-index: 1;display: none;}
+			.layerAddBg .bg,.layerDelBg .bg{width: 100%;height: 100%;background: #000;opacity: 0.8;position: absolute;left: 0;top: 0;z-index: 1;}
+			.chartadd,.chartDel{
+				width: 600px;
+			    height: 480px;
+			    background: #fff;
+			    border: 2px solid #57bb45;
+			    border-radius: 5px;
+			    position: absolute;
+			    left: 50%;
+			    top: 50%;
+			    z-index: 2;
+			    margin-left: -300px;
+			    margin-top: -240px;
+			    box-sizing: border-box;
+			    padding: 15px;
+			}
+			.chartDel{
+				width: 300px;
+			    height: 182px;
+			    margin-left: -150px;
+			    margin-top: -91px;
+			}
+			.chartadd .title,.chartDel .title{
+				width: 100%;
+			    overflow: hidden;
+			    padding-bottom: 10px;
+				border-bottom: 1px solid #f0f0f0;
+			}
+			.chartadd .title span,.chartDel .title span{
+				color: #57bb45;
+			}
+			.chartadd .title a,.chartDel .title a{
+				color: #57bb45 !important;
+			    font-size: 20px;
+			    /*font-weight: bold;*/
+			    margin-top: -5px;
+			}
+			.chartadd .title a:hover,.chartDel .title a:hover{
+				cursor: pointer;
+			}
+			.chartadd .tab,.chartDel .tab{
+				width: 100%;
+			    overflow: hidden;
+			    padding: 20px 0;
+			}
+			.chartDel .tab p{
+				width: 100%;
+			    overflow: hidden;
+			    text-align: center;
+			}
+			.chartadd .tab td{
+				width: 283px;
+				float: left;
+				margin-bottom: 20px;
+			}
+			.chartDel .tab td{
+				width: 133px;
+				text-align: center;
+			}
+			.chartadd .tab span{
+				width: 68px;
+				float: left;
+				margin-right: 10px;
+			}
+			.chartadd .tab input[type="text"],.chartadd .tab textarea,.chartadd .tab select{
+				border: 1px solid #f0f0f0;
+				width: 200px;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<div class="ante-tuxing">
+			<div class="txnav">
+				<div id="chart-container"></div>
+			</div>
+		</div>
+
+		<div class="layerAddBg">
+			<div class="bg"></div>
+			<!--弹框（添加，编辑）-->
+			<div class="chartadd">
+			<div class="title">
+				<span id="chartTypeAdd" style="float: left;"></span>
+				<a class="closeChartAdd" style="float: right;">X</a>
+			</div>
+			<div class="tab">
+				<table>
+					<tr>
+						<td><span>部门名称:</span><input id="title" type="text" placeholder="请输入 部门名称"/></td>
+						<td><span>部门编码:</span><input id="depcode" type="text" placeholder="请输入 部门编码"/></td>
+					</tr>
+					<tr>
+						<td><span>部门简称:</span><input id="depabbr" type="text" placeholder="请输入 部门简称"/></td>
+						<td><span>人员编制:</span><input id="depnum" type="text" placeholder="请输入 人员编制"/></td>
+					</tr>
+					<tr>
+						<td><span>部门类型:</span><select id="deptype" name=""><option value=""></option></select></td>
+						<td><span>部门领导:</span><select id="director" name=""><option value=""></option></select></td>
+					</tr>
+					<tr>
+						<td><span>分管领导:</span><select id="director2" name=""><option value=""></option></select></td>
+						<td><span>上级部门:</span><input id="adminid" type="text" disabled="disabled" placeholder="请输入 部门编码"/></td>
+					</tr>
+					<tr>
+						<td><span>启用日期:</span><input id="effectdate" type="date" placeholder="请选择 启用日期"/></td>
+						<td>
+							<span>虚拟部门:</span>
+							<input type="radio" name="isou" value="0" />是
+		                    <input type="radio" name="isou" value="1" checked="checked" />否
+						</td>
+					</tr>
+					<tr>
+						<td><span>部门职能:</span><textarea id="orgfunction" cols="30" rows="3" placeholder="请输入 部门职能"></textarea></td>
+						<td><span>部门描述:</span><textarea id="decription" cols="30" rows="3" placeholder="请输入 部门描述"></textarea></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td style="text-align: right;">
+							<button type="button" onclick="save(this)">保存</button>
+							<button type="button" onclick="cancel(this)">取消</button>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		</div>
+		<div class="layerDelBg">
+			<div class="bg"></div>
+			<!--弹框（删除）-->
+			<div class="chartDel">
+				<div class="title">
+					<span id="chartTypeDel" style="float: left;"></span>
+					<a class="closeChartDel" style="float: right;">X</a>
+				</div>
+				<div class="tab">
+					<table>
+						<tr>
+							<p>是否确认删除ID该部门？</p>
+						</tr>
+						<tr>
+							<td><button type="button" onclick="del(this)">删除</button></td>
+							<td><button type="button" onclick="cancel(this)">取消</button></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="https://cdn.bootcss.com/html2canvas/0.5.0-beta4/html2canvas.js"></script>
+	<script type="text/javascript">
+
+		//获取组织架构图
+		function fetchList(){
+			var datascource = [];
+			$.ajax({
+				url: "http://192.168.8.187:8080/admin/hasnoauthority/getOrganizationToDeptTree",
+				//url: "http://192.168.8.72:9999/admin/otcompany/org",
+				type: "POST",
+				async: false,
+				dataType: "json",
+				success: function(res) {
+					console.log(res)
+					datascource = res.data;
+					console.log("数据加载成功！");
+				},
+				error: function() {
+					console.log("加载数据异常！");
+				}
+			});
+
+			var oc = $('#chart-container').orgchart({
+				'data': datascource, //数据
+				'nodeContent': 'title', //部门名称
+				'nodeId': 'id', //部门id
+				'nodeImg': 'imgs', //负责人头像
+				'nodeName': 'director', //部门负责人名称
+				'nodeRS': 'renshu', //部门人数
+				'nodeBZ': 'depnum', //部门编制
+
+				'exportButton': true, //导出
+				'exportFilename': 'MyOrgChart', //导出名字
+
+				'zoom': true, //鼠标放大缩小
+				'zoominLimit': 8, //最大
+				'zoomoutLimit': 0.5, //最小
+				'visibleLevel': 3,
+				'pan': true, //去掉下面滚动条，页面可以拖动
+				'draggable': true, //用户可以拖动节点,该功能在IE上不起作用。
+				'dropCriteria': function($draggedNode, $dragZone, $dropZone) {
+					if($draggedNode.find('.content').text().indexOf('manager') > -1 && $dropZone.find('.content').text().indexOf('engineer') > -1) {
+						return false;
+					}
+					return true;
+				},
+				'createNode': function($node, data) { //点击当前节点
+					//点击
+					//console.log($node,data);
+//					$node.on('click', function() { //每个节点的点击事件
+//						console.log($(this));
+//						console.log($(this).attr("id"));
+//
+//					})
+				}
+			});
+			//拖拽获取拖拽的id和他的上级id
+			oc.$chart.on('nodedrop.orgchart', function(event, extraParams) {
+				console.log('draggedNode:' + extraParams.draggedNode.children('.title').attr("id") +
+					', dragZone:' + extraParams.dragZone.children('.title').attr("id") +
+					', dropZone:' + extraParams.dropZone.children('.title').attr("id")
+				);
+			});
+		}
+
+		//获取部门类型
+		function fetchType(){
+			$.ajax({
+				url: "http://192.168.8.72:9999/admin/dict/type/depttype",
+				type: "GET",
+				dataType: "json",
+				success: function(res) {
+					console.log(res)
+					console.log("数据加载成功！");
+				},
+				error: function() {
+					console.log("加载数据异常！");
+				}
+			});
+		}
+
+
+		//获取部门领导	//获取分管领导
+		function fetchLD(){
+			var name = ''
+			$.ajax({
+//				url: "http://192.168.8.72:9999/admin/etemployee/getEtemployeePageList/{{key}}",
+				url: "http://192.168.8.72:9999/admin/etemployee/getEtemployeePageList/" + name,
+				type: "GET",
+				dataType: "json",
+				success: function(res) {
+					console.log(res)
+					console.log("数据加载成功！");
+				},
+				error: function() {
+					console.log("加载数据异常！");
+				}
+			});
+		}
+
+		//打开弹框
+		function openChart(){
+			$(".layerAddBg").css("display","block");
+			$(".closeChartAdd").click(function(){
+				$(".layerAddBg").css("display","none");
+			})
+		}
+
+
+		$(function() {
+			$('#chart-container').empty();
+
+			fetchList()//获取组织架构图
+
+			//让公司显示居中，
+			var $top = $(".orgchart").closest('div');
+			var $chart = $("#chart-container");
+			var newX = window.parseInt(($chart.outerWidth(true) / 2) - ($top.offset().left - $chart.offset().left) - ($top.outerWidth(true) / 2));
+			var newY = window.parseInt(($chart.outerHeight(true) / 2) - ($top.offset().top - $chart.offset().top) - ($top.outerHeight(true) / 2)) - 100;
+			$(".orgchart").css("transform", "matrix(0.6, 0, 0, 0.6, " + newX + ", " + newY + ")");
+
+			$(".oc-export-btn").text("导出"); //翻译
+
+			fetchType()//获取部门类型
+			fetchLD()//获取部门领导
+		});
+
+		function addTu(obj) {
+			console.log("添加")
+			console.log(JSON.parse($(obj).attr("data-id")))
+    		$("#chartTypeAdd").html('添加')
+			openChart()
+		}
+
+		function editTu(obj) {
+			console.log("编辑")
+			console.log(JSON.parse($(obj).attr("data-id")))
+			$("#chartTypeAdd").html('编辑')
+			openChart()
+		}
+
+		function deleteTu(obj) {
+			console.log("删除")
+			console.log(JSON.parse($(obj).attr("data-id")))
+			$("#chartTypeDel").html('删除')
+
+			$(".layerDelBg").css("display","block");
+			$(".closeChartDel").click(function(){
+				$(".layerDelBg").css("display","none");
+			})
+		}
+
+		function save(obj) {
+			console.log("保存obj:",obj)
+			console.log("保存")
+			//上级部门的值 可选当条数据的pid
+//			console.log($("input[name=isou]:checked").val())
+			var data = {
+				"id":"",
+				"title":$("#title").val(),
+				"depcode":$("#depcode").val(),
+				"depabbr":$("#depabbr").val(),
+				"depnum":$("#depnum").val(),
+				"deptype":$("#deptype").val(),
+				"director":$("#director").val(),
+				"director2":$("#director2").val(),
+				"adminid":obj.pid,
+				"effectdate":$("#effectdate").val(),
+				"isou":$("input[name=isou]:checked").val(),
+				"orgfunction":$("#orgfunction").val(),
+				"decription":$("#decription").val(),
+			}
+			console.log(data)
+			//id 为空时 走新增
+			if(id == '' || id == undefined){
+				$.ajax({
+					url: "http://192.168.8.72:9999/admin/otdepartment/save",
+					type: "POST",
+					dataType: "json",
+					data: data
+					success: function(res) {
+						console.log(res)
+						console.log("保存成功！");
+						$(".chartadd").css("display","none");
+					},
+					error: function() {
+						console.log("保存异常！");
+					}
+				});
+			}else{
+				//走编辑
+				$.ajax({
+					url: "http://192.168.8.72:9999/admin/otdepartment/updateOtdepartment",
+					type: "POST",
+					dataType: "json",
+					data: data
+					success: function(res) {
+						console.log(res)
+						console.log("保存成功！");
+						$(".chartadd").css("display","none");
+					},
+					error: function() {
+						console.log("保存异常！");
+					}
+				});
+			}
+		}
+//
+		function cancel(obj) {
+			console.log("取消obj:",obj)
+			console.log("取消")
+			$(".layerAddBg").css("display","none");
+			$(".layerDelBg").css("display","none");
+		}
+
+		function del(obj) {
+			console.log("删除")
+			$.ajax({
+				url: "http://192.168.8.72:9999/admin/otdepartment/invalidById",
+				type: "POST",
+				dataType: "json",
+				data: {"depid": obj.id}
+				success: function(res) {
+					console.log(res)
+					console.log("删除成功！");
+					$(".layerBg").css("display","none");
+				},
+				error: function() {
+					console.log("删除异常！");
+				}
+			});
+		}
+//
+	</script>
+
+</html>

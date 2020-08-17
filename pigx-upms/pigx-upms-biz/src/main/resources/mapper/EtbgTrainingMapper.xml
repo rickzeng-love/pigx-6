@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.EtbgTrainingMapper">
+
+  <resultMap id="etbgTrainingMap" type="com.pig4cloud.pigx.admin.entity.EtbgTraining">
+                  <id property="id" column="ID"/>
+                        <result property="eid" column="EID"/>
+                        <result property="badge" column="badge"/>
+                        <result property="isjoin" column="IsJoin"/>
+                        <result property="trainkind" column="TrainKind"/>
+                        <result property="traintype" column="Traintype"/>
+                        <result property="begindate" column="BeginDate"/>
+                        <result property="enddate" column="EndDate"/>
+                        <result property="content" column="content"/>
+                        <result property="course" column="Course"/>
+                        <result property="vendor" column="Vendor"/>
+                        <result property="place" column="place"/>
+                        <result property="hours" column="Hours"/>
+                        <result property="certificate" column="Certificate"/>
+                        <result property="certificateno" column="CertificateNo"/>
+                        <result property="agreementno" column="AgreementNo"/>
+                        <result property="abegindate" column="Abegindate"/>
+                        <result property="aterm" column="Aterm"/>
+                        <result property="aenddate" column="Aenddate"/>
+                        <result property="expenses" column="Expenses"/>
+                        <result property="remark" column="Remark"/>
+                        <result property="payorg" column="PAYORG"/>
+                        <result property="cbegindate" column="cBEGINDATE"/>
+                        <result property="cterm" column="cTerm"/>
+                        <result property="cenddate" column="cENDDATE"/>
+                        <result property="name" column="Name"/>
+                        <result property="compid" column="CompID"/>
+                        <result property="depid" column="DepID"/>
+                        <result property="jobid" column="JobID"/>
+                        <result property="seqid" column="SeqID"/>
+	 					 <result property="hdzs" column="hdzs"/>
+	  <result property="userid" column="userid"/>
+	  <result property="corpcode" column="corpcode"/>
+
+            </resultMap>
+</mapper>

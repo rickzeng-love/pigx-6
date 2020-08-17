@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.AtgroupMapper">
+
+  <resultMap id="atgroupMap" type="com.pig4cloud.pigx.admin.entity.Atgroup">
+                  <id property="groupid" column="GroupID"/>
+                        <result property="title" column="Title"/>
+                        <result property="referdate" column="ReferDate"/>
+                        <result property="xcalendar" column="xCalendar"/>
+                        <result property="shiftmode" column="ShiftMode"/>
+                        <result property="remark" column="Remark"/>
+                        <result property="disabledate" column="DisableDate"/>
+                        <result property="xorder" column="xOrder"/>
+                        <result property="turndaytype" column="TurnDayType"/>
+                        <result property="periods" column="Periods"/>
+                        <result property="interval" column="Interval"/>
+                        <result property="referpoint" column="ReferPoint"/>
+                        <result property="agentmode" column="AgentMode"/>
+                        <result property="ischeck" column="IsCheck"/>
+                        <result property="initialized" column="Initialized"/>
+                        <result property="isreset" column="IsReset"/>
+                        <result property="corpid" column="CorpID"/>
+                        <result property="corpcode" column="CorpCode"/>
+					  <collection property="atgroupTurnList" ofType="com.pig4cloud.pigx.admin.entity.AtgroupTurn"   column="{corpcode=corpcode,groupid=groupid}" select="selectGroupTurn2" />
+
+            </resultMap>
+
+
+	<resultMap id="atGroupTurnMap" type="com.pig4cloud.pigx.admin.entity.AtgroupTurn">
+		<id property="groupid" column="GroupID"/>
+		<result property="turnid" column="TurnID"/>
+		<result property="referpoint" column="ReferPoint"/>
+		<result property="xorder" column="xOrder"/>
+		<result property="initialized" column="Initialized"/>
+		<result property="ischeck" column="IsCheck"/>
+		<result property="corpid" column="corpid"/>
+		<result property="corpcode" column="corpcode"/>
+		<collection property="atshiftGroupSubList" ofType="com.pig4cloud.pigx.admin.entity.AtshiftGroupSub" resultMap="atShiftGroupSubMap">
+			<id property="id" column="ID"/>
+			<result property="turnid" column="TurnID"/>
+			<result property="shift" column="Shift"/>
+			<result property="xorder" column="xOrder"/>
+			<result property="remark" column="Remark"/>
+			<result property="initialized" column="Initialized"/>
+			<result property="ischeck" column="IsCheck"/>
+			<result property="corpid" column="CorpID"/>
+			<result property="corpcode" column="CorpCode"/>
+		</collection>
+	</resultMap>
+
+
+	<resultMap id="atShiftGroupSubMap" type="com.pig4cloud.pigx.admin.entity.AtshiftGroupSub">
+		<id property="id" column="ID"/>
+		<result property="turnid" column="TurnID"/>
+		<result property="shift" column="Shift"/>
+		<result property="xorder" column="xOrder"/>
+		<result property="remark" column="Remark"/>
+		<result property="initialized" column="Initialized"/>
+		<result property="ischeck" column="IsCheck"/>
+		<result property="corpid" column="CorpID"/>
+		<result property="corpcode" column="CorpCode"/>
+		<collection property="atshiftTypeList" ofType="com.pig4cloud.pigx.admin.entity.AtshiftType"   column="{corpcode=corpcode,shift=shift}" select="selectAtShitType" />
+
+	</resultMap>
+
+	<resultMap id="atGroupTurnMap2" type="com.pig4cloud.pigx.admin.entity.AtgroupTurn">
+		<result property="groupid" column="GroupID"/>
+		<result property="turnid" column="TurnID"/>
+		<result property="referpoint" column="ReferPoint"/>
+		<result property="xorder" column="xOrder"/>
+		<result property="initialized" column="Initialized"/>
+		<result property="ischeck" column="IsCheck"/>
+		<result property="corpid" column="corpid"/>
+		<result property="corpcode" column="corpcode"/>
+		<collection property="atShiftGroupSubList" ofType="com.pig4cloud.pigx.admin.entity.AtshiftGroupSub"   column="{corpcode=corpcode,turnid=turnid}" select="selectAtShiftGroupSub" />
+	</resultMap>
+
+
+
+	<resultMap id="atshiftTypeMap" type="com.pig4cloud.pigx.admin.entity.AtshiftType">
+		<id property="id" column="ID"/>
+		<result property="shift" column="Shift"/>
+		<result property="type" column="type"/>
+		<result property="issection" column="IsSection"/>
+		<result property="title" column="Title"/>
+		<result property="begintime" column="Begintime"/>
+		<result property="endtime" column="Endtime"/>
+		<result property="begintime2" column="Begintime2"/>
+		<result property="endtime2" column="Endtime2"/>
+		<result property="begintime3" column="Begintime3"/>
+		<result property="endtime3" column="Endtime3"/>
+		<result property="isrest" column="IsRest"/>
+		<result property="restbegintime" column="RestBegintime"/>
+		<result property="restendtime" column="RestEndtime"/>
+		<result property="scanbegintime" column="ScanBegintime"/>
+		<result property="scanendtime" column="ScanEndtime"/>
+		<result property="xhours" column="xHours"/>
+		<result property="xorder" column="xOrder"/>
+		<result property="remark" column="Remark"/>
+		<result property="initialized" column="Initialized"/>
+		<result property="submit" column="Submit"/>
+		<result property="isdisabled" column="IsDisabled"/>
+		<result property="agentmode" column="AgentMode"/>
+		<result property="ischeck" column="IsCheck"/>
+		<result property="maxot" column="MaxOT"/>
+		<result property="btscanbegintime" column="BTScanBegintime"/>
+		<result property="btscanendtime" column="BTScanEndtime"/>
+		<result property="etscanbegintime" column="ETScanBegintime"/>
+		<result property="etscanendtime" column="ETScanEndtime"/>
+		<result property="btscanbegintime2" column="BTScanBegintime2"/>
+		<result property="btscanendtime2" column="BTScanEndtime2"/>
+		<result property="etscanbegintime2" column="ETScanBegintime2"/>
+		<result property="etscanendtime2" column="ETScanEndtime2"/>
+		<result property="btscanbegintime3" column="BTScanBegintime3"/>
+		<result property="btscanendtime3" column="BTScanEndtime3"/>
+		<result property="etscanbegintime3" column="ETScanBegintime3"/>
+		<result property="etscanendtime3" column="ETScanEndtime3"/>
+		<result property="corpid" column="CorpID"/>
+		<result property="corpcode" column="CorpCode"/>
+	</resultMap>
+
+
+
+	<!--考勤组的查询列表-->
+	<select id="selectGroup" resultMap="atgroupMap">
+
+		select
+		a.groupid,a.title,a.referdate,a.referpoint,a.turndaytype,
+		a.periods,a.interval,a.xcalendar,a.shiftmode,a.disabledate,a.agentmode,
+		a.ischeck,a.initialized,a.xorder,a.remark,a.corpcode
+		from atGroup a
+		where a.corpcode = #{corpcode}
+
+		<if test="title != null and title!= ''">
+			AND a.title LIKE CONCAT('%',#{title},'%')
+		</if>
+
+
+	</select>
+
+
+	<select id="selectGroupTurn" resultMap="atGroupTurnMap">
+			select b.corpcode,
+		b.turnid,(select title from atShift_Group  where corpcode = #{corpcode} and  turnid = b.turnid) as shiftGroupTitle,
+		c.shift,(select title from atShift_Type where corpcode = #{corpcode} and  shift = c.shift) as shiftTitle
+		from atGroup_Turn b,atShift_Group_Sub c
+		where b.groupid = #{groupid}
+		and b.turnid = c.turnid
+		and b.corpcode = #{corpcode}
+		and c.corpcode = #{corpcode}
+  </select>
+
+	<select id="selectGroupTurn2" resultMap="atGroupTurnMap2">
+			select
+		b.turnid,b.corpcode,(select title from atShift_Group  where corpcode = #{corpcode} and  turnid = b.turnid) as shiftGroupTitle
+		from atGroup_Turn b
+		where b.groupid = #{groupid}
+		and b.corpcode = #{corpcode}
+  </select>
+
+	<select id="selectAtShiftGroupSub" resultMap="atShiftGroupSubMap">
+			select
+		b.turnid,b.shift,b.corpcode
+		from atShift_Group_Sub b
+		where b.turnid = #{turnid}
+		and b.corpcode = #{corpcode}
+  </select>
+
+	<select id="selectAtShitType" resultMap="atshiftTypeMap">
+			select
+		id,shift,type,title,issection,begintime,endtime,begintime2,isrest,endtime2,begintime3,restbegintime,endtime3,restendtime,maxot,btscanbegintime,btscanendtime,etscanbegintime,etscanendtime,btscanbegintime2,btscanendtime2,etscanbegintime2,scanbegintime,scanendtime,etscanendtime2,btscanbegintime3,xhours,btscanendtime3,etscanbegintime3,xorder,etscanendtime3,ischeck,agentmode,isdisabled,initialized,submit,remark
+		from atshift_type
+		where shift = #{shift}
+		and corpcode = #{corpcode}
+  </select>
+
+
+
+
+
+
+	<!--考勤组的查询列表-->
+	<select id="listAtgroup" resultType="java.util.Map">
+		select a.*,(select ifnull(b.title,'未设置') from atCD_AgentMode b where b.ID=a.AgentMode) As AgentModeName,
+		(select GROUP_CONCAT(DISTINCT(concat(c.xOrder,'|',d.Title)) order by c.xOrder SEPARATOR '\n' )
+		from atGroup_shift c,atshift_type d
+		where c.GroupID=a.GroupID
+		and c.shift=d.shift
+		group by c.GroupID) As attendTime
+		from atGroup a
+		where a.corpcode = #{query.corpcode}
+		<if test="query.title != null and query.title!= ''">
+			AND a.title LIKE CONCAT('%',#{query.title},'%')
+		</if>
+	</select>
+
+
+	<!--考勤组的查询列表-->
+	<select id="listAtgroupBySql" resultMap="atgroupMap">
+
+		select
+		a.groupid,a.title,a.referdate,a.referpoint,a.turndaytype,
+		a.periods,a.interval,a.xcalendar,a.shiftmode,a.disabledate,a.agentmode,
+		a.ischeck,a.initialized,a.xorder,a.remark,
+		b.turnid,(select title from atShift_Group  where corpcode = #{corpcode} and  turnid = b.turnid) as shiftGroupTitle,
+		c.shift,(select title from atShift_Type where corpcode = #{corpcode} and  shift = c.shift) as shiftTitle
+		from atGroup a, atGroup_Turn b,atShift_Group_Sub c
+		where a.groupid = b.groupid
+		and b.turnid = c.turnid
+		and a.corpcode = #{corpcode}
+		and b.corpcode = #{corpcode}
+
+		<if test="title != null and title!= ''">
+			AND a.title LIKE CONCAT('%',#{title},'%')
+		</if>
+
+
+	</select>
+
+
+	<!--判断是否存在员工绑定考勤组的情况-->
+	<select id="listAtgroupCount" resultType="java.util.Map">
+		select count(1) count from avw_status
+		where GroupID=#{groupid}
+		  and a.corpcode = #{corpcode}
+	</select>
+
+</mapper>

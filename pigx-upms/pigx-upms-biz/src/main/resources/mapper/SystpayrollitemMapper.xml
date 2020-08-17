@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.SystpayrollitemMapper">
+
+  <resultMap id="systpayrollitemMap" type="com.pig4cloud.pigx.admin.entity.Systpayrollitem">
+                  <id property="id" column="ID"/>
+                        <result property="corpid" column="CorpID"/>
+                        <result property="term" column="Term"/>
+                        <result property="gid" column="GID"/>
+                        <result property="colname" column="ColName"/>
+                        <result property="tablename" column="TableName"/>
+                        <result property="xorder" column="xOrder"/>
+                        <result property="title" column="Title"/>
+                        <result property="iftype" column="IFType"/>
+                        <result property="isinput" column="IsInput"/>
+                        <result property="digital" column="Digital"/>
+                        <result property="digitaltype" column="DigitalType"/>
+                        <result property="xminvalue" column="xMinValue"/>
+                        <result property="xmaxvalue" column="xMaxValue"/>
+                        <result property="defvalue" column="DefValue"/>
+                        <result property="sch1" column="Sch1"/>
+                        <result property="sch2" column="Sch2"/>
+                        <result property="islastmonth" column="IsLastMonth"/>
+	  <result property="corpcode" column="corpcode"/>
+	  <result property="remark" column="remark"/>
+	  <result property="parentid" column="parentid"/>
+	  <result property="isdisabled" column="isdisabled"/>
+	  <result property="colname" column="colname"/>
+
+            </resultMap>
+
+	<select id="listSystpayrollitemForFormula" resultType="com.pig4cloud.pigx.admin.api.dto.TreeOrg">
+			select -1 as id, 0 as pid,'薪资项-输入' as title,'' as colname,'' as tablename,null as xorder from dual
+			union all
+			select -2 as id, 0 as pid,'薪资项-输出' as title,'' as colname,'' as tablename,null as xorder from dual
+			union all
+			 <!--输入-->
+			select id, -1 as pid,title, colname,tablename,xorder from systpayrollitem where corpcode = #{corpcode} and iftype=1
+		 	union all
+		 	<!--输出-->
+		 	select id, -2 as pid,title, colname,tablename,xorder from systpayrollitem where corpcode = #{corpcode} and iftype=0 order by xorder asc
+	</select>
+
+	<!-- 获取薪资套下的所有薪资项-->
+	<select id="listsystpayrollitemByGID" resultType="java.util.Map">
+
+		<!---基本薪资 systpaystditem_common-->
+		select concat('A',parentid) as id,concat('A',id) as id2,type as pid,type as stype,title,xorder,Remark from systpaystditem where corpcode = #{corpcode}
+		union  all
+		<!-- 薪资项-->
+		select concat('B',parentid) as id,concat('A',id) as id2,type as pid,type as stype,title,xorder,Remark from systpayrollitem where corpcode = #{corpcode}
+		order by stype,xorder asc
+
+	</select>
+
+	<select id="listsystpayrollitemTree" resultType="com.pig4cloud.pigx.admin.api.dto.TreeOrg">
+		&#45;&#45;薪资项类型 ctcd_payrollitemtype
+		select id,0 as pid,id as stype,title,isdisabled,xorder,Remark,'' as colname  from ctcd_payrollitemtype where ifnull(isDisabled,0)=0
+		union  all
+		&#45;&#45; 基本薪资 systpaystditem_common
+		select concat('A',id) as id,type as pid,type as stype,title,ifnull(isdisabled,0) as isdisabled,xorder,Remark,colname
+		 from systpaystditem a where corpcode = #{corpcode} and ifnull(isdisabled,0)=0
+		union  all
+		&#45;&#45; 薪资项 输入
+		select concat('B',id) as id,type as pid,type as stype,title,ifnull(isdisabled,0) as isdisabled,xorder,Remark,colname
+		 from systpayrollitem a where corpcode = #{corpcode}   and iftype='1' and ifnull(isdisabled,0)=0
+		union all
+		&#45;&#45; 薪资项 输出
+		select concat('B',id) as id,type as pid,type as stype,title,ifnull(isdisabled,0) as isdisabled,xorder,Remark,colname
+		from systpayrollitem a
+		 where corpcode = #{corpcode}   and iftype='0' and ifnull(isdisabled,0)=0
+		order by xorder asc
+
+	</select>
+
+
+</mapper>

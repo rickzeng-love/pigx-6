@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.CtbenpaybackRegisterMapper">
+
+	<resultMap id="ctbenpaybackRegisterMap" type="com.pig4cloud.pigx.admin.entity.CtbenpaybackRegister">
+		<id property="id" column="ID"/>
+		<result property="eid" column="EID"/>
+		<result property="badge" column="Badge"/>
+		<result property="name" column="Name"/>
+		<result property="compid" column="CompID"/>
+		<result property="depid" column="DepID"/>
+		<result property="jobid" column="JobID"/>
+		<result property="empstatus" column="EmpStatus"/>
+		<result property="emptype" column="EmpType"/>
+		<result property="empgroup" column="EmpGroup"/>
+		<result property="empkind" column="EmpKind"/>
+		<result property="empgrade" column="EmpGrade"/>
+		<result property="empcategory" column="EmpCategory"/>
+		<result property="empproperty" column="EmpProperty"/>
+		<result property="workcity" column="WorkCity"/>
+		<result property="joindate" column="JoinDate"/>
+		<result property="term" column="Term"/>
+		<result property="paybackterm" column="PayBackTerm"/>
+		<result property="months" column="Months"/>
+		<result property="accuselfpayback" column="AccuSelfPayBack"/>
+		<result property="accucomppayback" column="AccuCompPayBack"/>
+		<result property="bencomppayback" column="BenCompPayBack"/>
+		<result property="benselfpayback" column="BenSelfPayBack"/>
+		<result property="reason" column="Reason"/>
+		<result property="effectdate" column="EffectDate"/>
+		<result property="regby" column="RegBy"/>
+		<result property="regdate" column="RegDate"/>
+		<result property="initialized" column="Initialized"/>
+		<result property="initializedby" column="InitializedBy"/>
+		<result property="initializedtime" column="InitializedTime"/>
+		<result property="submit" column="Submit"/>
+		<result property="submitby" column="SubmitBy"/>
+		<result property="submittime" column="SubmitTime"/>
+		<result property="remark" column="Remark"/>
+		<result property="corpcode" column="CorpCode"/>
+		<result property="corpid" column="CorpID"/>
+		<result property="penSelfpayback" column="Pen_SelfPayBack"/>
+		<result property="penCorppayback" column="Pen_CorpPayBack"/>
+		<result property="mdclSelfpayback" column="Mdcl_SelfPayBack"/>
+		<result property="mdclCorppayback" column="Mdcl_CorpPayBack"/>
+		<result property="uempSelfpayback" column="Uemp_SelfPayBack"/>
+		<result property="uempCorppayback" column="Uemp_CorpPayBack"/>
+		<result property="injuryCorppayback" column="Injury_CorpPayBack"/>
+		<result property="smdclSelfpayback" column="SMdcl_SelfPayBack"/>
+		<result property="smdclCorppayback" column="SMdcl_CorpPayBack"/>
+	</resultMap>
+
+	<!-- 根据id调用存储过程cSP_BenPayBackCheck获取信息提示 -->
+	<select id="cSP_BenPayBackCheck" statementType="CALLABLE"  parameterType="java.util.HashMap" >
+		{call cSP_BenPayBackCheck(#{id,mode=IN,jdbcType=INTEGER},#{userid,mode=IN,jdbcType=INTEGER},#{result,mode=OUT,jdbcType=INTEGER})}
+	</select>
+</mapper>

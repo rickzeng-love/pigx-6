@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this listlistEtEmployeeExistsEmployee of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.EtstaffRegisterMapper">
+
+  <resultMap id="etstaffRegisterMap" type="com.pig4cloud.pigx.admin.entity.EtstaffRegister">
+                  <id property="id" column="ID"/>
+                        <result property="seqid" column="SeqID"/>
+                        <result property="rappid" column="RappID"/>
+                        <result property="type" column="Type"/>
+                        <result property="oldeid" column="OldEID"/>
+                        <result property="oldbadge" column="OldBadge"/>
+                        <result property="badge" column="Badge"/>
+                        <result property="name" column="Name"/>
+                        <result property="ename" column="EName"/>
+                        <result property="corpcode" column="CorpCode"/>
+                        <result property="compid" column="CompID"/>
+                        <result property="depid" column="DepID"/>
+                        <result property="jobid" column="JobID"/>
+                        <result property="reportto" column="ReportTo"/>
+                        <result property="wfreportto" column="wfreportto"/>
+                        <result property="empstatus" column="EmpStatus"/>
+                        <result property="emptype" column="EmpType"/>
+                        <result property="position" column="Position"/>
+                        <result property="posgrade" column="Posgrade"/>
+                        <result property="empgrade" column="EmpGrade"/>
+                        <result property="workcity" column="WorkCity"/>
+                        <result property="jointype" column="JoinType"/>
+                        <result property="joindate" column="JoinDate"/>
+                        <result property="workbegindate" column="WorkBeginDate"/>
+                        <result property="wyearAdjust" column="Wyear_Adjust"/>
+                        <result property="cyearAdjust" column="Cyear_Adjust"/>
+                        <result property="pracbegindate" column="PracBeginDate"/>
+                        <result property="practerm" column="PracTerm"/>
+                        <result property="pracenddate" column="PracEndDate"/>
+                        <result property="procbegindate" column="ProcBeginDate"/>
+                        <result property="procterm" column="ProcTerm"/>
+                        <result property="procenddate" column="ProcEndDate"/>
+                        <result property="probbegindate" column="ProbBeginDate"/>
+                        <result property="probterm" column="ProbTerm"/>
+                        <result property="probenddate" column="ProbEndDate"/>
+                        <result property="contract" column="contract"/>
+                        <result property="contype" column="ConType"/>
+                        <result property="conproperty" column="ConProperty"/>
+                        <result property="conno" column="ConNo"/>
+                        <result property="conbegindate" column="ConBeginDate"/>
+                        <result property="conterm" column="ConTerm"/>
+                        <result property="conenddate" column="ConEndDate"/>
+                        <result property="country" column="Country"/>
+                        <result property="nation" column="Nation"/>
+                        <result property="certtype" column="CertType"/>
+                        <result property="certno" column="CertNo"/>
+                        <result property="gender" column="Gender"/>
+                        <result property="birthday" column="BirthDay"/>
+                        <result property="email" column="email"/>
+                        <result property="mobile" column="Mobile"/>
+                        <result property="officePhone" column="office_phone"/>
+                        <result property="birthplace" column="BirthPlace"/>
+                        <result property="party" column="party"/>
+                        <result property="partydate" column="partydate"/>
+                        <result property="highlevel" column="HighLevel"/>
+                        <result property="highdegree" column="HighDegree"/>
+                        <result property="hightitle" column="HighTitle"/>
+                        <result property="major" column="Major"/>
+                        <result property="marriage" column="Marriage"/>
+                        <result property="health" column="Health"/>
+                        <result property="resident" column="Resident"/>
+	  <result property="resident2" column="Resident2"/>
+                        <result property="residentaddress" column="residentAddress"/>
+                        <result property="address" column="Address"/>
+                        <result property="tel" column="TEL"/>
+                        <result property="postcode" column="Postcode"/>
+                        <result property="qq" column="QQ"/>
+                        <result property="emailPers" column="eMail_pers"/>
+                        <result property="wechart" column="Wechart"/>
+                        <result property="weibo" column="Weibo"/>
+                        <result property="bloodtype" column="BloodType"/>
+                        <result property="constellation" column="Constellation"/>
+                        <result property="regby" column="Regby"/>
+                        <result property="regdate" column="RegDate"/>
+                        <result property="initialized" column="Initialized"/>
+                        <result property="initializedby" column="InitializedBy"/>
+                        <result property="initializedtime" column="InitializedTime"/>
+                        <result property="submit" column="Submit"/>
+                        <result property="submitby" column="SubmitBy"/>
+                        <result property="submittime" column="SubmitTime"/>
+                        <result property="closed" column="Closed"/>
+                        <result property="closedby" column="ClosedBy"/>
+                        <result property="closedtime" column="ClosedTime"/>
+                        <result property="remark" column="Remark"/>
+                        <result property="certadd" column="CertAdd"/>
+                        <result property="joindate2" column="JoinDate2"/>
+                        <result property="ismeal" column="IsMeal"/>
+                        <result property="issuancedate" column="IssuanceDate"/>
+                        <result property="expirydate" column="ExpiryDate"/>
+                        <result property="refereeempid" column="RefereeEmpID"/>
+                        <result property="adaccount" column="ADAccount"/>
+                        <result property="isdelidcard" column="IsDelIDCard"/>
+                        <result property="distancecomp" column="DistanceComp"/>
+                        <result property="empgroup" column="EmpGroup"/>
+                        <result property="empkind" column="EmpKind"/>
+                        <result property="empcategory" column="EmpCategory"/>
+                        <result property="empproperty" column="EmpProperty"/>
+                        <result property="jobgz" column="JobGZ"/>
+                        <result property="wpid" column="WPID"/>
+                        <result property="machineid" column="MachineID"/>
+                        <result property="wfinstid" column="WFInstID"/>
+                        <result property="province" column="Province"/>
+                        <result property="city" column="City"/>
+                        <result property="district" column="District"/>
+                        <result property="adress" column="Adress"/>
+	  					<result property="issendinvite" column="issendinvite"/>
+	  					<result property="portrait" column="portrait"/>
+	  					<result property="isneedaudit" column="isneedaudit"/>
+	  <result property="corpid" column="corpid"/>
+	  <result property="spno" column="spno"/>
+
+
+
+
+            </resultMap>
+	<!-- 入：1.黑名单校验；确认时再校验-->
+	<select id="listEtEmployeeBlackList" resultType="java.util.Map">
+            SELECT 1 FROM etLeave_All   WHERE  certno=#{certno} and IFNULL(IsBlackList,0)=1
+      </select>
+	<!--入：2.公司、部门 要有对应关系且都有效，请重新选择-->
+	<select id="listEtEmployeeCDRelationship" resultType="java.util.Map">
+            SELECT 1 FROM otDepartment WHERE  DepID = #{depid} and CompID = #{compid}
+      </select>
+	<!-- 入：3.部门、岗位要有对应关系且都有效，请重新选择；-->
+	<select id="listEtEmployeeCJRelationship" resultType="java.util.Map">
+            SELECT 1 FROM otJob WHERE JobID = #{jobid} and DepID = #{depid} and compid=#{compid}
+      </select>
+	<!--入：4.员工工号已经存在；-->
+	<select id="listEtEmployeeExistsEmployee" resultType="java.util.Map">
+            SELECT 1 FROM etEmployee WHERE corpcode=#{corpcode} and  Badge=#{badge}
+     </select>
+	<!--入：4-1.员工号号已存在，正在办理入职手续；-->
+	<select id="listExistsEtstaffRegisterByBadge" resultType="java.util.Map">
+            SELECT 1 FROM etstaff_register WHERE  Badge=#{badge}
+     </select>
+
+
+	<!--入：5.直接主管不存在； -->
+	<select id="listEtEmployeeNotExistsReportTo" resultType="java.util.Map">
+            SELECT name FROM etEmployee where eid = #{reportto}
+      </select>
+	<!--入：6.职能主管不存在； -->
+	<select id="listEtEmployeeNotExistsWFReportTo" resultType="java.util.Map">
+            SELECT 1 FROM etEmployee where wfreportto = #{eid}
+      </select>
+	<!-- 入：7.所选公司不存在；-->
+	<select id="listEtEmployeeNotExistsComp" resultType="java.util.Map">
+		SELECT 1 FROM otCompany where CompID = #{compid}
+     </select>
+	<!--入：8.所选公司已经失效；-->
+	<select id="listEtEmployeeCompIsDisable" resultType="java.util.Map">
+            SELECT 1 FROM otCompany WHERE CompID=#{compid} and IFNULL(isDisabled,0)=1
+      </select>
+	<!--入：9.所选部门不存在；-->
+	<select id="listEtEmployeeNotExistsDept" resultType="java.util.Map">
+            SELECT 1 FROM otdepartment where depid = #{depid}
+     </select>
+	<!--入：10.所选部门已经失效；-->
+	<select id="listEtEmployeeDeptIsDisable" resultType="java.util.Map">
+            SELECT 1 FROM otDepartment WHERE DepID=#{depid} and IFNULL(isDisabled,0)=1
+      </select>
+	<!-- 入：11.所选岗位不存在；-->
+	<select id="listEtEmployeeNotExistsJob" resultType="java.util.Map">
+            SELECT 1 FROM otJob where jobid = #{jobid}
+      </select>
+	<!--入：12.所选岗位已经失效；-->
+	<select id="listEtEmployeeJobIsDisable" resultType="java.util.Map">
+            SELECT 1 FROM otJob WHERE JobID=#{jobid} and IFNULL(isDisabled,0)=1
+      </select>
+	<!-- 入：13.身份证不符合要求，请看身份证验证提示窗口;程序中实现-->
+
+	<!--入：14.手机号与现有人员重复-->
+	<select id="listEtEmployeeMobileRepeat" resultType="java.util.Map">
+		SELECT 1 FROM etEmployee WHERE Mobile=#{mobile} and IFNULL(Mobile,'')!=''
+	</select>
+	<!--入：14-1 手机号与正在办理入职的人员重复-->
+	<select id="listEtstaffRegisterByMobile" resultType="java.util.Map">
+		SELECT 1 FROM etstaff_register WHERE Mobile=#{mobile} and IFNULL(Mobile,'')!='' and id!=#{id}
+	</select>
+</mapper>

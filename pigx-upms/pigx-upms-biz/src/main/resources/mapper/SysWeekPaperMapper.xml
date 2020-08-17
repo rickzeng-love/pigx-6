@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.SysWeekPaperMapper">
+
+  <resultMap id="sysWeekPaperMap" type="com.pig4cloud.pigx.admin.entity.SysWeekPaper">
+                  <id property="id" column="id"/>
+                        <result property="title" column="title"/>
+                        <result property="todaywork" column="todaywork"/>
+                        <result property="tomorrowwork" column="tomorrowwork"/>
+                        <result property="fujian" column="fujian"/>
+                        <result property="reportto" column="reportto"/>
+                        <result property="reporttoname" column="reporttoname"/>
+                        <result property="duplicateto" column="duplicateto"/>
+                        <result property="duplicatetoname" column="duplicatetoname"/>
+                        <result property="remark" column="remark"/>
+                        <result property="oper" column="oper"/>
+                        <result property="opername" column="opername"/>
+                        <result property="operdate" column="operdate"/>
+                        <result property="isdisable" column="isdisable"/>
+	  <result property="portrait" column="portrait"/>
+	  <result property="updatedate" column="updatedate"/>
+	  <result property="filename" column="filename"/>
+            </resultMap>
+
+	<select id="listSysWeekPaperPageSql" resultType="java.util.Map">
+		select id,todaywork,tomorrowwork,fujian,remark,operdate,portrait,filename
+		FROM sys_week_paper a where a.corpcode = #{query.corpcode}
+
+		<if test="query.oper != null and query.oper!= ''">
+			AND a.oper =#{query.oper}
+		</if>
+		and a.isdisable = 0
+		order by a.operdate
+
+	</select>
+</mapper>

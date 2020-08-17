@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.SystdataobjsMapper">
+
+  <resultMap id="systdataobjsMap" type="com.pig4cloud.pigx.admin.entity.Systdataobjs">
+                  <id property="id" column="ID"/>
+                        <result property="title" column="Title"/>
+                        <result property="objname" column="ObjName"/>
+                        <result property="objkey" column="ObjKey"/>
+                        <result property="objidx" column="ObjIDx"/>
+                        <result property="otid" column="OTID"/>
+                        <result property="xtype" column="xType"/>
+                        <result property="tpid" column="TPID"/>
+                        <result property="audit" column="Audit"/>
+                        <result property="xaudit" column="xAudit"/>
+                        <result property="canaddnew" column="CanAddNew"/>
+                        <result property="candelete" column="CanDelete"/>
+                        <result property="canupdate" column="CanUpdate"/>
+                        <result property="sqlbeforeopen" column="SQLBeforeOpen"/>
+                        <result property="sqlbeforesave" column="SQLBeforeSave"/>
+                        <result property="sqlaftersave" column="SQLAfterSave"/>
+                        <result property="sqlafterclose" column="SQLAfterClose"/>
+                        <result property="system" column="System"/>
+                        <result property="xorder" column="xOrder"/>
+                        <result property="csid" column="CSID"/>
+                        <result property="disabled" column="Disabled"/>
+                        <result property="remark" column="Remark"/>
+                        <result property="ftype" column="FType"/>
+
+            </resultMap>
+
+
+	<select id="listSystdataobjsForFormula" resultType="com.pig4cloud.pigx.admin.api.dto.TreeOrg">
+		select id,0 as pid,title,objname as tablename,'' as colname,xorder,'' as tc,null as  dpid,'' as nfid,'' as sqlval,'' as sqlvalcheck from systDataObjs where FType='Q'
+		union all
+		Select concat('item',a.id),
+		(select id from systDataObjs c where c.objname= a.objname) as pid,
+		a.Title,a.ObjName,a.ColName,a.xorder,concat(a.objname,'.',a.colname) as tc,a.dpid,a.nfid,a.sqlval,a.sqlvalcheck
+	From systDataCols a,systDataObjs b
+	Where a.ObjID=b.ID And b.FType='Q' And a.IsPayDS=1
+	And Exists(Select 1 from systDataCols Where a.ObjID=ObjID And ColName In('EID','CorpID'))
+
+	</select>
+</mapper>

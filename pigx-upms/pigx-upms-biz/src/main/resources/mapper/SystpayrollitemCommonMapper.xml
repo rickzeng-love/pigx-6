@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.SystpayrollitemCommonMapper">
+
+  <resultMap id="systpayrollitemCommonMap" type="com.pig4cloud.pigx.admin.entity.SystpayrollitemCommon">
+                  <id property="id" column="ID"/>
+                        <result property="corpid" column="CorpID"/>
+                        <result property="term" column="Term"/>
+                        <result property="gid" column="GID"/>
+                        <result property="colname" column="ColName"/>
+                        <result property="tablename" column="TableName"/>
+                        <result property="xorder" column="xOrder"/>
+                        <result property="title" column="Title"/>
+                        <result property="iftype" column="IFType"/>
+                        <result property="isinput" column="IsInput"/>
+                        <result property="digital" column="Digital"/>
+                        <result property="digitaltype" column="DigitalType"/>
+                        <result property="xminvalue" column="xMinValue"/>
+                        <result property="xmaxvalue" column="xMaxValue"/>
+                        <result property="defvalue" column="DefValue"/>
+                        <result property="sch1" column="Sch1"/>
+                        <result property="sch2" column="Sch2"/>
+                        <result property="islastmonth" column="IsLastMonth"/>
+                        <result property="corpcode" column="corpcode"/>
+                        <result property="type" column="type"/>
+	  <result property="isdisabled" column="isdisabled"/>
+
+	  <result property="remark" column="remark"/>
+            </resultMap>
+
+
+	<select id="listsystpayrollitemCommonTree" resultType="com.pig4cloud.pigx.admin.api.dto.TreeOrg">
+		--薪资项类型 ctcd_payrollitemtype
+		select id,0 as pid,id as stype,title,isdisabled,xorder,Remark  from ctcd_payrollitemtype where ifnull(isDisabled,0)=0
+		union  all
+		---基本薪资 systpaystditem_common
+		select concat('A',id) as id,type as pid,type as stype,title,ifnull(isdisabled,0) as isdisabled,xorder,Remark from systpaystditem_common where corpcode = #{corpcode}
+		union  all
+		-- 薪资项 输入
+		select concat('B',id) as id,type as pid,type as stype,title,ifnull(isdisabled,0) as isdisabled,xorder,Remark from systpayrollitem_common where corpcode = #{corpcode} and iftype='1'
+		union all
+		-- 薪资项 输出
+		select concat('B',id) as id,type as pid,type as stype,title,ifnull(isdisabled,0) as isdisabled,xorder,Remark from systpayrollitem_common where corpcode = #{corpcode} and iftype='0'
+
+		order by xorder asc
+
+	</select>
+	<!--薪资套选薪资项树状列表-->
+	<!--<select id="listsystpayrollitemCommonTreeAndIschecked" resultType="com.pig4cloud.pigx.admin.api.dto.TreeOrg">
+		&#45;&#45;薪资项类型 ctcd_payrollitemtype
+		select id,0 as pid,id as stype,title,isdisabled,xorder,Remark,0 as ischecked  from ctcd_payrollitemtype where ifnull(isDisabled,0)=0
+		union  all
+		&#45;&#45; 基本薪资 systpaystditem_common
+		select concat('A',id) as id,type as pid,type as stype,title,ifnull(isdisabled,0) as isdisabled,xorder,Remark,
+		case when ((select 1 from systpaystditem where corpcode=#{corpcode}  and parentid=a.id))=1 then 1 else 0 end ischecked
+		 from systpaystditem_common a where corpcode = #{corpcode}
+		union  all
+		&#45;&#45; 薪资项 输入
+		select concat('B',id) as id,type as pid,type as stype,title,ifnull(isdisabled,0) as isdisabled,xorder,Remark,
+		case when ((select 1 from systpayrollitem where corpcode=#{corpcode}   and parentid=a.id))=1 then 1 else 0 end ischecked
+		 from systpayrollitem_common a where corpcode = #{corpcode}   and iftype='1'
+		union all
+		&#45;&#45; 薪资项 输出
+		select concat('B',id) as id,type as pid,type as stype,title,ifnull(isdisabled,0) as isdisabled,xorder,Remark ,
+		case when ((select 1 from systpayrollitem where corpcode=#{corpcode} and parentid=a.id))=1 then 1 else 0 end ischecked
+		from systpayrollitem_common a
+		 where corpcode = #{corpcode}   and iftype='0'
+		order by xorder asc
+
+	</select>
+-->
+
+	<select id="listsystpayrollitemCommonTreeAndIschecked" resultType="com.pig4cloud.pigx.admin.api.dto.TreeOrg">
+		&#45;&#45;薪资项类型 ctcd_payrollitemtype
+		select id,0 as pid,id as stype,title,isdisabled,xorder,Remark  from ctcd_payrollitemtype where ifnull(isDisabled,0)=0
+		union  all
+		&#45;&#45; 基本薪资 systpaystditem_common
+		select concat('A',id) as id,type as pid,type as stype,title,ifnull(isdisabled,0) as isdisabled,xorder,Remark
+		 from systpaystditem_common a where corpcode = #{corpcode} and ifnull(isdisabled,0)=0
+		union  all
+		&#45;&#45; 薪资项 输入
+		select concat('B',id) as id,type as pid,type as stype,title,ifnull(isdisabled,0) as isdisabled,xorder,Remark
+		 from systpayrollitem_common a where corpcode = #{corpcode}   and iftype='1' and ifnull(isdisabled,0)=0
+		union all
+		&#45;&#45; 薪资项 输出
+		select concat('B',id) as id,type as pid,type as stype,title,ifnull(isdisabled,0) as isdisabled,xorder,Remark
+		from systpayrollitem_common a
+		 where corpcode = #{corpcode}   and iftype='0' and ifnull(isdisabled,0)=0
+		order by xorder asc
+
+	</select>
+
+</mapper>

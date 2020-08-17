@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.SystpayrollitemAllMapper">
+
+  <resultMap id="systpayrollitemAllMap" type="com.pig4cloud.pigx.admin.entity.SystpayrollitemAll">
+                  <id property="id" column="ID"/>
+                        <result property="term" column="Term"/>
+                        <result property="gid" column="GID"/>
+                        <result property="colname" column="ColName"/>
+                        <result property="tablename" column="TableName"/>
+                        <result property="xorder" column="xOrder"/>
+                        <result property="title" column="Title"/>
+                        <result property="iftype" column="IFType"/>
+                        <result property="isinput" column="IsInput"/>
+                        <result property="digital" column="Digital"/>
+                        <result property="digitaltype" column="DigitalType"/>
+                        <result property="xminvalue" column="xMinValue"/>
+                        <result property="xmaxvalue" column="xMaxValue"/>
+                        <result property="defvalue" column="DefValue"/>
+                        <result property="sch1" column="Sch1"/>
+                        <result property="sch2" column="Sch2"/>
+                        <result property="corpid" column="CorpID"/>
+                        <result property="corpcode" column="corpcode"/>
+            </resultMap>
+	<insert id="sqlInsert"  parameterType="String"  >
+		${value}
+	</insert>
+</mapper>

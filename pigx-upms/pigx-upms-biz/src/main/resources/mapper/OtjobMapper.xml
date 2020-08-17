@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.OtjobMapper">
+
+  <resultMap id="otjobMap" type="com.pig4cloud.pigx.admin.entity.Otjob">
+                  <id property="jobid" column="JobID"/>
+                        <result property="jobcode" column="JobCode"/>
+                        <result property="title" column="Title"/>
+                        <result property="jobabbr" column="JobAbbr"/>
+                        <result property="compid" column="CompID"/>
+                        <result property="depid" column="DepID"/>
+                        <result property="adminid" column="AdminID"/>
+                        <result property="functionid" column="FunctionID"/>
+                        <result property="jobgrade" column="JobGrade"/>
+                        <result property="jobtype" column="JobType"/>
+                        <result property="jobproperty" column="JobProperty"/>
+                        <result property="jobnum" column="Jobnum"/>
+                        <result property="jobversion" column="JobVersion"/>
+                        <result property="iscore" column="isCore"/>
+                        <result property="ispiece" column="IsPiece"/>
+                        <result property="hotfee" column="HotFee"/>
+                        <result property="effectdate" column="EffectDate"/>
+                        <result property="xorder" column="xOrder"/>
+                        <result property="isdisabled" column="isDisabled"/>
+                        <result property="disableddate" column="DisabledDate"/>
+                        <result property="remark" column="Remark"/>
+                        <result property="corpcode" column="CorpCode"/>
+                        <result property="xtype" column="xType"/>
+                        <result property="restjobnum" column="RestJobNum"/>
+                        <result property="isdriver" column="IsDriver"/>
+                        <result property="updatedate" column="UpdateDate"/>
+                        <result property="empgradeid" column="empgradeID"/>
+                        <result property="posgradeid" column="posgradeID"/>
+                        <result property="jobdescription" column="JobDescription"/>
+                        <result property="jobrequirements" column="JobRequirements"/>
+	  					<result property="people" column="people"/>
+	  					<result property="empgradeid1" column="empgradeid1"/>
+					  	<result property="posgradeid1" column="posgradeid1"/>
+	  					<result property="empgradeid2" column="empgradeid2"/>
+	  					<result property="posgradeid2" column="posgradeid2"/>
+	  <result property="corpid" column="corpid"/>
+            </resultMap>
+	<!--1.存在特殊字符，请逐个双击后查询；-->
+	<select id="listOtjobBySpecialChar" resultType="java.util.Map">
+		SELECT 1 FROM otJob where (INSTR(Title,CHAR(13) + CHAR(10))!=0 or INSTR(JobAbbr,CHAR(13) + CHAR(10))!=0) and jobID = #{jobid}
+	</select>
+	<!--2.岗位代码已存在；-->
+	<select id="listOtjobByExistsJobID" resultType="java.util.Map">
+		SELECT 1 FROM otJob where jobID != #{jobid} and jobcode = #{jobcode}
+	</select>
+	<!--3.上级岗位必须存在且有效，或者生效日期必须晚于上级岗位的创建日期！-->
+	<select id="listOtjobByExistsEnableJobID" resultType="java.util.Map">
+		SELECT 1 FROM otJob where JobID = #{adminid} and ifnull(isDisabled,0)=0 and DATEDIFF(#{effectdate},effectdate) >= 0
+	</select>
+	<!-- 4.所属公司必须存在且有效,生效日期晚于所属公司的创建日期！-->
+	<select id="listOtjobByExistsEnableCompID" resultType="java.util.Map">
+		select 1 from otCompany where compid=#{compid} and IFNULL(isDisabled,0)=0 and  DATEDIFF(#{effectdate},effectdate) >= 0
+	</select>
+	<!--5.所属部门必须存在且有效,生效日期晚于所属部门的创建日期！-->
+	<select id="listOtjobByExistsEnableDepID" resultType="java.util.Map">
+		select 1 from otDepartment where depid = #{depid} and IFNULL(isDisabled,0)=0 and  DATEDIFF(#{effectdate},effectdate)>= 0
+	</select>
+	<!-- 6.上级岗位必须是所属公司下面的岗位！-->
+	<select id="listOtjobByAdminJobID" resultType="java.util.Map">
+		select 1 from otjob where compid = #{compid} and  jobid=#{adminid}
+	</select>
+	<!--7.岗位所属部门必须是所属公司下面的部门!-->
+	<select id="listOtjobByDepartJobID" resultType="java.util.Map">
+		select 1 from otDepartment where compid = #{compid} and depid = #{depid}
+	</select>
+	<!--8.失效的岗位不能做变更-->
+	<select id="listOtJobByIsDisabled" resultType="java.util.Map">
+		SELECT 1 FROM otJob WHERE JobID=#{jobid} AND IFNULL(isDisabled,0)=1
+	</select>
+
+	<!-- 9.信息没有发生变化-->
+	<select id="listOtJobByNoChange" resultType="java.util.Map">
+		Select 1 From otJob Where jobid=#{jobid} And ifnull(jobCode,'')=ifnull(#{jobcode},'') And ifnull(Title,'')=ifnull(#{title},'')
+        And ifnull(jobAbbr,'')=ifnull(#{jobabbr},'') And ifnull(AdminID,0)=ifnull(#{adminid},0) And ifnull(jobGrade,0)=ifnull(#{jobgrade},0)
+        And ifnull(jobType,0)=ifnull(#{jobtype} ,0) And ifnull(jobProperty,0)=ifnull(#{jobproperty},0) And ifnull(jobnum,0)=ifnull(#{jobnum},0)
+        And datediff(EFFECTDATE,#{effectdate})=0
+	</select>
+
+	<!--10.岗位失效时请先处理其下属岗位-->
+	<select id="listOtJobByDueJobID" resultType="java.util.Map">
+		SELECT 1 FROM otJob where AdminID=#{jobid} AND IFNULL(isDisabled,0)=0
+	</select>
+
+	<!--11.岗位失效时请先处理岗位上在职员工!-->
+	<select id="listOtjobByDueEmployee" resultType="java.util.Map">
+		SELECT 1 FROM etEmployee where JobID=#{jobid} and  EmpStatus NOT IN (6,7)
+	</select>
+
+	<!--12.岗位失效时请先处理兼职对信息！-->
+	<select id="listOtjobByDisableJobID" resultType="java.util.Map">
+		SELECT 1 etPartOrg_All where  PartJobID=#{jobid} And IFNULL(EndDate,'') != ''
+	</select>
+
+	<!--根据条件获取岗位列表-->
+	<select id="listOtjobsByCorpcodeWithPeople" resultType="java.util.Map">
+		SELECT a.jobid,a.title,(select count(1) from etemployee b where b.jobid = a.jobid) people from Otjob a where a.corpcode = #{corpcode} and ifnull(a.isDisabled,0)=0
+	</select>
+
+	<!--PC端岗位管理 -->
+	<select id="listJobTreePC" resultType="com.pig4cloud.pigx.admin.api.dto.JobTreeOrg" parameterType="com.pig4cloud.pigx.admin.entity.Otjob">
+
+			select b.jobid , b.title,b.jobcode,b.jobid as id,b.adminid as pid,
+			b.jobabbr,b.jobtype,(select title from otcd_jobtype where id = b.JobType) jobtypename,
+		b.adminid,(select  title from otjob where jobid=b.adminid) adminname,
+			b.effectdate,
+					(select count(1) from etemployee where  jobid=b.jobid and empstatus in(1,2,4)) zaizhi,
+					(select count(1) from etemployee where  jobid=b.jobid and empstatus in(1,2,4) and emptype !=7) qrz,
+					(select count(1) from etemployee where  jobid=b.jobid and empstatus in(1,2,4) and emptype=7) fqrz,
+					jobnum,
+					((select ifnull(count(1),0) from etemployee where  jobid=b.jobid and empstatus in(1,2,4)) -ifnull(jobnum,0)) qbcb,
+		b.depid,(select  ifnull(max(title),'') from otDepartment where depid=b.depid) depname,
+		posgradeid1,posgradeid2,empgradeid1,empgradeid2,
+					CONCAT_WS('~',(select  ifnull(max(title),'') from otcd_positiongrade where id=b.posgradeid1),(select  ifnull(max(title),'') from otcd_positiongrade where id=b.posgradeid2)) posgrade,
+					CONCAT_WS('~',(select  ifnull(max(title),'') from otcd_empgrade where id=b.empgradeid1),(select  ifnull(max(title),'') from otcd_empgrade where id=b.empgradeid2)) empgrade,
+					b.iscore,case when b.isCore =1 then '否' else '是'  end iscorename,
+					b.xorder,
+					false isExpand,
+		jobdescription,
+		jobrequirements,
+					case when (select max(adminid) from otjob where  adminid = b.jobid) is null then false
+					 else true end hasChildren,
+					 b.compid
+			from otjob b where b.corpcode = #{query.corpcode} and b.adminid is null
+			<if test="query.title != null and query.title!= ''">
+				AND b.title LIKE CONCAT('%',#{query.title},'%')
+			</if>
+		<if test="query.depid != null and query.depid!= ''">
+			AND b.depid = #{query.depid}
+		</if>
+
+			and ifnull(b.isdisabled,0) = 0
+	</select>
+
+	<!--PC端岗位管理 -->
+	<select id="listJobTreePCSecond" resultType="com.pig4cloud.pigx.admin.api.dto.JobTreeOrg" parameterType="com.pig4cloud.pigx.admin.entity.Otjob">
+
+		select b.jobid, b.title,b.jobcode,
+		b.jobabbr,b.jobtype,(select title from otcd_jobtype where id = b.JobType) jobtypename,
+		b.adminid,(select  title from otjob where jobid=b.adminid) adminname,
+		b.effectdate,
+		(select count(1) from etemployee where  jobid=b.jobid and empstatus in(1,2,4)) zaizhi,
+		(select count(1) from etemployee where  jobid=b.jobid and empstatus in(1,2,4) and emptype !=7) qrz,
+		(select count(1) from etemployee where  jobid=b.jobid and empstatus in(1,2,4) and emptype=7) fqrz,
+		jobnum,
+		((select ifnull(count(1),0) from etemployee where  jobid=b.jobid and empstatus in(1,2,4)) -ifnull(jobnum,0)) qbcb,
+		b.depid,(select  ifnull(max(title),'') from otDepartment where depid=b.depid) depname,
+		posgradeid1,posgradeid2,
+		CONCAT_WS('~',(select  ifnull(max(title),'') from otcd_positiongrade where id=b.posgradeid1),(select  ifnull(max(title),'') from otcd_positiongrade where id=b.posgradeid2)) posgrade,
+		b.iscore,case when b.iscore =1 then '否' else '是'  end iscorename,
+		b.xorder,
+		false isExpand,
+		jobdescription,
+		jobrequirements,
+		case when (select max(adminid) from otjob where  adminid = b.jobid) is null then false
+		else true end hasChildren
+		from otjob b where b.corpcode = #{query.corpcode} and b.adminid = #{query.adminid}
+		<if test="query.title != null and query.title!= ''">
+			AND b.title LIKE CONCAT('%',#{query.title},'%')
+		</if>
+		and ifnull(b.isdisabled,0) = 0
+	</select>
+	<!--部门管理-详情接口1-->
+	<select id="listOtjobDetailByjobId" resultType="java.util.Map">
+
+		select a.title,
+				case when a.iscore = 1 then  '否' else '是'  end iscore,
+				(select  title from otDepartment where depid=a.depid) depname,
+		CONCAT_WS('~',(select  title from otcd_positiongrade where id=a.posgradeid1),(select  title from otcd_positiongrade where id=a.posgradeid2)) posgrade,
+		CONCAT_WS('~',(select  title from otcd_empgrade where id=a.empgradeid2),(select  title  from otcd_empgrade where id=a.empgradeid1)) empgrade
+		from otjob a
+		(select count(1) from etemployee where corpcode=#{corpcode} and  jobid = a.jobid and empstatus in(1,2,4)) zzcount,
+		(select count(1) from etemployee where corpcode=#{corpcode} and  jobid = a.jobid and empstatus in(6)) lzcount
+		from otjob a
+		where a.depid = #{depid}
+
+	</select>
+	<!--通过depid获取岗位列表-->
+	<select id="listOtjobListBydepId" resultType="java.util.Map">
+
+		select a.title,
+				case when a.iscore = 1 then  '否' else '是'  end iscore,
+				(select  title from otDepartment where depid=a.depid) depname,
+		CONCAT_WS('~',(select  title from otcd_positiongrade where id=a.posgradeid1),(select  title from otcd_positiongrade where id=a.posgradeid2)) posgrade,
+		CONCAT_WS('~',(select  title from otcd_empgrade where id=a.empgradeid2),(select  title  from otcd_empgrade where id=a.empgradeid1)) empgrade
+		from otjob a
+		(select count(1) from etemployee where corpcode=#{corpcode} and  jobid = a.jobid and empstatus in(1,2,4)) zzcount,
+		(select count(1) from etemployee where corpcode=#{corpcode} and  jobid = a.jobid and empstatus in(6)) lzcount
+		from otjob a
+		where a.depid = #{depid}
+
+	</select>
+
+	<!--通过depid获取岗位列表-->
+	<select id="listOtjobListBydepId2" resultType="java.util.Map">
+
+		select a.title,
+				case when a.iscore = 1 then  '否' else '是'  end iscore,
+				(select  title from otDepartment where depid=a.depid) depname,
+		CONCAT_WS('~',(select  title from otcd_positiongrade where id=a.posgradeid1),(select  title from otcd_positiongrade where id=a.posgradeid2)) posgrade,
+		CONCAT_WS('~',(select  title from otcd_empgrade where id=a.empgradeid2),(select  title  from otcd_empgrade where id=a.empgradeid1)) empgrade,
+		(select count(1) from etemployee where corpcode=#{query.corpcode} and  jobid = a.jobid and empstatus in(1,2,4)) zzcount,
+		(select count(1) from etemployee where corpcode=#{query.corpcode} and  jobid = a.jobid and empstatus in(6)) lzcount
+		from otjob a
+		where a.depid = #{query.depid}
+
+	</select>
+
+	<!--通过adminid获取岗位列表-->
+	<select id="listOtjobListByadminId" resultType="java.util.Map">
+
+		select a.title,
+				case when a.iscore = 1 then  '否' else '是'  end iscore,
+				(select  title from otDepartment where depid=a.depid) depname,
+		CONCAT_WS('~',(select  title from otcd_positiongrade where id=a.posgradeid1),(select  title from otcd_positiongrade where id=a.posgradeid2)) posgrade,
+		CONCAT_WS('~',(select  title from otcd_empgrade where id=a.empgradeid2),(select  title  from otcd_empgrade where id=a.empgradeid1)) empgrade,
+		(select count(1) from etemployee where corpcode=#{query.corpcode} and  jobid = a.jobid and empstatus in(1,2,4)) zzcount,
+		(select count(1) from etemployee where corpcode=#{query.corpcode} and  jobid = a.jobid and empstatus in(6)) lzcount
+		from otjob a
+		where a.adminid = #{query.adminid}
+
+	</select>
+	<!--部门管理-详情接口2-->
+	<select id="listOtjobDetailByjobId2" resultType="java.util.Map">
+
+		select title,jobabbr,jobcode,
+		(select  title from otDepartment where depid=a.depid) depname,
+		(select title from otcd_jobtype where id = a.JobType) jobtype,
+		(select  title from otjob where jobid=a.adminid) adminname,
+		jobnum,effectdate,
+		Jobdescription,
+		jobrequirements,
+		case when iscore = 1 then  '否' else '是'  end iscore,
+		CONCAT_WS('~',(select  ifnull(max(title),'') from otcd_positiongrade where id=a.posgradeid1),(select  ifnull(max(title),'') from otcd_positiongrade where id=a.posgradeid2)) posgrade,
+		CONCAT_WS('~',(select  ifnull(max(title),'') from otcd_empgrade where id=a.empgradeid2),(select  ifnull(max(title),'') from otcd_empgrade where id=a.empgradeid1)) empgrade
+		from otjob a
+		where a.corpcode =#{corpcode} and a.jobid = #{jobid}
+
+	</select>
+
+	<!--部门管理-详情接口3-->
+	<select id="listOtjobDetailByjobId3" resultType="java.util.Map">
+		select a.name,a.badge,(select title from otjob where jobid = a.jobid) jobname,
+			(select title from etcd_emptype where id = a.emptype) emptype,
+			a.joindate
+		from etemployee a
+		where a.jobid = #{jobid} and a.empstatu in(1,2,4)
+	</select>
+
+
+</mapper>

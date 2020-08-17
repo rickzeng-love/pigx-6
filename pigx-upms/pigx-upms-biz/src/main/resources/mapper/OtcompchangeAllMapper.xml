@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.OtcompchangeAllMapper">
+
+  <resultMap id="otcompchangeAllMap" type="com.pig4cloud.pigx.admin.entity.OtcompchangeAll">
+                  <id property="id" column="ID"/>
+                        <result property="type" column="Type"/>
+                        <result property="compid" column="CompID"/>
+                        <result property="compcode" column="CompCode"/>
+                        <result property="corpcode" column="CorpCode"/>
+                        <result property="title" column="Title"/>
+                        <result property="compabbr" column="CompAbbr"/>
+                        <result property="adminid" column="AdminID"/>
+                        <result property="director" column="Director"/>
+                        <result property="compgrade" column="CompGrade"/>
+                        <result property="comptype" column="CompType"/>
+                        <result property="comparea" column="CompArea"/>
+                        <result property="effectdate" column="EffectDate"/>
+                        <result property="regby" column="RegBy"/>
+                        <result property="regdate" column="RegDate"/>
+                        <result property="initialized" column="Initialized"/>
+                        <result property="initializedby" column="InitializedBy"/>
+                        <result property="initializedtime" column="InitializedTime"/>
+                        <result property="submit" column="Submit"/>
+                        <result property="submitby" column="SubmitBy"/>
+                        <result property="submittime" column="SubmitTime"/>
+                        <result property="closed" column="Closed"/>
+                        <result property="closedby" column="ClosedBy"/>
+                        <result property="closedtime" column="ClosedTime"/>
+                        <result property="remark" column="Remark"/>
+                        <result property="titleOld" column="Title_Old"/>
+                        <result property="compabbrOld" column="CompAbbr_Old"/>
+                        <result property="adminidOld" column="AdminID_Old"/>
+                        <result property="compgradeOld" column="CompGrade_Old"/>
+                        <result property="comptypeOld" column="CompType_Old"/>
+                        <result property="compareaOld" column="CompArea_Old"/>
+                        <result property="province" column="Province"/>
+                        <result property="city" column="City"/>
+                        <result property="district" column="District"/>
+                        <result property="adress" column="Adress"/>
+                        <result property="provinceOld" column="Province_old"/>
+                        <result property="cityOld" column="City_old"/>
+                        <result property="districtOld" column="District_old"/>
+                        <result property="adressOld" column="Adress_old"/>
+                        <result property="isregister" column="isregister"/>
+            </resultMap>
+</mapper>

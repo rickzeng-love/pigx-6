@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.OtjobchangeAllMapper">
+
+  <resultMap id="otjobchangeAllMap" type="com.pig4cloud.pigx.admin.entity.OtjobchangeAll">
+                  <id property="id" column="id"/>
+                        <result property="type" column="type"/>
+                        <result property="jobid" column="JobID"/>
+                        <result property="jobcode" column="JobCode"/>
+                        <result property="title" column="Title"/>
+                        <result property="jobabbr" column="JobAbbr"/>
+                        <result property="compid" column="CompID"/>
+                        <result property="depid" column="DepID"/>
+                        <result property="adminid" column="AdminID"/>
+                        <result property="functionid" column="FunctionID"/>
+                        <result property="jobgrade" column="JobGrade"/>
+                        <result property="jobtype" column="JobType"/>
+                        <result property="jobproperty" column="JobProperty"/>
+                        <result property="jobnum" column="Jobnum"/>
+                        <result property="iscore" column="isCore"/>
+                        <result property="ispiece" column="IsPiece"/>
+                        <result property="effectdate" column="EffectDate"/>
+                        <result property="regby" column="RegBy"/>
+	  					<result property="regname" column="regname"/>
+                        <result property="regdate" column="RegDate"/>
+                        <result property="initialized" column="Initialized"/>
+                        <result property="initializedby" column="InitializedBy"/>
+                        <result property="initializedtime" column="InitializedTime"/>
+                        <result property="submit" column="Submit"/>
+                        <result property="submitby" column="SubmitBy"/>
+                        <result property="submittime" column="SubmitTime"/>
+                        <result property="closed" column="Closed"/>
+                        <result property="closedby" column="ClosedBy"/>
+                        <result property="closedtime" column="ClosedTime"/>
+                        <result property="remark" column="Remark"/>
+                        <result property="corpcode" column="CorpCode"/>
+                        <result property="xtype" column="xType"/>
+                        <result property="restjobnum" column="RestJobNum"/>
+                        <result property="compidOld" column="CompID_Old"/>
+                        <result property="jobcodeOld" column="JobCode_Old"/>
+                        <result property="titleOld" column="Title_Old"/>
+                        <result property="jobabbrOld" column="JobAbbr_Old"/>
+                        <result property="jobgradeOld" column="JobGrade_Old"/>
+                        <result property="jobtypeOld" column="JobType_Old"/>
+                        <result property="jobpropertyOld" column="JobProperty_Old"/>
+                        <result property="jobnumOld" column="Jobnum_Old"/>
+                        <result property="depidOld" column="DepID_Old"/>
+                        <result property="adminidOld" column="AdminID_Old"/>
+                        <result property="functionidOld" column="FunctionID_Old"/>
+                        <result property="empgradeid" column="empgradeID"/>
+                        <result property="posgradeid" column="posgradeID"/>
+                        <result property="jobdescription" column="JobDescription"/>
+                        <result property="jobrequirements" column="JobRequirements"/>
+	  <result property="corpid" column="corpid"/>
+            </resultMap>
+	<!--查询部门历史-->
+	<select id="listOtjobchangeAll" resultType="java.util.Map">
+		select case
+		when type=1
+		then '新增'
+		when type=2
+		then '修改'
+		when  type=3
+		then '删除'
+		when  type=4
+		then '合并' end stype,title,Title_Old titleOld,
+		(select  title from otDepartment where depid=a.depid) depname,
+		(select title from otcd_jobtype where id = a.JobType) jobtype,
+		(select  title from otjob where jobid=a.adminid) adminname,
+		jobnum,case when isou = 1 then '是' else '否' end isou,effectdate,
+		Jobdescription,
+		jobrequirements,
+		CONCAT_WS('~',(select  title from otcd_positiongrade where id=a.posgradeid1),(select  ifnull(max(title),'') from otcd_positiongrade where id=a.posgradeid2)) posgrade,
+		CONCAT_WS('~',(select  title from otcd_empgrade where id=a.empgradeid2),(select  ifnull(max(title),'') from otcd_empgrade where id=a.empgradeid1)) empgrade,
+
+		(select  ifnull(max(title),'') from otDepartment where depid=a.depid_old) depnameold,
+		(select title from otcd_jobtype where id = a.JobType_old) jobtypeold,
+		(select  title from otjob where jobid=a.adminid_old) adminnameold,
+		jobnum_old,case when isou_old = 1 then '是' else '否' end isouold,
+		Jobdescription_old as jobdescriptionold,
+		jobrequirements_old as jobrequirementsold,
+		CONCAT_WS('~',(select  title from otcd_positiongrade where id=a.posgradeid1_old),(select  ifnull(max(title),'') from otcd_positiongrade where id=a.posgradeid2_old)) posgradeold,
+		CONCAT_WS('~',(select  title from otcd_empgrade where id=a.empgradeid2_old),(select  ifnull(max(title),'') from otcd_empgrade where id=a.empgradeid1_old)) empgradeold
+		from otjobchange_all a
+		where a.corpcode = #{query.corpcode}
+		<if test="query.type != null and query.type!= ''">
+			AND a.type = #{query.type}
+		</if>
+		<if test="query.regdate1 != null and query.regdate1!= ''">
+			AND a.regdate &gt; #{query.regdate1}
+		</if>
+		<if test="query.regdate2 != null and query.regdate2!= ''">
+			AND a.regdate2 &lt; #{query.regdate2}
+		</if>
+	</select>
+</mapper>

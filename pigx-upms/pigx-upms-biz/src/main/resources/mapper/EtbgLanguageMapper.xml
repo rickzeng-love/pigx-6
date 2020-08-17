@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.EtbgLanguageMapper">
+
+  <resultMap id="etbgLanguageMap" type="com.pig4cloud.pigx.admin.entity.EtbgLanguage">
+                  <id property="id" column="id"/>
+                        <result property="eid" column="eid"/>
+                        <result property="badge" column="badge"/>
+                        <result property="languagetype" column="LanguageType"/>
+                        <result property="languagegrade" column="LanguageGrade"/>
+                        <result property="certificate" column="Certificate"/>
+                        <result property="effectdate" column="effectDate"/>
+                        <result property="remark" column="Remark"/>
+                        <result property="name" column="Name"/>
+                        <result property="compid" column="CompID"/>
+                        <result property="depid" column="DepID"/>
+                        <result property="jobid" column="JobID"/>
+                        <result property="corpid" column="corpid"/>
+                        <result property="corpcode" column="corpcode"/>
+	  					<result property="isdisabled" column="isdisabled"/>
+
+            </resultMap>
+	<!--员工档案-语言能力-->
+	<!--<select id="listetbgLanguageAllBySql" resultType="java.util.Map">
+		SELECT  a.name,a.eid,a.ename,a.badge,mobile,email,birthday,case when a.gender=1 then '男' when a.gender=2 then '女' else '未知' end gender,
+		TIMESTAMPDIFF(YEAR, a.BirthDay, CURDATE()) age,
+		a.depid,
+		(select  title from otdepartment where depid = a.depid and corpcode=#{query.corpcode}) depname,
+		a.jobid,
+		(select  title from otjob where jobid = a.jobid and corpcode=#{query.corpcode}) jobname,
+		a.emptype,
+		(select ifnull(title,'未设置') from etcd_emptype where id=a.emptype) emptypename,
+		a.empstatus,
+		(select title from etcd_empstatus where id = a.empstatus) empstatusname,
+		b.languagetype,b.languagegrade,b.certificate,b.effectDate
+		FROM etEmployee a,etbg_language b where a.corpcode = #{query.corpcode}
+		and b.corpcode = #{query.corpcode}
+		and a.eid = b.eid
+		<if test="query.name != null and query.name!= ''">
+			AND a.name LIKE CONCAT('%',#{query.name},'%')
+		</if>
+	</select>-->
+	<select id="listEtbgLanguageAllBySql" resultType="java.util.Map">
+		SELECT b.id, a.name,a.eid,a.ename,a.badge,mobile,email,birthday, gender,
+		TIMESTAMPDIFF(YEAR, a.BirthDay, CURDATE()) age,
+		a.depid,
+		a.jobid,
+		a.emptype,
+		a.empstatus,
+		b.languagetype,b.languagegrade,b.certificate,b.effectDate
+		FROM etEmployee a,etbg_language b where a.corpcode = #{query.corpcode}
+		and b.corpcode = #{query.corpcode}
+		and a.eid = b.eid
+		<if test="query.name != null and query.name!= ''">
+			AND a.name LIKE CONCAT('%',#{query.name},'%')
+		</if>
+	</select>
+</mapper>

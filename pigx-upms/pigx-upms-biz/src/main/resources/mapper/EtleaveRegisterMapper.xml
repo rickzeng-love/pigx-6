@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.EtleaveRegisterMapper">
+
+  <resultMap id="etleaveRegisterMap" type="com.pig4cloud.pigx.admin.entity.EtleaveRegister">
+                  <id property="id" column="ID"/>
+                        <result property="type" column="type"/>
+                        <result property="eid" column="EID"/>
+                        <result property="badge" column="Badge"/>
+                        <result property="name" column="Name"/>
+                        <result property="compid" column="CompID"/>
+                        <result property="depid" column="DepID"/>
+                        <result property="jobid" column="JobID"/>
+                        <result property="joindate" column="JoinDate"/>
+                        <result property="lastleavedate" column="LastLeaveDate"/>
+                        <result property="applydate" column="ApplyDate"/>
+                        <result property="leavedate" column="LeaveDate"/>
+                        <result property="leavetype" column="LeaveType"/>
+                        <result property="leavereason" column="LeaveReason"/>
+                        <result property="isendcon" column="IsEndCon"/>
+                        <result property="ispay" column="isPay"/>
+                        <result property="payfee" column="PayFee"/>
+                        <result property="isexpenses" column="IsExpenses"/>
+                        <result property="expensefee" column="ExpenseFee"/>
+                        <result property="iscompete" column="IsCompete"/>
+                        <result property="competefee" column="CompeteFee"/>
+                        <result property="newcompany" column="NewCompany"/>
+                        <result property="newjob" column="NewJob"/>
+                        <result property="newsalary" column="NewSalary"/>
+                        <result property="isblacklist" column="IsBlackList"/>
+                        <result property="corpcode" column="CorpCode"/>
+                        <result property="seqid" column="SeqID"/>
+                        <result property="wfstatus" column="WFStatus"/>
+                        <result property="regby" column="RegBy"/>
+                        <result property="regdate" column="Regdate"/>
+                        <result property="initialized" column="Initialized"/>
+                        <result property="initializedby" column="Initializedby"/>
+                        <result property="initializedtime" column="Initializedtime"/>
+                        <result property="submit" column="Submit"/>
+                        <result property="submitby" column="Submitby"/>
+                        <result property="submittime" column="Submittime"/>
+                        <result property="closed" column="Closed"/>
+                        <result property="closedby" column="Closedby"/>
+                        <result property="closedtime" column="Closedtime"/>
+                        <result property="remark" column="Remark"/>
+					 	 <result property="lzsq" column="lzsq"/>
+	  					<result property="lzjj" column="lzjj"/>
+	  					<result property="lzzl" column="lzzl"/>
+
+            </resultMap>
+	<!--> - 离：1.员工不存在，请确认工号是否正确； <-->
+	<select id="listEtEmployeeNoExistsEmp" resultType="java.util.Map">
+            SELECT 1 FROM etEmployee where EID=#{eid}
+      </select>
+	<!--> - 离：2.员工已经离职，不能再做离职； <-->
+	<select id="listEtEmployeeIsResignation" resultType="java.util.Map">
+            SELECT 1 FROM etEmployee WHERE EID=#{eid} AND EmpStatus IN (6,7)
+      </select>
+	<!--> - 离：3.部门负责人离职，请先更换部门负责人； <-->
+	<select id="listEtEmployeeDirectorLeave" resultType="java.util.Map">
+            select 1 from etemployee where eid = (select  director  from otdepartment where depid = #{depid}) and empstatus in(6,7)
+      </select>
+	<!--> - 离：4.请先调整该员工下属员工的行政上级！； <-->
+	<select id="listEtEmployeeReportTo" resultType="java.util.Map">
+            SELECT 1 FROM etEmployee WHERE EID=#{eid} AND IFNULL(ReportTo,0) = 0
+      </select>
+	<!--> - 离：5.该员工有兼职信息，先终止兼职再离职！； <-->
+	<select id="listEtEmployeePartTime" resultType="java.util.Map">
+            SELECT 1 FROM etPartOrg_All WHERE EID=#{eid} AND EndDate Is Null
+      </select>
+	<!--> - 离：6.该员工担任兼职信息中的上级，请先取消； <-->
+	<select id="listEtEmployeePartTimeLeader" resultType="java.util.Map">
+            SELECT 1 FROM etPartOrg_All WHERE ReportTo=#{eid} AND EndDate IS NULL
+      </select>
+	<!--> - 离：7.员工离职请先解除劳动合同； <-->
+	<select id="listEtEmployeeContractUnit" resultType="java.util.Map">
+		SELECT 1 FROM etEmployee WHERE EID=#{eid} AND IFNULL(ContractUnit,0)0
+	</select>
+
+	<!--离职管理；-->
+	<select id="listEtleaveRegisterPage" resultType="java.util.Map">
+		SELECT id,type,EID,Badge,Name,CompID,DepID,JobID,JoinDate,LastLeaveDate,ApplyDate,LeaveDate,LeaveType,LeaveReason,IsEndCon,isPay,PayFee,IsExpenses,ExpenseFee,IsCompete,CompeteFee,NewCompany,NewJob,NewSalary,IsBlackList,SeqID,WFStatus,RegBy,Regdate,Initializedby,Submitby,Closedby,Initialized,Initializedtime,Submit,Submittime,Closed,Closedtime,Remark,'未生效' as changestatus,TIMESTAMPDIFF(YEAR, joinDate, CURDATE()) sage FROM etleave_register WHERE corpcode = #{query.corpcode}
+		<if test="query.name != null and query.name!= ''">
+			AND name LIKE CONCAT('%',#{query.name},'%')
+		</if>
+		<if test="query.depid != null and query.depid!= ''">
+			AND depid LIKE CONCAT('%',#{query.depid},'%')
+		</if>
+		<if test="query.jobid != null and query.jobid!= ''">
+			AND jobid =#{query.jobid}
+		</if>
+		<if test="query.changestatus ==1 ">
+			AND 1=2
+		</if>
+
+		union all
+		SELECT id,type,EID,Badge,Name,CompID,DepID,JobID,JoinDate,LastLeaveDate,ApplyDate,LeaveDate,LeaveType,LeaveReason,IsEndCon,isPay,PayFee,IsExpenses,ExpenseFee,IsCompete,CompeteFee,NewCompany,NewJob,NewSalary,IsBlackList,SeqID,WFStatus,RegBy,Regdate,Initializedby,Submitby,Closedby,Initialized,Initializedtime,Submit,Submittime,Closed,Closedtime,Remark,'生效' as changestatus,TIMESTAMPDIFF(YEAR, joinDate, CURDATE()) sage FROM etleave_all WHERE corpcode = #{query.corpcode}
+		<if test="query.name != null and query.name!= ''">
+			AND name LIKE CONCAT('%',#{query.name},'%')
+		</if>
+		<if test="query.depid != null and query.depid!= ''">
+			AND depid LIKE CONCAT('%',#{query.depid},'%')
+		</if>
+		<if test="query.jobid != null and query.jobid!= ''">
+			AND jobid =#{query.jobid}
+		</if>
+		<if test="query.changestatus ==0 ">
+			AND 1=2
+		</if>
+	</select>
+
+	<!--员工离职校验-->
+	<select id="eSPLeaveCheckSub" statementType="CALLABLE" resultType="java.util.Map"    parameterType="java.util.HashMap" >
+
+		{call eSP_leaveCheckSub(#{id,mode=IN,jdbcType=INTEGER},#{result,mode=OUT,jdbcType=INTEGER})}
+	</select>
+
+	<!--员工离职确认-->
+	<select id="eSPLeaveStart" statementType="CALLABLE" resultType="java.util.Map"   parameterType="java.util.HashMap" >
+
+		{call eSP_LeaveStart(#{id,mode=IN,jdbcType=INTEGER},#{userid,mode=IN,jdbcType=INTEGER},#{result,mode=OUT,jdbcType=INTEGER})}
+	</select>
+</mapper>

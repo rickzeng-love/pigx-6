@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.AtshiftsupplyWorkAllMapper">
+
+  <resultMap id="atshiftsupplyWorkAllMap" type="com.pig4cloud.pigx.admin.entity.AtshiftsupplyWorkAll">
+                  <id property="id" column="ID"/>
+                        <result property="term" column="Term"/>
+                        <result property="eid" column="EID"/>
+                        <result property="badge" column="Badge"/>
+                        <result property="name" column="Name"/>
+                        <result property="depid" column="DepID"/>
+                        <result property="atbadge" column="ATBadge"/>
+                        <result property="lineid" column="LineID"/>
+                        <result property="teamid" column="TeamID"/>
+                        <result property="groupid" column="GroupID"/>
+                        <result property="s1" column="S1"/>
+                        <result property="s2" column="S2"/>
+                        <result property="s3" column="S3"/>
+                        <result property="s4" column="S4"/>
+                        <result property="s5" column="S5"/>
+                        <result property="s6" column="S6"/>
+                        <result property="s7" column="S7"/>
+                        <result property="s8" column="S8"/>
+                        <result property="s9" column="S9"/>
+                        <result property="s10" column="S10"/>
+                        <result property="s11" column="S11"/>
+                        <result property="s12" column="S12"/>
+                        <result property="s13" column="S13"/>
+                        <result property="s14" column="S14"/>
+                        <result property="s15" column="S15"/>
+                        <result property="s16" column="S16"/>
+                        <result property="s17" column="S17"/>
+                        <result property="s18" column="S18"/>
+                        <result property="s19" column="S19"/>
+                        <result property="s20" column="S20"/>
+                        <result property="s21" column="S21"/>
+                        <result property="s22" column="S22"/>
+                        <result property="s23" column="S23"/>
+                        <result property="s24" column="S24"/>
+                        <result property="s25" column="S25"/>
+                        <result property="s26" column="S26"/>
+                        <result property="s27" column="S27"/>
+                        <result property="s28" column="S28"/>
+                        <result property="s29" column="S29"/>
+                        <result property="s30" column="S30"/>
+                        <result property="s31" column="S31"/>
+                        <result property="s32" column="S32"/>
+                        <result property="s33" column="S33"/>
+                        <result property="s34" column="S34"/>
+                        <result property="s35" column="S35"/>
+                        <result property="s36" column="S36"/>
+                        <result property="s37" column="S37"/>
+                        <result property="s38" column="S38"/>
+                        <result property="s39" column="S39"/>
+                        <result property="s40" column="S40"/>
+                        <result property="s41" column="S41"/>
+                        <result property="s42" column="S42"/>
+                        <result property="s43" column="S43"/>
+                        <result property="s44" column="S44"/>
+                        <result property="s45" column="S45"/>
+                        <result property="s46" column="S46"/>
+                        <result property="s47" column="S47"/>
+                        <result property="s48" column="S48"/>
+                        <result property="s49" column="S49"/>
+                        <result property="s50" column="S50"/>
+                        <result property="closed" column="Closed"/>
+                        <result property="closedby" column="ClosedBy"/>
+                        <result property="closedtime" column="ClosedTime"/>
+                        <result property="remark" column="Remark"/>
+                        <result property="corpid" column="CorpID"/>
+                        <result property="corpcode" column="CorpCode"/>
+
+	  					<result property="DepName" column="DepName"/>
+					  	<result property="JobName" column="JobName"/>
+						<result property="GroupName" column="GroupName"/>
+						<result property="S1Name" column="S1Name"/>
+						<result property="S2Name" column="S2Name"/>
+						<result property="S3Name" column="S3Name"/>
+						<result property="S4Name" column="S4Name"/>
+						<result property="S5Name" column="S5Name"/>
+						<result property="S6Name" column="S6Name"/>
+						<result property="S7Name" column="S7Name"/>
+						<result property="S8Name" column="S8Name"/>
+						<result property="S9Name" column="S9Name"/>
+						<result property="S10Name" column="S10Name"/>
+						<result property="S11Name" column="S11Name"/>
+						<result property="S12Name" column="S12Name"/>
+						<result property="S13Name" column="S13Name"/>
+						<result property="S14Name" column="S14Name"/>
+						<result property="S15Name" column="S15Name"/>
+						<result property="S16Name" column="S16Name"/>
+						<result property="S17Name" column="S17Name"/>
+						<result property="S18Name" column="S18Name"/>
+						<result property="S19Name" column="S19Name"/>
+						<result property="S20Name" column="S20Name"/>
+						<result property="S21Name" column="S21Name"/>
+						<result property="S22Name" column="S22Name"/>
+						<result property="S23Name" column="S23Name"/>
+						<result property="S24Name" column="S24Name"/>
+						<result property="S25Name" column="S25Name"/>
+						<result property="S26Name" column="S26Name"/>
+						<result property="S27Name" column="S27Name"/>
+						<result property="S28Name" column="S28Name"/>
+						<result property="S29Name" column="S29Name"/>
+						<result property="S30Name" column="S30Name"/>
+						<result property="S31Name" column="S31Name"/>
+            </resultMap>
+
+	<!--调班记录查询列表-->
+	<select id="ListAtshiftsupplyWorkAll" resultType="java.util.Map">
+		select a.*,
+		(select ifnull(d.title,'未设置') from otdepartment d where d.DepID=b.DepID) As DepName,
+		(select ifnull(e.title,'未设置') from otjob e where e.JobID=b.JobID) As JobName,
+		(select ifnull(f.title,'未设置') from atgroup f where f.GroupID=a.GroupID) As GroupName,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S1) As S1Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S2) As S2Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S3) As S3Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S4) As S4Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S5) As S5Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S6) As S6Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S7) As S7Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S8) As S8Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S9) As S9Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S10) As S10Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S11) As S11Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S12) As S12Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S13) As S13Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S14) As S14Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S15) As S15Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S16) As S16Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S17) As S17Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S18) As S18Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S19) As S19Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S20) As S20Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S21) As S21Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S22) As S22Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S23) As S23Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S24) As S24Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S25) As S25Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S26) As S26Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S27) As S27Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S28) As S28Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S29) As S29Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S30) As S30Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S31) As S31Name
+		from atShiftSupply_Work_All a,etemployee b
+		where a.EID=b.EID
+		and a.CorpCode = #{query.corpcode}
+		and Year(a.Term) = Year(#{query.term})
+		and Month(a.Term) = Month(#{query.term})
+		<if test="query.Name != null and query.Name!= ''">
+			AND (a.Name LIKE CONCAT('%',#{query.Name},'%') Or a.Badge LIKE CONCAT('%',#{query.Name},'%'))
+		</if>
+	</select>
+
+	<!--导出调班记录查询列表-->
+	<select id="ExportAtshiftsupplyWorkAll" resultType="java.util.Map">
+		select a.*,
+		(select ifnull(d.title,'未设置') from otdepartment d where d.DepID=b.DepID) As DepName,
+		(select ifnull(e.title,'未设置') from otjob e where e.JobID=b.JobID) As JobName,
+		(select ifnull(f.title,'未设置') from atgroup f where f.GroupID=a.GroupID) As GroupName,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S1) As S1Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S2) As S2Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S3) As S3Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S4) As S4Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S5) As S5Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S6) As S6Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S7) As S7Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S8) As S8Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S9) As S9Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S10) As S10Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S11) As S11Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S12) As S12Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S13) As S13Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S14) As S14Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S15) As S15Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S16) As S16Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S17) As S17Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S18) As S18Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S19) As S19Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S20) As S20Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S21) As S21Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S22) As S22Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S23) As S23Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S24) As S24Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S25) As S25Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S26) As S26Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S27) As S27Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S28) As S28Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S29) As S29Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S30) As S30Name,
+		(select ifnull(title,'未设置') from atShift_Type where Shift=a.S31) As S31Name
+		from atShiftSupply_Work_All a,etemployee b
+		where a.EID=b.EID
+		and a.CorpCode = #{corpcode}
+		and Year(a.Term) = Year(#{term})
+		and Month(a.Term) = Month(#{term})
+		and (#{name} is null Or
+			(#{name} is not null
+				And (a.Name LIKE CONCAT('%',#{name},'%') Or a.Badge LIKE CONCAT('%',#{name},'%'))
+			))
+
+	</select>
+
+</mapper>

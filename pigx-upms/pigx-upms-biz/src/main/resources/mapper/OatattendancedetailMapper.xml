@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.OatattendancedetailMapper">
+
+  <resultMap id="oatattendancedetailMap" type="com.pig4cloud.pigx.admin.entity.Oatattendancedetail">
+                  <id property="id" column="ID"/>
+                        <result property="attendanceid" column="AttendanceID"/>
+                        <result property="userid" column="UserID"/>
+                        <result property="attendancedate" column="AttendanceDate"/>
+                        <result property="attendancetime" column="AttendanceTime"/>
+                        <result property="attendancetype" column="AttendanceType"/>
+                        <result property="userlng" column="UserLng"/>
+                        <result property="userlat" column="UserLat"/>
+                        <result property="userdistance" column="UserDistance"/>
+                        <result property="corpid" column="CorpID"/>
+                        <result property="corpcode" column="CorpCode"/>
+            </resultMap>
+
+	<select id="listOatattendancedetailForUser" resultType="java.util.Map">
+
+ 		select
+ 		case when ( date_format(AttendanceTime,'%H:%i') >=#{btscanbegintime} and  date_format(AttendanceTime,'%H:%i')  &lt;= #{btscanendtime})
+ 		then 1
+ 		 when  (date_format(AttendanceTime,'%H:%i')  >=#{etscanbegintime} and  date_format(AttendanceTime,'%H:%i')  &lt;= #{etscanendtime})
+		then 2
+		end inoutflag,
+		AttendanceTime as dktime,
+		attendanceid ,
+		(select  attendancename from systattendanceaddress where id =a.attendanceid) attendancename,
+		(
+		CASE
+			WHEN (date_format(AttendanceTime,'%H:%i')  >=#{btscanbegintime} and date_format(AttendanceTime,'%H:%i')   &lt;= #{btscanendtime})
+			THEN
+			(
+				CASE
+				WHEN #{begintime} &lt;= date_format(AttendanceTime,'%H:%i')
+				THEN 1
+				ELSE 0 END
+			)
+			when (date_format(AttendanceTime,'%H:%i')  >=#{etscanbegintime} and date_format(AttendanceTime,'%H:%i')   &lt;= #{etscanendtime})
+			then
+			(
+				CASE
+				WHEN #{endtime} &gt;=date_format(AttendanceTime,'%H:%i')
+				THEN 2
+				ELSE 0 END
+			)
+			END
+		) 'status'
+
+ 		from oatAttendanceDetail a  where corpcode=#{corpcode} and  userid= #{userid}
+ 		and date_format(AttendanceDate, '%Y-%m-%d') = date_format(now(), '%Y-%m-%d')
+
+
+
+	</select>
+
+	<select id="listAtshiftTypeForUser" resultType="com.pig4cloud.pigx.admin.entity.AtshiftType">
+
+
+		select begintime,endtime,btscanbegintime,btscanendtime,etscanbegintime,etscanendtime from atshift_type where shift = (select ${day} from atshift_work where corpcode = #{corpcode} and eid = #{eid} and term = #{term})
+
+	</select>
+
+
+	<select id="listTodayAttendance" resultType="java.util.Map">
+
+		select a.eid,b.attendancedate,b.attendancetime,b.begintime,b.endtime,b.btscanbegintime,b.btscanendtime,b.etscanbegintime,b.etscanendtime from atstatus a left join
+		(select a.attendancedate,a.attendancetime,b.begintime,b.endtime,b.btscanbegintime,b.btscanendtime,b.etscanbegintime,b.etscanendtime
+		from oatAttendanceDetail a,atshift_type b
+		where a.eid = b.eid
+		and a.corpcode = #{corpcode}
+		and b.shift = (select ${day} from atshift_work where corpcode = #{corpcode} and term = #{term})) b
+		on a.eid = b.eid
+		where  a.corpcode = #{corpcode}
+
+	</select>
+
+
+
+</mapper>

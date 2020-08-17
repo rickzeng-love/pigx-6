@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.QywxWorkitemApprovalMapper">
+
+	<resultMap id="qywxWorkitemApprovalMap" type="com.pig4cloud.pigx.admin.entity.QywxWorkitemApproval">
+		<id property="id" column="id"/>
+		<result property="thirdno" column="thirdNo"/>
+		<result property="openspname" column="openSpName"/>
+		<result property="opentemplateid" column="openTemplateId"/>
+		<result property="qywxcorpid" column="QYWXCorpid"/>
+		<result property="openspstatus" column="openSpStatus"/>
+		<result property="applytime" column="applyTime"/>
+		<result property="applyusername" column="applyUserName"/>
+		<result property="applyuserid" column="applyUserId"/>
+		<result property="applydeptid" column="applyDeptId"/>
+		<result property="applyuserparty" column="applyUserParty"/>
+		<result property="statuchangeevent" column="statuChangeEvent"/>
+		<result property="type" column="type"/>
+		<result property="nodestatus" column="nodeStatus"/>
+		<result property="nodeattr" column="nodeAttr"/>
+		<result property="nodetype" column="nodeType"/>
+		<result property="itemname" column="itemName"/>
+		<result property="itemuserid" column="itemUserId"/>
+		<result property="itemstatus" column="itemStatus"/>
+		<result property="itemspeech" column="itemSpeech"/>
+		<result property="itemoptime" column="itemOpTime"/>
+		<result property="mediaid" column="mediaId"/>
+		<result property="commentname" column="commentName"/>
+		<result property="commentuserid" column="commentUserId"/>
+		<result property="commenttime" column="commentTime"/>
+		<result property="commentcontent" column="commentContent"/>
+		<result property="commentid" column="commentId"/>
+		<result property="createTime" column="create_time"/>
+		<result property="updateTime" column="update_time"/>
+	</resultMap>
+
+	<select id="queryPageBySql" resultType="java.util.Map">
+		SELECT
+			thirdNo AS thirdno,
+			openSpName AS openspname,
+			applyUserName AS applyusername,
+			applyTime AS applytime,
+			applyUserParty AS applyuserparty,
+			(
+				SELECT
+					GROUP_CONCAT( b.itemName )
+				FROM
+					qywx_workitem_approval b
+				WHERE
+					b.itemStatus = 1
+					AND b.thirdNo = qywx_workitem_approval.thirdNo
+				GROUP BY
+					openSpName
+			) AS itemname,
+			(
+				SELECT
+					openSpStatus
+				FROM
+					qywx_workitem c
+				WHERE
+					c.thirdNo = qywx_workitem_approval.thirdNo
+			) AS openspstatus
+		FROM
+			qywx_workitem_approval
+		WHERE
+			applyUserId = #{query.applyuserid}
+			AND QYWXCorpid = #{query.qywxcorpid}
+			<if test="query.openspname != null and query.openspname != ''">
+				AND openSpName = #{query.openspname}
+			</if>
+			<if test="query.type != null and query.type != ''">
+				AND type = #{query.type}
+			</if>
+			<if test="query.startTime != null and query.startTime != ''">
+				AND applyTime gt #{query.startTime}
+			</if>
+			<if test="query.endTime != null and query.endTime != ''">
+				AND applyTime lt #{query.endTime}
+			</if>
+			<if test="query.openspstatus > 0">
+				AND openSpStatus = #{query.openspstatus}
+			</if>
+		GROUP BY
+			thirdNo,
+			openSpName,
+			applyTime,
+			applyUserName,
+			applyUserParty
+	</select>
+</mapper>

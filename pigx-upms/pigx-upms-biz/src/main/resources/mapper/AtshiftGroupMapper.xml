@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.AtshiftGroupMapper">
+
+  <resultMap id="atshiftGroupMap" type="com.pig4cloud.pigx.admin.entity.AtshiftGroup">
+	  	<id property="turnid" column="TurnID"/>
+		<result property="title" column="Title"/>
+		<result property="periods" column="Periods"/>
+		<result property="remark" column="Remark"/>
+		<result property="initialized" column="Initialized"/>
+		<result property="submit" column="Submit"/>
+		<result property="ischeck" column="IsCheck"/>
+	    <result property="corpid" column="corpid"/>
+	    <result property="corpcode" column="corpcode"/>
+	  <result property="agentmode" column="agentmode"/>
+
+
+	  <collection property="atshiftGroupSubList" ofType="com.pig4cloud.pigx.admin.entity.AtshiftGroupSub"   column="{corpcode=corpcode,turnid=turnid}" select="selectAtShiftGroupSub">
+		  <id property="id" column="ID"/>
+		  <result property="turnid" column="TurnID"/>
+		  <result property="shift" column="Shift"/>
+		  <result property="xorder" column="xOrder"/>
+		  <result property="remark" column="Remark"/>
+		  <result property="initialized" column="Initialized"/>
+		  <result property="ischeck" column="IsCheck"/>
+		  <result property="corpid" column="CorpID"/>
+		  <result property="corpcode" column="CorpCode"/>
+
+
+	  </collection>
+
+
+  </resultMap>
+
+
+
+
+
+
+	<resultMap id="atShiftGroupSubMap" type="com.pig4cloud.pigx.admin.entity.AtshiftGroupSub">
+		<id property="id" column="ID"/>
+		<result property="turnid" column="TurnID"/>
+		<result property="shift" column="Shift"/>
+		<result property="xorder" column="xOrder"/>
+		<result property="remark" column="Remark"/>
+		<result property="initialized" column="Initialized"/>
+		<result property="ischeck" column="IsCheck"/>
+		<result property="corpid" column="CorpID"/>
+		<result property="corpcode" column="CorpCode"/>
+		<collection property="atshiftTypeList" ofType="com.pig4cloud.pigx.admin.entity.AtshiftType"   column="{corpcode=corpcode,shift=shift}" select="selectAtShitType" />
+
+	</resultMap>
+
+
+
+
+	<resultMap id="atshiftTypeMap" type="com.pig4cloud.pigx.admin.entity.AtshiftType">
+		<id property="id" column="ID"/>
+		<result property="shift" column="Shift"/>
+		<result property="type" column="type"/>
+		<result property="issection" column="IsSection"/>
+		<result property="title" column="Title"/>
+		<result property="begintime" column="Begintime"/>
+		<result property="endtime" column="Endtime"/>
+		<result property="begintime2" column="Begintime2"/>
+		<result property="endtime2" column="Endtime2"/>
+		<result property="begintime3" column="Begintime3"/>
+		<result property="endtime3" column="Endtime3"/>
+		<result property="isrest" column="IsRest"/>
+		<result property="restbegintime" column="RestBegintime"/>
+		<result property="restendtime" column="RestEndtime"/>
+		<result property="scanbegintime" column="ScanBegintime"/>
+		<result property="scanendtime" column="ScanEndtime"/>
+		<result property="xhours" column="xHours"/>
+		<result property="xorder" column="xOrder"/>
+		<result property="remark" column="Remark"/>
+		<result property="initialized" column="Initialized"/>
+		<result property="submit" column="Submit"/>
+		<result property="isdisabled" column="IsDisabled"/>
+		<result property="agentmode" column="AgentMode"/>
+		<result property="ischeck" column="IsCheck"/>
+		<result property="maxot" column="MaxOT"/>
+		<result property="btscanbegintime" column="BTScanBegintime"/>
+		<result property="btscanendtime" column="BTScanEndtime"/>
+		<result property="etscanbegintime" column="ETScanBegintime"/>
+		<result property="etscanendtime" column="ETScanEndtime"/>
+		<result property="btscanbegintime2" column="BTScanBegintime2"/>
+		<result property="btscanendtime2" column="BTScanEndtime2"/>
+		<result property="etscanbegintime2" column="ETScanBegintime2"/>
+		<result property="etscanendtime2" column="ETScanEndtime2"/>
+		<result property="btscanbegintime3" column="BTScanBegintime3"/>
+		<result property="btscanendtime3" column="BTScanEndtime3"/>
+		<result property="etscanbegintime3" column="ETScanBegintime3"/>
+		<result property="etscanendtime3" column="ETScanEndtime3"/>
+		<result property="corpid" column="CorpID"/>
+		<result property="corpcode" column="CorpCode"/>
+	</resultMap>
+
+
+
+	<!--考勤组的查询列表-->
+	<select id="selectAtShiftGroup" resultMap="atshiftGroupMap">
+
+		select
+		turnid,title,periods,ischeck,agentmode,initialized,submit,remark,corpcode
+		from atShift_Group
+		where corpcode = #{corpcode}
+
+		<if test="title != null and title!= ''">
+			AND title LIKE CONCAT('%',#{title},'%')
+		</if>
+
+
+	</select>
+
+
+
+
+	<select id="selectAtShiftGroupSub" resultMap="atShiftGroupSubMap">
+			select
+		b.turnid,b.shift,b.corpcode
+		from atShift_Group_Sub b
+		where b.turnid = #{turnid}
+		and b.corpcode = #{corpcode}
+  </select>
+
+	<select id="selectAtShitType" resultMap="atshiftTypeMap">
+			select
+		id,shift,type,title,issection,begintime,endtime,begintime2,isrest,endtime2,begintime3,restbegintime,endtime3,restendtime,maxot,btscanbegintime,btscanendtime,etscanbegintime,etscanendtime,btscanbegintime2,btscanendtime2,etscanbegintime2,scanbegintime,scanendtime,etscanendtime2,btscanbegintime3,xhours,btscanendtime3,etscanbegintime3,xorder,etscanendtime3,ischeck,agentmode,isdisabled,initialized,submit,remark
+		from atshift_type
+		where shift = #{shift}
+		and corpcode = #{corpcode}
+  </select>
+
+
+
+
+
+
+
+
+
+
+
+
+</mapper>

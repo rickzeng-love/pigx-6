@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.EtbgEducationMapper">
+
+  <resultMap id="etbgEducationMap" type="com.pig4cloud.pigx.admin.entity.EtbgEducation">
+                  <id property="id" column="ID"/>
+                        <result property="eid" column="EID"/>
+                        <result property="badge" column="badge"/>
+                        <result property="begindate" column="BeginDate"/>
+                        <result property="enddate" column="endDate"/>
+                        <result property="schoolname" column="SchoolName"/>
+                        <result property="gradtype" column="GradType"/>
+                        <result property="studytype" column="StudyType"/>
+                        <result property="edutype" column="EduType"/>
+                        <result property="degreetype" column="DegreeType"/>
+                        <result property="degreename" column="DegreeName"/>
+                        <result property="major" column="Major"/>
+                        <result property="eduno" column="EduNo"/>
+                        <result property="edunodate" column="EduNoDate"/>
+                        <result property="degreeno" column="DegreeNo"/>
+                        <result property="degreenodate" column="DegreeNoDate"/>
+                        <result property="schoolplace" column="SchoolPlace"/>
+                        <result property="reference" column="Reference"/>
+                        <result property="tel" column="Tel"/>
+                        <result property="isout" column="isout"/>
+                        <result property="remark" column="remark"/>
+                        <result property="isfulltimehigh" column="isfulltimehigh"/>
+                        <result property="educert" column="EduCert"/>
+                        <result property="degreecert" column="DegreeCert"/>
+                        <result property="name" column="Name"/>
+                        <result property="compid" column="CompID"/>
+                        <result property="depid" column="DepID"/>
+                        <result property="jobid" column="JobID"/>
+                        <result property="educver" column="EducVer"/>
+                        <result property="otherlanguages" column="OtherLanguages"/>
+                        <result property="proficiency" column="proficiency"/>
+                        <result property="credLanguage" column="cred_language"/>
+                        <result property="creddate" column="credDate"/>
+	  					<result property="edu_length" column="edu_length"/>
+	  					<result property="corpcode" column="corpcode"/>
+	  <result property="userid" column="userid"/>
+	  <result property="isdisabled" column="isdisabled"/>
+
+
+
+            </resultMap>
+	<select id="listEtbgEducationBiliALL" resultType="java.util.Map">
+		select a.edutype,ifnull(count(a.edutype),0) people from
+		(select min(edutype) edutype from etbg_education
+		 where corpcode=#{corpcode} and eid is not null group by eid) a
+		group by a.edutype
+	</select>
+<!--	<select id="listEtbgEducationBySql" resultType="java.util.Map">
+
+		select  a.schoolname,a.major,a.begindate,a.enddate,a.edutype,(select title from etcd_edulevel where id = a.edutype) edutypename,a.edu_length,(select title from etcd_edulength where id = a.edu_length) eduLengthname,a.eduno,a.degreeno from etbg_education a
+		where a.corpcode=#{corpcode}
+		 and a.eid = #{eid}
+	</select>-->
+	<select id="listEtbgEducationBySql" resultType="java.util.Map">
+
+		select  a.schoolname,a.major,a.begindate,a.enddate,a.edutype,a.edu_length,a.eduno,a.degreeno from etbg_education a
+		where a.corpcode=#{corpcode}
+		 and a.eid = #{eid}
+	</select>
+	<!--员工档案-教育经历-->
+	<!--<select id="listEtbgEducationAllBySql" resultType="java.util.Map">
+	SELECT  a.name,a.eid,a.ename,a.badge,mobile,email,birthday,case when a.gender=1 then '男' when a.gender=2 then '女' else '未知' end gender,
+		TIMESTAMPDIFF(YEAR, a.BirthDay, CURDATE()) age,
+		a.depid,
+		(select  title from otdepartment where depid = a.depid and corpcode=#{query.corpcode}) depname,
+		a.jobid,
+		(select  title from otjob where jobid = a.jobid and corpcode=#{query.corpcode}) jobname,
+		a.emptype,
+		(select ifnull(title,'未设置') from etcd_emptype where id=a.emptype) emptypename,
+		a.empstatus,
+		(select title from etcd_empstatus where id = a.empstatus) empstatusname,
+		b.schoolname,b.major,b.begindate,b.enddate,b.edutype,
+		(select title from etcd_edulevel where id = b.edutype) edutypename,
+		b.edu_length,
+		(select title from etcd_edulength where id = b.edu_length) eduLengthname,
+		b.eduno,b.degreeno
+		FROM etEmployee a,etbg_education b where a.corpcode = #{query.corpcode}
+		and b.corpcode = #{query.corpcode}
+		and a.eid = b.eid
+		<if test="query.name != null and query.name!= ''">
+			AND a.name LIKE CONCAT('%',#{query.name},'%')
+		</if>
+	</select>-->
+	<select id="listEtbgEducationAllBySql" resultType="java.util.Map">
+		SELECT   b.id,a.name,a.eid,a.ename,a.badge,mobile,email,birthday, gender,
+		TIMESTAMPDIFF(YEAR, a.BirthDay, CURDATE()) age,
+		a.depid,
+		a.jobid,
+		a.emptype,
+		a.empstatus,
+		b.schoolname,b.major,b.begindate,b.enddate,b.edutype,
+		b.edu_length,
+		b.eduno,b.degreeno
+		FROM etEmployee a,etbg_education b where a.corpcode = #{query.corpcode}
+		and b.corpcode = #{query.corpcode}
+		and a.eid = b.eid
+		<if test="query.name != null and query.name!= ''">
+			AND a.name LIKE CONCAT('%',#{query.name},'%')
+		</if>
+	</select>
+</mapper>

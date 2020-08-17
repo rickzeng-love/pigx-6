@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.EtbgCertificateMapper">
+
+  <resultMap id="etbgCertificateMap" type="com.pig4cloud.pigx.admin.entity.EtbgCertificate">
+                  <id property="id" column="ID"/>
+                        <result property="eid" column="EID"/>
+                        <result property="badge" column="Badge"/>
+                        <result property="name" column="name"/>
+                        <result property="compid" column="compid"/>
+                        <result property="depid" column="depid"/>
+                        <result property="jobid" column="jobid"/>
+                        <result property="certtype" column="certtype"/>
+                        <result property="certno" column="certno"/>
+                        <result property="certname" column="CertName"/>
+                        <result property="payorg" column="payOrg"/>
+                        <result property="begindate" column="begindate"/>
+                        <result property="term" column="term"/>
+                        <result property="enddate" column="enddate"/>
+                        <result property="isdisabled" column="isDisabled"/>
+                        <result property="initialized" column="Initialized"/>
+                        <result property="remark" column="remark"/>
+                        <result property="photo" column="photo"/>
+                        <result property="certgrade" column="certgrade"/>
+                        <result property="major" column="Major"/>
+	  <result property="userid" column="userid"/>
+	  <result property="corpcode" column="corpcode"/>
+            </resultMap>
+
+	<!--员工档案-证书资料-->
+	<!--<select id="listEtbgCertificateAllBySql" resultType="java.util.Map">
+		SELECT  a.name,a.eid,a.ename,a.badge,mobile,email,birthday,case when a.gender=1 then '男' when a.gender=2 then '女' else '未知' end gender,
+		TIMESTAMPDIFF(YEAR, a.BirthDay, CURDATE()) age,
+		a.depid,
+		(select  title from otdepartment where depid = a.depid and corpcode=#{query.corpcode}) depname,
+		a.jobid,
+		(select  title from otjob where jobid = a.jobid and corpcode=#{query.corpcode}) jobname,
+		a.emptype,
+		(select ifnull(title,'未设置') from etcd_emptype where id=a.emptype) emptypename,
+		a.empstatus,
+		(select title from etcd_empstatus where id = a.empstatus) empstatusname,
+		b.certtype,b.certname,b.certgrade,b.major,b.payorg,b.begindate,b.term,b.enddate,b.photo
+		FROM etEmployee a,etbg_certificate b where a.corpcode = #{query.corpcode}
+		and b.corpcode = #{query.corpcode}
+		and a.eid = b.eid
+		<if test="query.name != null and query.name!= ''">
+			AND a.name LIKE CONCAT('%',#{query.name},'%')
+		</if>
+	</select>-->
+	<select id="listEtbgCertificateAllBySql" resultType="java.util.Map">
+		SELECT  b.id,a.name,a.eid,a.ename,a.badge,mobile,email,birthday,gender,
+		TIMESTAMPDIFF(YEAR, a.BirthDay, CURDATE()) age,
+		a.depid,
+		a.jobid,
+		a.emptype,
+		a.empstatus,
+		b.certtype,b.certname,b.certgrade,b.major,b.payorg,b.begindate,b.term,b.enddate,b.photo,b.certno
+		FROM etEmployee a,etbg_certificate b where a.corpcode = #{query.corpcode}
+		and b.corpcode = #{query.corpcode}
+		and a.eid = b.eid
+		<if test="query.name != null and query.name!= ''">
+			AND a.name LIKE CONCAT('%',#{query.name},'%')
+		</if>
+	</select>
+</mapper>

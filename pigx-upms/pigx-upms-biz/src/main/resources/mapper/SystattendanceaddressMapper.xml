@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.SystattendanceaddressMapper">
+
+  <resultMap id="systattendanceaddressMap" type="com.pig4cloud.pigx.admin.entity.Systattendanceaddress">
+                  <id property="id" column="ID"/>
+                        <result property="attendancename" column="AttendanceName"/>
+                        <result property="lnglat" column="LngLat"/>
+                        <result property="lnglatLng" column="LngLat_Lng"/>
+                        <result property="lnglatLat" column="LngLat_Lat"/>
+                        <result property="lnglatAddress" column="LngLat_Address"/>
+                        <result property="isused" column="IsUsed"/>
+                        <result property="workhour" column="WorkHour"/>
+                        <result property="lunchhour" column="LunchHour"/>
+                        <result property="closehour" column="CloseHour"/>
+                        <result property="attendancedistance" column="AttendanceDistance"/>
+                        <result property="compcode" column="CompCode"/>
+                        <result property="corpid" column="CorpID"/>
+                        <result property="corpcode" column="CorpCode"/>
+            </resultMap>
+	<select id="listAttendaceaddreddForUser" resultType="java.util.Map">
+		select id,lnglat,lnglat_lng as lnglatlng ,lnglat_lat as lnglatlat,lnglat_address as lnglataddress,attendancedistance,isused,workhour,lunchhour,closehour from systattendanceaddress
+		where id REGEXP (SELECT  REPLACE (  (  SELECT    cardaddrid  FROM   atstatus   WHERE   corpcode = #{corpcode} AND eid = #{eid}  ), ',',   '|' ))
+	</select>
+</mapper>

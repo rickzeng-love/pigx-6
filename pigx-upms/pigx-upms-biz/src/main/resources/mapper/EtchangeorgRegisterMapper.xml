@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.EtchangeorgRegisterMapper">
+
+  <resultMap id="etchangeorgRegisterMap" type="com.pig4cloud.pigx.admin.entity.EtchangeorgRegister">
+                  <id property="id" column="ID"/>
+                        <result property="seqid" column="SeqID"/>
+                        <result property="type" column="Type"/>
+                        <result property="eid" column="EID"/>
+                        <result property="badge" column="Badge"/>
+                        <result property="name" column="Name"/>
+                        <result property="compid" column="CompID"/>
+                        <result property="depid" column="DepID"/>
+                        <result property="jobid" column="JobID"/>
+                        <result property="empstatus" column="EmpStatus"/>
+                        <result property="jobstatus" column="JobStatus"/>
+                        <result property="joindate" column="JoinDate"/>
+                        <result property="reportto" column="ReportTo"/>
+                        <result property="wfreportto" column="WfReportTo"/>
+                        <result property="newCompid" column="New_CompID"/>
+                        <result property="newDepid" column="New_DepID"/>
+                        <result property="newJobid" column="New_JobID"/>
+                        <result property="newReportto" column="New_ReportTo"/>
+                        <result property="newWfreportto" column="New_WfReportTo"/>
+                        <result property="effectdate" column="EffectDate"/>
+                        <result property="orgchangetype" column="orgchangetype"/>
+                        <result property="orgchangereason" column="orgchangeReason"/>
+                        <result property="corpcode" column="CorpCode"/>
+                        <result property="errormsg" column="ErrorMsg"/>
+                        <result property="regby" column="RegBy"/>
+                        <result property="regdate" column="RegDate"/>
+                        <result property="initialized" column="Initialized"/>
+                        <result property="initializedby" column="InitializedBy"/>
+                        <result property="initializedtime" column="InitializedTime"/>
+                        <result property="submit" column="Submit"/>
+                        <result property="submitby" column="SubmitBy"/>
+                        <result property="submittime" column="SubmitTime"/>
+                        <result property="closed" column="closed"/>
+                        <result property="closedby" column="closedBy"/>
+                        <result property="closedtime" column="closedTime"/>
+                        <result property="remark" column="Remark"/>
+                        <result property="jobgz" column="JobGZ"/>
+                        <result property="newJobgz" column="New_JobGZ"/>
+                        <result property="wfinstid" column="WFInstID"/>
+					  <result property="position" column="position"/>
+					  <result property="posgrade" column="posgrade"/>
+	                  <result property="empgrade" column="empgrade"/>
+					  <result property="newPosition" column="new_Position"/>
+					  <result property="newPosgrade" column="new_Posgrade"/>
+	  <result property="newEmpgrade" column="new_Empgrade"/>
+	  <result property="province" column="province"/>
+	  <result property="city" column="city"/>
+	  <result property="district" column="district"/>
+	  <result property="newProvince" column="new_province"/>
+	  <result property="newCity" column="new_city"/>
+	  <result property="newDistrict" column="new_district"/>
+	  <result property="corpid" column="corpid"/>
+	  <result property="isneedaudit" column="isneedaudit"/>
+	  <result property="spno" column="spno"/>
+            </resultMap>
+	<!--调动：1.员工已经离职，不能做变动；-->
+	<select id="listEtEmployeeUnSignDel" resultType="java.util.Map">
+            SELECT 1 FROM etEmployee WHERE EID=#{eid} and  EmpStatus IN (6,7)
+      </select>
+	<!--调动：2.新公司已经失效-->
+	<select id="listEtEmployeeNewCompIsDisableForChange" resultType="java.util.Map">
+            SELECT 1 FROM otCompany WHERE CompID=#{compid} and IFNULL(isDisabled,0)=1
+      </select>
+	<!--调动：3.新公司还未成立；-->
+	<select id="listEtEmployeeNewCompUnSetupForChange" resultType="java.util.Map">
+            SELECT 1 FROM otCompany WHERE  CompID=#{newCompid} and DATEDIFF(EffectDate,GETDATE())>0
+      </select>
+	<!-- 调动：4.新部门已经失效-->
+	<select id="listEtEmployeeNewDepIsDisableForChange" resultType="java.util.Map">
+            SELECT 1 FROM otdepartment WHERE DepID=#{newDepid} and IFNULL(isDisabled,0)=1
+      </select>
+	<!--调动：5.新部门还未成立-->
+	<select id="listEtEmployeeNewDepUnSetupForChange" resultType="java.util.Map">
+            SELECT 1 FROM otdepartment WHERE DepID=#{newDepid} and DATEDIFF(EffectDate,GETDATE())>0
+      </select>
+	<!-- 调动：6.所选新部门不在新公司下； -->
+	<select id="listEtEmployeeNewCompNewDepForChange" resultType="java.util.Map">
+            SELECT 1 FROM otDepartment WHERE compid = #{newCompid} AND depid = #{newDepid}
+      </select>
+	<!--调动：7.所选新岗位已经失效； -->
+	<select id="listEtEmployeeNewJobIsDisableForChange" resultType="java.util.Map">
+            SELECT 1 FROM otJob WHERE JobID=#{newJobid} and IFNULL(isDisabled,0)=1
+      </select>
+	<!-- 调动：8.所选新岗位还未成立；-->
+	<select id="listEtEmployeeNewJobUnSetupForChange" resultType="java.util.Map">
+            SELECT 1 FROM otJob WHERE JobID=#{newJobid} and DATEDIFF(EffectDate,GETDATE())>0
+      </select>
+	<!--调动：9.所选新岗位不在新部门下-->
+	<select id="listEtEmployeeNewJobNewDepForChange" resultType="java.util.Map">
+            SELECT 1 FROM otJob WHERE DepID=#{newDepid} AND JobID=#{newJobid}
+      </select>
+	<!--调动：10.新行政上级已经离职；-->
+	<select id="listEtEmployeeReportToLeaveForChange" resultType="java.util.Map">
+            SELECT 1 FROM etEmployee  WHERE eid=#{newReportto} AND EmpStatus IN (6,7)
+      </select>
+	<!-- 调动：11.生效日期不能在最近一次变动之前；-->
+	<select id="listEtEmployeeEffectDateForChange" resultType="java.util.Map">
+            SELECT 1 FROM etChangeOrg_All WHERE EID=#{eid} GROUP BY EID HAVING MAX(EffectDate)>#{effectdate}
+      </select>
+	<!--调动：12.该员工有兼职岗位，先终止兼职；-->
+	<select id="listEtEmployeePartJobForChange" resultType="java.util.Map">
+            SELECT 1 FROM etPartOrg_All WHERE eid=#{eid}  AND EndDate Is Null
+      </select>
+
+
+	<!--调动管理；-->
+	<select id="listEtchangeorgRegisterPage" resultType="java.util.Map">
+		SELECT
+		e.ID ID,
+		e.SeqID SeqID,
+		e.Type Type,
+		e.EID EID,
+		e.Badge Badge,
+		e.NAME NAME,
+		e.CompID CompID,
+		e.DepID DepID,
+		o.Title depName,
+		e.JobID JobID,
+		j.Title jobName,
+		e.EmpStatus EmpStatus,
+		e.JobStatus JobStatus,
+		e.JoinDate JoinDate,
+		e.ReportTo ReportTo,
+		e.WfReportTo WfReportTo,
+		e.New_CompID New_CompID,
+		e.New_DepID New_DepID,
+		e.New_JobID New_JobID,
+		e.New_ReportTo New_ReportTo,
+		e.New_WfReportTo New_WfReportTo,
+		e.EffectDate EffectDate,
+		e.orgchangetype orgchangetype,
+		e.orgchangeReason orgchangeReason,
+		e.ErrorMsg ErrorMsg,
+		e.RegBy RegBy,
+		e.RegDate RegDate,
+		e.InitializedBy InitializedBy,
+		e.SubmitBy SubmitBy,
+		e.closedBy closedBy,
+		e.JobGZ JobGZ,
+		e.New_JobGZ New_JobGZ,
+		e.WFInstID WFInstID,
+		e.Initialized Initialized,
+		e.InitializedTime InitializedTime,
+		e.Submit Submit,
+		e.SubmitTime SubmitTime,
+		e.closed closed,
+		e.closedTime closedTime,
+		e.Remark Remark,
+		'生效' AS changestatus
+		FROM
+		etchangeorg_register e
+		LEFT JOIN otdepartment o ON e.DepID=o.DepID
+		LEFT JOIN otjob j on e.JobID=j.JobID
+		WHERE e.corpcode = #{query.corpcode}
+		<if test="query.name != null and query.name!= ''">
+			AND e.name LIKE CONCAT('%',#{query.name},'%')
+		</if>
+		<if test="query.depid != null and query.depid!= ''">
+			AND e.depid LIKE CONCAT('%',#{query.depid},'%')
+		</if>
+		<if test="query.jobid != null and query.jobid!= ''">
+			AND e.jobid =#{query.jobid}
+		</if>
+		<if test="query.empstatus != null and query.empstatus!= ''">
+			AND e.empstatus =#{query.empstatus}
+		</if>
+		<if test="query.changestatus ==1 ">
+			AND 1=2
+		</if>
+
+         union all
+		SELECT
+		e.ID ID,
+		e.SeqID SeqID,
+		e.Type Type,
+		e.EID EID,
+		e.Badge Badge,
+		e.NAME NAME,
+		e.CompID CompID,
+		e.DepID DepID,
+		o.Title depName,
+		e.JobID JobID,
+		j.Title jobName,
+		e.EmpStatus EmpStatus,
+		e.JobStatus JobStatus,
+		e.JoinDate JoinDate,
+		e.ReportTo ReportTo,
+		e.WfReportTo WfReportTo,
+		e.New_CompID New_CompID,
+		e.New_DepID New_DepID,
+		e.New_JobID New_JobID,
+		e.New_ReportTo New_ReportTo,
+		e.New_WfReportTo New_WfReportTo,
+		e.EffectDate EffectDate,
+		e.orgchangetype orgchangetype,
+		e.orgchangeReason orgchangeReason,
+		e.ErrorMsg ErrorMsg,
+		e.RegBy RegBy,
+		e.RegDate RegDate,
+		e.InitializedBy InitializedBy,
+		e.SubmitBy SubmitBy,
+		e.closedBy closedBy,
+		e.JobGZ JobGZ,
+		e.New_JobGZ New_JobGZ,
+		e.WFInstID WFInstID,
+		e.Initialized Initialized,
+		e.InitializedTime InitializedTime,
+		e.Submit Submit,
+		e.SubmitTime SubmitTime,
+		e.closed closed,
+		e.closedTime closedTime,
+		e.Remark Remark,
+		'生效' AS changestatus
+		FROM
+		etchangeorg_all e
+		LEFT JOIN otdepartment o ON e.DepID = o.DepID
+		LEFT JOIN otjob j ON e.JobID = j.JobID
+		WHERE e.corpcode = #{query.corpcode}
+		<if test="query.name != null and query.name!= ''">
+			AND e.name LIKE CONCAT('%',#{query.name},'%')
+		</if>
+		<if test="query.depid != null and query.depid!= ''">
+			AND e.depid LIKE CONCAT('%',#{query.depid},'%')
+		</if>
+		<if test="query.jobid != null and query.jobid!= ''">
+			AND e.jobid =#{query.jobid}
+		</if>
+		<if test="query.empstatus != null and query.empstatus!= ''">
+			AND e.empstatus =#{query.empstatus}
+		</if>
+		<if test="query.changestatus ==0 ">
+			AND 1=2
+		</if>
+      </select>
+
+
+	<!--员工调动校验-->
+	<select id="eSPChangeOrgChecksub" statementType="CALLABLE" resultType="java.util.Map"  parameterType="java.util.HashMap" >
+
+		{call eSP_ChangeOrgChecksub(#{id,mode=IN,jdbcType=INTEGER},#{result,mode=OUT,jdbcType=INTEGER})}
+	</select>
+
+	<!--员工调动确认-->
+	<select id="eSPChangeOrgStart" statementType="CALLABLE" resultType="java.util.Map"  parameterType="java.util.HashMap" >
+
+		{call eSP_ChangeOrgStart(#{id,mode=IN,jdbcType=INTEGER},#{userid,mode=IN,jdbcType=INTEGER},#{result,mode=OUT,jdbcType=INTEGER})}
+	</select>
+
+
+</mapper>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.SystcorpinfoMapper">
+
+  <resultMap id="systcorpinfoMap" type="com.pig4cloud.pigx.admin.entity.Systcorpinfo">
+                  <id property="id" column="ID"/>
+                        <result property="corpcode" column="CorpCode"/>
+                        <result property="corpname" column="CorpName"/>
+                        <result property="logo" column="logo"/>
+                        <result property="trade" column="Trade"/>
+                        <result property="scale" column="Scale"/>
+                        <result property="province" column="Province"/>
+                        <result property="city" column="City"/>
+                        <result property="district" column="District"/>
+                        <result property="adress" column="Adress"/>
+                        <result property="postcode" column="Postcode"/>
+                        <result property="contact" column="Contact"/>
+                        <result property="mobile" column="Mobile"/>
+                        <result property="portrait" column="Portrait"/>
+                        <result property="email" column="Email"/>
+                        <result property="allowempnum" column="AllowEmpNum"/>
+                        <result property="payrollgroupnum" column="PayrollGroupNum"/>
+                        <result property="regdate" column="RegDate"/>
+                        <result property="isinitialized" column="IsInitialized"/>
+                        <result property="remark" column="Remark"/>
+	  <result property="people" column="people"/>
+	  <result property="isadmin" column="isadmin"/>
+
+            </resultMap>
+	<resultMap id="systprovinceMap" type="com.pig4cloud.pigx.admin.entity.Systprovince">
+
+		<result property="code" column="code"/>
+		<result property="name" column="name"/>
+
+	</resultMap>
+	<resultMap id="systcityMap" type="com.pig4cloud.pigx.admin.entity.Systcity">
+
+		<result property="code" column="code"/>
+		<result property="name" column="name"/>
+
+	</resultMap>
+	<resultMap id="systdistrictMap" type="com.pig4cloud.pigx.admin.entity.Systdistrict">
+
+		<result property="code" column="code"/>
+		<result property="name" column="name"/>
+
+	</resultMap>
+	<!--列出所有省份-->
+	<select id="listProvince" resultMap="systprovinceMap">
+		select code,name from systprovince
+    </select>
+	<!--列出所有城市-->
+	<select id="listCity" resultMap="systcityMap">
+		select code,name from systcity
+    </select>
+	<!--列出所有区-->
+	<select id="listDistrict" resultMap="systdistrictMap">
+		select code,name from systdistrict
+    </select>
+	<!--根据qywx_corpid查出通讯录密钥（addressSecret）-->
+	<select id="seachAddressSecretByQywxCorpid" resultMap="systcorpinfoMap">
+		SELECT
+			ID,
+			CorpCode,
+			CorpName,
+			logo,
+			Trade,
+			Scale,
+			Province,
+			City,
+			District,
+			Adress,
+			Postcode,
+			Contact,
+			Mobile,
+			Portrait,
+			Email,
+			AllowEmpNum,
+			PayrollGroupNum,
+			RegDate,
+			IsInitialized,
+			Remark,
+			qrcode,
+			addressSecret
+		FROM
+			systcorpinfo
+		WHERE
+			qywx_corpid = #{qywx_corpid}
+    </select>
+</mapper>

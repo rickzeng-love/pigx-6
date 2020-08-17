@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.OtcdEmpgradeMapper">
+
+  <resultMap id="otcdEmpgradeMap" type="com.pig4cloud.pigx.admin.entity.OtcdEmpgrade">
+                  <id property="id" column="ID"/>
+                        <result property="code" column="Code"/>
+                        <result property="title" column="Title"/>
+                        <result property="corpcode" column="corpcode"/>
+                        <result property="compid" column="compid"/>
+                        <result property="posgradeid" column="posGradeID"/>
+                        <result property="description" column="description"/>
+                        <result property="xorder" column="xorder"/>
+                        <result property="isdisabled" column="isDisabled"/>
+                        <result property="isdefault" column="isDefault"/>
+                        <result property="remark" column="Remark"/>
+                        <result property="partyvalue" column="PartyValue"/>
+	  <result property="regby" column="regby"/>
+	  <result property="regname" column="regname"/>
+	  <result property="regdate" column="regdate"/>
+            </resultMap>
+	<!--pc端职务列表-->
+	<select id="listOtcdEmpgrade" resultType="java.util.Map">
+		select a.id,a.title,a.code,
+		(select count(1) from etemployee where corpcode = #{query.corpcode} and empgrade = a.id and empstatus in(1,2,4)) zzcount,
+		(select count(1) from etemployee where corpcode = #{query.corpcode} and empgrade = a.id and empstatus in(1,2,4) and jobcategory != 1 ) qzcount,
+		(select count(1) from etemployee where corpcode = #{query.corpcode} and empgrade = a.id and empstatus in(1,2,4) and jobcategory = 1 ) fqzcount,
+		a.description,
+		a.posgradeid
+		from otcd_empgrade a
+		where a.corpcode = #{query.corpcode}
+		<if test="query.posgradeid != null and query.posgradeid!= ''">
+			AND a.posgradeid = #{query.posgradeid}
+		</if>
+		<if test="query.title != null and query.title!= ''">
+			AND a.title LIKE CONCAT('%',#{query.title},'%')
+		</if>
+		and ifnull(a.isDisabled,0)=0
+	</select>
+
+	<!--pc端职务列表(全查)-->
+	<select id="listOtcdEmpgradeAll" resultType="java.util.Map">
+		select a.id,a.title,a.code,
+		(select count(1) from etemployee where corpcode = #{corpcode} and empgrade = a.id and empstatus in(1,2,4)) zzcount,
+		(select count(1) from etemployee where corpcode = #{corpcode} and empgrade = a.id and empstatus in(1,2,4) and jobcategory != 1 ) qzcount,
+		(select count(1) from etemployee where corpcode = #{corpcode} and empgrade = a.id and empstatus in(1,2,4) and jobcategory = 1 ) fqzcount,
+		a.description,
+		a.posgradeid
+		from otcd_empgrade a
+		where a.corpcode = #{corpcode}
+		<if test="title != null and title!= ''">
+			AND a.title LIKE CONCAT('%',#{title},'%')
+		</if>
+		and ifnull(a.isDisabled,0)=0
+	</select>
+
+
+	<!--PC端职级在职人员-->
+	<select id="listEtempoyeeByEmpGrade" resultType="java.util.Map">
+		select a.name,a.badge,(select title from otjob where id = a.jobid) jobname,
+		(select ifnull(title,'未设置') from etcd_emptype where id=a.jobcategory) jobcategory,
+		joindate
+		from etemployee a where a.corpcode = #{corpcode} and a.empgrade = #{id} and a.empstatus in(1,2,4)
+	</select>
+
+	<!--PC端职务获取在职人员数量-->
+	<select id="listZaiZhiPersonByEmpgrade" resultType="java.util.Map">
+		select count(1) person
+		from etemployee a where a.corpcode = #{corpcode} and a.Empgrade = #{id} and a.empstatus in(1,2,4)
+
+	</select>
+
+	<!--PC端职务获取离职人员数量-->
+	<select id="listLizhiPersonByEmpgrade" resultType="java.util.Map">
+		select count(1) person
+		from etemployee a where a.corpcode = #{corpcode} and a.Empgrade = #{id} and a.empstatus in(6)
+
+	</select>
+
+</mapper>

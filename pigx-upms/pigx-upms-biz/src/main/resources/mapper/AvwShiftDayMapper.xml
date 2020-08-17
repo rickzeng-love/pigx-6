@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.AvwShiftDayMapper">
+
+  <resultMap id="avwShiftDayMap" type="com.pig4cloud.pigx.admin.entity.AvwShiftDay">
+                  <result property="term" column="Term"/>
+                        <result property="eid" column="EID"/>
+                        <result property="badge" column="Badge"/>
+                        <result property="name" column="Name"/>
+                        <result property="compid" column="CompID"/>
+                        <result property="depid" column="DepID"/>
+                        <result property="jobid" column="JobID"/>
+                        <result property="groupid" column="GroupID"/>
+                        <result property="shift" column="Shift"/>
+                        <result property="isexception" column="IsException"/>
+                        <result property="pnhr" column="PNHR"/>
+                        <result property="wkhr" column="WKHR"/>
+                        <result property="limn" column="LIMN"/>
+                        <result property="ot3" column="OT3"/>
+                        <result property="sicl" column="SicL"/>
+                        <result property="perl" column="PerL"/>
+                        <result property="annl" column="AnnL"/>
+                        <result property="otcl" column="OTCL"/>
+                        <result property="uahr" column="UAHR"/>
+                        <result property="isjl" column="ISJL"/>
+                        <result property="coml" column="ComL"/>
+                        <result property="marl" column="MarL"/>
+                        <result property="prpl" column="PrPL"/>
+                        <result property="matl" column="MatL"/>
+                        <result property="patl" column="PatL"/>
+                        <result property="nurl" column="NurL"/>
+                        <result property="fanf" column="FANF"/>
+                        <result property="ot1" column="OT1"/>
+                        <result property="clot" column="CLOT"/>
+                        <result property="abhr" column="ABHR"/>
+                        <result property="otab" column="OTAB"/>
+                        <result property="ot2" column="OT2"/>
+                        <result property="lvwk" column="LVWK"/>
+                        <result property="nudy" column="NUDY"/>
+                        <result property="pndy" column="PNDY"/>
+                        <result property="wkdy" column="WKDY"/>
+                        <result property="ofal" column="OfAL"/>
+                        <result property="eomn" column="EOMN"/>
+                        <result property="puhl" column="PuHL"/>
+                        <result property="otcd" column="OTCD"/>
+                        <result property="abdy" column="ABDY"/>
+                        <result property="litm" column="LITM"/>
+                        <result property="eotm" column="EOTM"/>
+                        <result property="cder" column="CDER"/>
+                        <result property="rewk" column="REWK"/>
+                        <result property="dnan" column="DNAN"/>
+                        <result property="corpid" column="CorpID"/>
+                        <result property="corpcode" column="CorpCode"/>
+                        <result property="begintime" column="BeginTime"/>
+                        <result property="endtime" column="EndTime"/>
+                        <result property="cardbegintime1" column="CardBeginTime1"/>
+                        <result property="cardendtime1" column="CardEndTime1"/>
+                        <result property="cardbegintime2" column="CardBeginTime2"/>
+                        <result property="cardendtime2" column="CardEndTime2"/>
+                        <result property="cardbegintime3" column="CardBeginTime3"/>
+                        <result property="cardendtime3" column="CardEndTime3"/>
+                        <result property="processflag" column="ProcessFlag"/>
+                        <result property="analymode" column="AnalyMode"/>
+                        <result property="initialized" column="Initialized"/>
+            </resultMap>
+
+	<!--刷卡导入-->
+	<select id="aSPImportSQLHandLog" statementType="CALLABLE" resultType="java.util.Map"  parameterType="java.util.HashMap" >
+
+		{call aSP_ImportSQLHandLog(#{id,mode=IN,jdbcType=INTEGER},#{corpid,mode=IN,jdbcType=INTEGER},#{result,mode=OUT,jdbcType=INTEGER})}
+	</select>
+	<!--批量考勤确认-->
+	<select id="aSPAnalResuBatchConfirm" statementType="CALLABLE" resultType="java.util.Map"  parameterType="java.util.HashMap" >
+
+		{call aSP_AnalResuBatchConfirm(#{depid,mode=IN,jdbcType=INTEGER},#{badge,mode=IN,jdbcType=VARCHAR},#{begindate,mode=IN,jdbcType=VARCHAR},#{enddate,mode=IN,jdbcType=VARCHAR},#{agentmode,mode=IN,jdbcType=INTEGER},#{userid,mode=IN,jdbcType=INTEGER},#{result,mode=OUT,jdbcType=INTEGER})}
+	</select>
+	<!--考勤确认-->
+	<select id="aSPAnalResuConfirm" statementType="CALLABLE" resultType="java.util.Map"  parameterType="java.util.HashMap" >
+
+		{call aSP_AnalResuConfirm(#{term,mode=IN,jdbcType=VARCHAR},#{eid,mode=IN,jdbcType=INTEGER},#{agentmode,mode=IN,jdbcType=INTEGER},#{userid,mode=IN,jdbcType=INTEGER},#{result,mode=OUT,jdbcType=INTEGER})}
+	</select>
+
+	<!--考勤取消-->
+	<select id="aSPAnalResuCancel" statementType="CALLABLE" resultType="java.util.Map"  parameterType="java.util.HashMap" >
+
+		{call aSP_AnalResuCancel(#{term,mode=IN,jdbcType=VARCHAR},#{eid,mode=IN,jdbcType=INTEGER},#{agentmode,mode=IN,jdbcType=INTEGER},#{result,mode=OUT,jdbcType=INTEGER})}
+	</select>
+
+	<!--考勤分析-->
+	<select id="aSPAnalysisSimple" statementType="CALLABLE" resultType="java.util.Map"  parameterType="java.util.HashMap" >
+
+		{call aSP_AnalysisSimple(#{depid,mode=IN,jdbcType=INTEGER},#{badge,mode=IN,jdbcType=VARCHAR},#{begindate,mode=IN,jdbcType=VARCHAR},#{enddate,mode=IN,jdbcType=VARCHAR},#{agentmode,mode=IN,jdbcType=INTEGER},#{userid,mode=IN,jdbcType=INTEGER},#{result,mode=OUT,jdbcType=INTEGER})}
+	</select>
+
+	<!--考勤取消-->
+	<select id="aSPCardHandleAdd" statementType="CALLABLE" resultType="java.util.Map"  parameterType="java.util.HashMap" >
+
+		{call aSP_CardHandleAdd(#{eid,mode=IN,jdbcType=INTEGER},#{term,mode=IN,jdbcType=VARCHAR},#{agentmode,mode=IN,jdbcType=INTEGER},#{result,mode=OUT,jdbcType=INTEGER})}
+	</select>
+
+	<!--考勤初始化-->
+	<select id="aSPAttendMonthInit" statementType="CALLABLE" resultType="java.util.Map"  parameterType="java.util.HashMap" >
+
+		{call aSP_AttendMonthInit(#{term,mode=IN,jdbcType=VARCHAR},#{userid,mode=IN,jdbcType=INTEGER},#{agentmode,mode=IN,jdbcType=INTEGER},#{result,mode=OUT,jdbcType=INTEGER})}
+	</select>
+
+	<!--考勤汇总-->
+	<select id="aSPAttendMonthCalc" statementType="CALLABLE" resultType="java.util.Map"  parameterType="java.util.HashMap" >
+
+		{call aSP_AttendMonthCalc(#{agentmode,mode=IN,jdbcType=INTEGER},#{result,mode=OUT,jdbcType=INTEGER})}
+	</select>
+	<!--考勤结算-->
+	<select id="aSPAttendMonthSubmit" statementType="CALLABLE" resultType="java.util.Map"  parameterType="java.util.HashMap" >
+
+		{call aSP_AttendMonthSubmit(#{agentmode,mode=IN,jdbcType=INTEGER},#{userid,mode=IN,jdbcType=INTEGER},#{result,mode=OUT,jdbcType=INTEGER})}
+	</select>
+
+	<!--考勤封账-->
+	<select id="aSPAttendMonthClose" statementType="CALLABLE" resultType="java.util.Map"  parameterType="java.util.HashMap" >
+
+		{call aSPAttendMonthClose(#{agentmode,mode=IN,jdbcType=INTEGER},#{result,mode=OUT,jdbcType=INTEGER})}
+	</select>
+
+	<!--年度考勤区间初始化-->
+	<select id="aSPAttendPeriods" statementType="CALLABLE" resultType="java.util.Map"  parameterType="java.util.HashMap" >
+
+		{call aSP_AttendPeriods(#{term,mode=IN,jdbcType=VARCHAR},#{agentmode,mode=IN,jdbcType=INTEGER},#{result,mode=OUT,jdbcType=INTEGER})}
+	</select>
+
+	<!--轮班组排班-->
+	<select id="aSPGroupTurnRun" statementType="CALLABLE" resultType="java.util.Map"  parameterType="java.util.HashMap" >
+
+		{call aSP_GroupTurnRun(#{term,mode=IN,jdbcType=VARCHAR},#{agentmode,mode=IN,jdbcType=INTEGER},#{result,mode=OUT,jdbcType=INTEGER})}
+	</select>
+	<!--自动排班-->
+	<select id="aSPShiftTurnRun" statementType="CALLABLE" resultType="java.util.Map"  parameterType="java.util.HashMap" >
+
+		{call aSP_ShiftTurnRunEasy(#{term,mode=IN,jdbcType=VARCHAR},#{agentmode,mode=IN,jdbcType=INTEGER},#{userid,mode=IN,jdbcType=INTEGER},#{result,mode=OUT,jdbcType=INTEGER})}
+	</select>
+
+	<!--添加到手动排班-->
+	<select id="aSPShiftHandleAddEmp" statementType="CALLABLE" resultType="java.util.Map"  parameterType="java.util.HashMap" >
+
+		{call aSP_ShiftHandleAddEmp(#{eid,mode=IN,jdbcType=INTEGER},#{term,mode=IN,jdbcType=VARCHAR},#{result,mode=OUT,jdbcType=INTEGER})}
+	</select>
+
+	<!--手动排班-->
+	<select id="aSPShiftHandleTurnRun" statementType="CALLABLE" resultType="java.util.Map"  parameterType="java.util.HashMap" >
+
+		{call aSP_ShiftHandleTurnRun(#{term,mode=IN,jdbcType=VARCHAR},#{eid,mode=IN,jdbcType=INTEGER},#{userid,mode=IN,jdbcType=INTEGER},#{result,mode=OUT,jdbcType=INTEGER})}
+	</select>
+
+
+
+
+
+
+
+
+	<!--日统计结果-->
+	<select id="listatShiftStatistByEid" resultType="java.util.Map">
+		select  id,term,eid,facttwid,factamount,isexception,twid,attendid,initializedby,
+		initializedtime,amount,unit,handflag,remark,initialized
+			from atshift_details where
+			eid= #{eid} and corpcode = #{corpcode}
+			and date_format(term, '%Y-%m-%d') = date_format(now(), '%Y-%m-%d')
+
+	</select>
+
+	<!--当日刷卡记录-->
+	<select id="listaVWCardRecordByEid" resultType="java.util.Map">
+		select  badge,name,depid,id,eid,cardid,term,macid,xdatetime,inoutflag,mode,isdisable,seqid,handflag,initialized,remark
+			from aVW_Card_Record where
+			eid= #{eid} and corpcode = #{corpcode}
+			and date_format(term, '%Y-%m-%d') = date_format(now(), '%Y-%m-%d')
+
+	</select>
+
+	<!--当日补卡登记-->
+	<select id="listatCardLostRegisterByEid" resultType="java.util.Map">
+		select  id,term,eid,badge,name,compid,depid,jobid,xdatetime,inoutflag,shiftterm,reason,flag,wfstatus,wfinstanceid,cardlostplace,wfinstid,wfguid,initialized,initializedby,initializedtime,submit,submitby,submittime,closed,closedby,closedtime,remark
+			from atCardLost_Register where
+			eid= #{eid} and corpcode = #{corpcode}
+			and date_format(term, '%Y-%m-%d') = date_format(now(), '%Y-%m-%d')
+
+	</select>
+
+
+
+
+
+	<!--日汇总结果-->
+	<select id="listAvwShiftDayPageBySql" resultType="java.util.Map">
+		SELECT term,eid,badge,name,compid,depid,jobid,groupid,shift,isexception,begintime,endtime,dnan,cardbegintime1,cardendtime1,cardbegintime2,cardendtime2,cardbegintime3,
+		cardendtime3,processflag,analymode,cder,pnhr,pndy,wkhr,wkdy,limn,eomn,litm,eotm,abhr,abdy,uahr,o
+		FROM avw_shift_day WHERE corpcode = #{query.corpcode}
+
+		<if test="query.term1 != null and query.term1!= ''">
+			AND DATE_FORMAT( term, '%Y-%m-%d' ) >=#{query.term1}
+		</if>
+		<if test="query.term2 != null and query.term2!= ''">
+			AND DATE_FORMAT( term, '%Y-%m-%d' )  &lt;=#{query.term1}
+		</if>
+		<if test="query.depid != null and query.depid!= ''">
+			AND depid =#{query.jobid}
+		</if>
+		<if test="query.jobid != null and query.jobid!= ''">
+			AND jobid =#{query.jobid}
+		</if>
+
+
+	</select>
+</mapper>

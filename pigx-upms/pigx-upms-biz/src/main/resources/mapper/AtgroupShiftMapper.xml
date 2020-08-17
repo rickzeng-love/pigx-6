@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.AtgroupShiftMapper">
+
+  <resultMap id="atgroupShiftMap" type="com.pig4cloud.pigx.admin.entity.AtgroupShift">
+                  <id property="id" column="ID"/>
+                        <result property="groupid" column="GroupID"/>
+                        <result property="shift" column="Shift"/>
+                        <result property="xorder" column="xOrder"/>
+                        <result property="remark" column="Remark"/>
+                        <result property="initialized" column="Initialized"/>
+                        <result property="corpid" column="CorpID"/>
+                        <result property="corpcode" column="CorpCode"/>
+
+	  <collection property="shifttype" ofType="com.pig4cloud.pigx.admin.entity.AtshiftType">
+		  <id property="id" column="ID"/>
+		  <result property="shift" column="Shift"/>
+		  <result property="type" column="type"/>
+		  <result property="issection" column="IsSection"/>
+		  <result property="title" column="Title"/>
+		  <result property="begintime" column="Begintime"/>
+		  <result property="endtime" column="Endtime"/>
+		  <result property="begintime2" column="Begintime2"/>
+		  <result property="endtime2" column="Endtime2"/>
+		  <result property="begintime3" column="Begintime3"/>
+		  <result property="endtime3" column="Endtime3"/>
+		  <result property="isrest" column="IsRest"/>
+		  <result property="restbegintime" column="RestBegintime"/>
+		  <result property="restendtime" column="RestEndtime"/>
+		  <result property="scanbegintime" column="ScanBegintime"/>
+		  <result property="scanendtime" column="ScanEndtime"/>
+		  <result property="xhours" column="xHours"/>
+		  <result property="xorder" column="xOrder"/>
+		  <result property="remark" column="Remark"/>
+		  <result property="initialized" column="Initialized"/>
+		  <result property="submit" column="Submit"/>
+		  <result property="isdisabled" column="IsDisabled"/>
+		  <result property="agentmode" column="AgentMode"/>
+		  <result property="ischeck" column="IsCheck"/>
+		  <result property="maxot" column="MaxOT"/>
+		  <result property="btscanbegintime" column="BTScanBegintime"/>
+		  <result property="btscanendtime" column="BTScanEndtime"/>
+		  <result property="etscanbegintime" column="ETScanBegintime"/>
+		  <result property="etscanendtime" column="ETScanEndtime"/>
+		  <result property="btscanbegintime2" column="BTScanBegintime2"/>
+		  <result property="btscanendtime2" column="BTScanEndtime2"/>
+		  <result property="etscanbegintime2" column="ETScanBegintime2"/>
+		  <result property="etscanendtime2" column="ETScanEndtime2"/>
+		  <result property="btscanbegintime3" column="BTScanBegintime3"/>
+		  <result property="btscanendtime3" column="BTScanEndtime3"/>
+		  <result property="etscanbegintime3" column="ETScanBegintime3"/>
+		  <result property="etscanendtime3" column="ETScanEndtime3"/>
+		  <result property="corpid" column="CorpID"/>
+		  <result property="corpcode" column="CorpCode"/>
+	  </collection>
+            </resultMap>
+
+
+
+
+	<!--获取编辑界面上工作日的数据-->
+	<select id="listAtgroupWordDayInfo" resultType="java.util.Map">
+		select a.*,b.title As shiftName,
+		case when b.type=1 then CONCAT(afn_attendDateTimeChg(b.begintime),'-',afn_attendDateTimeChg(b.endtime))
+		when b.type=2 then CONCAT(afn_attendDateTimeChg(b.begintime),'-',afn_attendDateTimeChg(b.endtime),'|',afn_attendDateTimeChg(b.begintime2),'-',afn_attendDateTimeChg(b.endtime2))
+		when b.type=3 then CONCAT(afn_attendDateTimeChg(b.begintime),'-',afn_attendDateTimeChg(b.endtime),'|',afn_attendDateTimeChg(b.begintime2),'-',afn_attendDateTimeChg(b.endtime2),'|',afn_attendDateTimeChg(b.begintime3),'-',afn_attendDateTimeChg(b.endtime3))
+		else null end As AttendTime
+		from atgroup_shift a,atshift_type b
+		where a.Shift=b.Shift
+		  and a.corpcode = #{corpcode}
+		  and a.groupid = #{groupid}
+	</select>
+
+</mapper>

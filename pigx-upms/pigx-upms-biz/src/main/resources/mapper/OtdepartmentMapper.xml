@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.OtdepartmentMapper">
+
+  <resultMap id="otdepartmentMap" type="com.pig4cloud.pigx.admin.entity.Otdepartment">
+                  <id property="depid" column="DepID"/>
+                        <result property="corpid" column="CorpID"/>
+                        <result property="corpcode" column="CorpCode"/>
+                        <result property="depcode" column="DepCode"/>
+                        <result property="title" column="Title"/>
+                        <result property="depabbr" column="DepAbbr"/>
+                        <result property="compid" column="CompID"/>
+                        <result property="adminid" column="AdminID"/>
+                        <result property="functionid" column="FunctionID"/>
+                        <result property="depgrade" column="DepGrade"/>
+                        <result property="deptype" column="DepType"/>
+                        <result property="depproperty" column="DepProperty"/>
+                        <result property="depcost" column="DepCost"/>
+                        <result property="director" column="Director"/>
+                        <result property="director2" column="Director2"/>
+                        <result property="depemp" column="DepEmp"/>
+                        <result property="depnum" column="DepNum"/>
+                        <result property="effectdate" column="EffectDate"/>
+                        <result property="isou" column="ISOU"/>
+                        <result property="xorder" column="xOrder"/>
+                        <result property="isdisabled" column="isDisabled"/>
+                        <result property="depemail" column="DepEmail"/>
+                        <result property="disableddate" column="DisabledDate"/>
+                        <result property="remark" column="Remark"/>
+                        <result property="groupname" column="GroupName"/>
+                        <result property="groupid" column="GroupID"/>
+                        <result property="groupemail" column="GroupEmail"/>
+                        <result property="agent" column="Agent"/>
+                        <result property="assistant" column="assistant"/>
+                        <result property="depstr" column="DepStr"/>
+                        <result property="ouid" column="OUID"/>
+                        <result property="statisticdep" column="StatisticDep"/>
+                        <result property="statisticdep2" column="StatisticDep2"/>
+                        <result property="traindep" column="TrainDep"/>
+                        <result property="wxworkorgid" column="WXWorkOrgID"/>
+                        <result property="updatedate" column="UpdateDate"/>
+                        <result property="dingorgid" column="DingOrgID"/>
+                        <result property="delFlag" column="del_flag"/>
+                        <result property="tenantId" column="tenant_id"/>
+	  					<result property="province" column="province"/>
+	  					<result property="city" column="city"/>
+	                    <result property="district" column="district"/>
+					   <result property="regby" column="regby"/>
+					   <result property="regbyname" column="regbyname"/>
+					   <result property="regdate" column="regdate"/>
+	  <result property="qywx_flag" column="qywxFlag"/>
+	  <result property="qywx_corpid" column="qywxCorpid"/>
+
+
+            </resultMap>
+	<!-->
+    - 部门代码已存在
+    <-->
+	<select id="listOtdepartmentByDepCode" resultType="java.util.Map">
+		SELECT
+		1
+		FROM
+		otDepartment where corpcode = #{corpcode} and depid!=#{depid} and DepCode = #{depcode}
+
+	</select>
+	<!-->
+	- 上级部门必须存在且有效，或者生效日期必须晚于上级部门的创建日期！
+	<-->
+	<select id="listOtdepartmentByAdminID" resultType="java.util.Map">
+		Select
+		1
+		From otDepartment  Where DepID = #{adminid} And ifnull(isdisabled,0)=0 and datediff(#{effectdate},effectdate)>=0
+
+	</select>
+	<!-->
+    - 所属公司必须存在且有效,或生效日期晚于所属公司的创建日期！
+    <-->
+	<select id="listOtdepartmentByCompID" resultType="java.util.Map">
+		Select
+		1
+		From otcompany  Where CompID = #{compid} And ifnull(isdisabled,0)=0 and datediff(#{effectdate},effectdate)>=0
+
+	</select>
+	<!-->
+    - 部门上级必须在所属公司里的部门！
+    <-->
+	<select id="listOtdepartmentByAdminIDinCompID" resultType="java.util.Map">
+
+		select depid from otDepartment where compid = #{compid} and depid = IFNULL( #{adminid},'')
+
+	</select>
+	<!-->
+    - 失效的部门不能做变更！
+    <-->
+	<select id="listOtdepartmentByDisableDepID" resultType="java.util.Map">
+		SELECT 1 FROM otDepartment WHERE DepID= #{depid} AND IFNULL(isDisabled,0)=1
+
+	</select>
+	<!-->
+    - 信息没有发生变化！
+    <-->
+	<select id="listOtdepartmentByDepAbbr" resultType="java.util.Map">
+		SELECT 1 FROM otDepartment WHERE IFNULL(DepCode,'')=#{depcode} AND IFNULL(Title,'')=#{title} And IFNULL(DepAbbr,'')=#{depabbr}
+		AND IFNULL(CompID,0)=#{compid} AND IFNULL(AdminID,0)=#{adminid} AND IFNULL(DepGrade,0)=#{depgrade}
+		And IFNULL(DepType,0)=#{deptype} AND IFNULL(DepProperty,0)=#{depproperty} AND IFNULL(DepCost,0)=#{depcost}
+		And IFNULL(Director,0)=#{director} AND IFNULL(Director2,0)=#{director2} AND IFNULL(DepEmp,0)=#{depemp}
+		And IFNULL(DepNum,0)=#{depnum}
+
+	</select>
+	<!-->
+    - 部门失效时请先处理其下属部门！
+    <-->
+	<select id="listOtdepartmentByDepLoseEfficacy" resultType="java.util.Map">
+		SELECT 1 FROM otDepartment where AdminID =#{depid} AND IFNULL(isDisabled,0)=0
+
+	</select>
+	<!-->
+    - 部门失效时请先处理其下属岗位！
+    <-->
+	<select id="listOtdepartmentByDepLoseEfficacyJob" resultType="java.util.Map">
+		select 1 from otJob where depid = #{depid} AND IFNULL(isDisabled,0)=0
+
+	</select>
+	<!-->
+    - 部门失效时请先处理部门内部在职员工！
+    <-->
+	<select id="listOtdepartmentByDepLoseEfficacyEmployee" resultType="java.util.Map">
+		select 1 from etEmployee where depid = #{depid} AND EmpStatus NOT IN(6,7)
+	</select>
+	<!-->
+    - 部门失效时请先处理兼职对信息！
+    <-->
+	<select id="listOtdepartmentByDepLoseEfficacyTeam" resultType="java.util.Map">
+		SELECT 1 FROM  etPartOrg_All  where PartDepID=#{depid}  AND IFNULL(EndDate,'')!=''
+	</select>
+
+	<!--组织模块报表-->
+	<!--部门数量-->
+	<select id="listOtdepartmentByCount" resultType="java.util.Map">
+		SELECT count(1) depcount FROM otDepartment where corpcode=#{corpcode} and IFNULL(isDisabled,0)=0
+	</select>
+	<!--岗位数量-->
+	<select id="listOtjobByCount" resultType="java.util.Map">
+		SELECT count(1) jobcount FROM otJob where corpcode=#{corpcode} and IFNULL(isDisabled,0)=0
+	</select>
+	<!--岗位类别数量-->
+	<select id="listOtcdjobtypeByCount" resultType="java.util.Map">
+		SELECT count(1) jobtypecount FROM otcd_jobtype where corpcode=#{corpcode} and IFNULL(isDisabled,0)=0
+	</select>
+	<!--职务数量-->
+	<select id="listOtcdPositionByCount" resultType="java.util.Map">
+		SELECT count(1) positioncount FROM otcd_position where corpcode=#{corpcode} and IFNULL(isDisabled,0)=0
+	</select>
+	<!--部门概况-->
+	<select id="listOtdepartmentByPeople" resultType="java.util.Map">
+		select b.title,b.count from
+		(SELECT a.title title,(select ifnull(count(1),0) count from etemployee where corpcode=#{corpcode} and depid = a.depid) count FROM otDepartment a where a.corpcode=#{corpcode} and IFNULL(a.isDisabled,0)=0) b
+		order by b.count desc
+	</select>
+
+	<!--岗位概况-->
+	<select id="listOtjobByPeople" resultType="java.util.Map">
+		select b.title,b.count from
+		(SELECT a.title title,(select ifnull(count(1),0) count from etemployee where corpcode=#{corpcode} and depid = a.jobid) count FROM otjob a where a.corpcode=#{corpcode} and IFNULL(a.isDisabled,0)=0) b
+		order by b.count desc
+	</select>
+
+
+	<!--部门人员流动-->
+	<!--入职-->
+	<select id="listEmployeeFlowRuZhiByDept" resultType="java.util.Map">
+      select b.title,b.count from
+		(select a.depid,(select max(title) from otdepartment where depid = a.depid) title,ifnull(count(1),0) count from etstaff_all a
+		where a.corpcode=#{corpcode}
+		and a.type = #{type}
+		group by a.depid
+		order by a.depid) b
+	</select>
+	<!--离职-->
+	<select id="listEmployeeLiZhiFlowByDept" resultType="java.util.Map">
+		  select b.title,b.count from
+		(select a.depid,(select max(title) from otdepartment where depid = a.depid) title,ifnull(count(1),0) count from etleave_all a
+		where a.corpcode=#{corpcode}
+		and a.type = #{type}
+		group by a.depid
+		order by a.depid) b
+	</select>
+
+	<!--岗位人员流动-->
+	<!--入职-->
+	<select id="listEmployeeFlowRuZhiByJob" resultType="java.util.Map">
+      select b.title,b.count from
+		(select a.jobid,(select max(title) from otjob where jobid = a.jobid) title,ifnull(count(1),0) count from etstaff_all a
+		where a.corpcode=#{corpcode}
+		and a.type = #{type}
+		group by a.jobid
+		order by a.jobid) b
+	</select>
+	<!--离职-->
+	<select id="listEmployeeLiZhiFlowByJob" resultType="java.util.Map">
+		  select b.title,b.count from
+		(select a.jobid,(select max(title) from otjob where jobid = a.jobid) title,ifnull(count(1),0) count from etleave_all a
+		where a.corpcode=#{corpcode}
+		and a.type = #{type}
+		group by a.jobid
+		order by a.jobid) b
+	</select>
+
+
+
+	<!--部门管理详情接口1-->
+	<select id="listOtdepartmentByDepId" resultType="java.util.Map">
+
+		select
+		(select title from Otdepartment where depid = a.adminid) admintitle,
+		(select count(1) from Otdepartment where adminid = a.depid) lowertitle,
+		(select count(1) from etemployee where depid = a.depid) zzcount,
+		(select count(1) from otjob where depid = a.depid) jobcount
+		from Otdepartment a
+		where a.depid = #{depid}
+
+	</select>
+
+	<!--部门管理详情接口2--><!--empstatus=6是已离职员工1111-->
+	<select id="listEmployeeLiByDepId" resultType="java.util.Map">
+		select a.name name,a.badge badge,a.jobid jobid,o.title jobName,
+			(select title from etcd_emptype where id = a.emptype) emptype,
+			a.joindate joindate
+		from etemployee a left join otjob o on a.jobid=o.jobid
+		where a.depid = #{depid}
+			and empstatus!=6
+	</select>
+	<!--部门管理详情接口3-->
+	<select id="listOtdepartmentByDepIdForDeatail" resultType="java.util.Map">
+
+		select title,depabbr,depcode,(select title from sys_dict_item where id = a.deptype) deptype,
+		(select  ifnull(max(name),'') from etemployee where eid=a.director) director,
+		(select  ifnull(max(name),'') from etemployee where eid=a.director2) director2,
+		(select title from Otdepartment where depid = a.adminid) admintitle,
+		depemp,depnum,case when isou = 0 then '是' else '否' end isou,effectdate,
+		decription,
+		orgfunction
+		from Otdepartment a
+		where a.depid = #{depid}
+
+	</select>
+	<!--部门管理详情接口4-->
+	<select id="listOtdepchangeAll" resultType="java.util.Map">
+		select regdate,
+		from otdepchange_all a
+		where corpcode = #{corpcode}
+	</select>
+
+	<!--PC端岗位管理列表 -->
+	<select id="listJobTreePC" resultType="com.pig4cloud.pigx.admin.api.dto.DeptTreeOrg" parameterType="com.pig4cloud.pigx.admin.entity.Otdepartment">
+
+			select b.depid as id, b.title,b.depcode,
+			depabbr,(select title from sys_dict_item where id = b.deptype) deptype,
+			(select  title from otdepartment where depid=b.adminid) adminname,
+			effectdate,orgfunction,decription,
+					(select count(1) from etemployee where  depid=b.depid and empstatus in(1,2,4)) zaizhi,
+					(select count(1) from etemployee where  depid=b.depid and empstatus in(1,2,4) and emptype !=7) qrz,
+					(select count(1) from etemployee where  depid=b.depid and empstatus in(1,2,4) and emptype=7) fqrz,
+					depnum,
+					((select ifnull(count(1),0) from etemployee where  depid=b.depid and empstatus in(1,2,4)) -ifnull(depnum,0)) qbcb,
+					(select  ifnull(max(name),'') from etemployee where eid=b.director) director,
+					(select  ifnull(max(name),'') from etemployee where eid=b.director2) director2,
+					case when b.isou =1 then '是' else '否' end isou,
+					b.xorder,
+					false isExpand,
+					case when (select max(adminid) from otdepartment where  adminid = b.depid) is null then false
+					 else true end hasChildren
+			from otdepartment b where b.corpcode = #{query.corpcode} and b.adminid is null and b.isdisabled = 0
+	</select>
+
+
+	<!--根据compid获取部门列表 -->
+	<select id="listOtdepartmentByCompid" resultType="java.util.Map" parameterType="com.pig4cloud.pigx.admin.entity.Otdepartment">
+
+			select b.depid as id, b.title,b.depcode,
+			depabbr,(select title from sys_dict_item where id = b.deptype) deptype,
+			(select  title from otdepartment where depid=b.adminid) adminname,
+			effectdate,orgfunction,decription,
+					(select count(1) from etemployee where  depid=b.depid and empstatus in(1,2,4)) zaizhi,
+					(select count(1) from etemployee where  depid=b.depid and empstatus in(1,2,4) and emptype !=7) qrz,
+					(select count(1) from etemployee where  depid=b.depid and empstatus in(1,2,4) and emptype=7) fqrz,
+					depnum,
+					((select ifnull(count(1),0) from etemployee where  depid=b.depid and empstatus in(1,2,4)) -ifnull(depnum,0)) qbcb,
+					(select  ifnull(max(name),'') from etemployee where eid=b.director) director,
+					(select  ifnull(max(name),'') from etemployee where eid=b.director2) director2,
+					case when b.isou =1 then '是' else '否' end isou,
+					b.xorder,
+					false isExpand,
+					case when (select max(adminid) from otdepartment where  adminid = b.depid) is null then false
+					 else true end hasChildren
+			from otdepartment b where b.corpcode = #{query.corpcode} and b.compid= #{query.compid} and b.isdisabled = 0
+	</select>
+
+	<!--根据depid获取下级部门列表 -->
+	<select id="listOtdepartmentByDepid" resultType="java.util.Map" parameterType="com.pig4cloud.pigx.admin.entity.Otdepartment">
+
+			select b.depid as id, b.title,b.depcode,
+			depabbr,(select title from sys_dict_item where id = b.deptype) deptype,
+			(select  title from otdepartment where depid=b.adminid) adminname,
+			effectdate,orgfunction,decription,
+					(select count(1) from etemployee where  depid=b.depid and empstatus in(1,2,4)) zaizhi,
+					(select count(1) from etemployee where  depid=b.depid and empstatus in(1,2,4) and emptype !=7) qrz,
+					(select count(1) from etemployee where  depid=b.depid and empstatus in(1,2,4) and emptype=7) fqrz,
+					depnum,
+					((select ifnull(count(1),0) from etemployee where  depid=b.depid and empstatus in(1,2,4)) -ifnull(depnum,0)) qbcb,
+					(select  ifnull(max(name),'') from etemployee where eid=b.director) director,
+					(select  ifnull(max(name),'') from etemployee where eid=b.director2) director2,
+					case when b.isou =1 then '是' else '否' end isou,
+					b.xorder,
+					false isExpand,
+					case when (select max(adminid) from otdepartment where  adminid = b.depid) is null then false
+					 else true end hasChildren
+			from otdepartment b where b.corpcode = #{query.corpcode} and b.AdminID= #{query.depid} and b.isdisabled = 0
+	</select>
+	<!--根据depid获取下级部门列表 -->
+	<select id="listOtdepartmentByAdminid" resultType="java.util.Map" parameterType="com.pig4cloud.pigx.admin.entity.Otdepartment">
+
+			select b.depid as id, b.title,b.depcode,
+			depabbr,(select title from sys_dict_item where id = b.deptype) deptype,
+			(select  title from otdepartment where depid=b.adminid) adminname,
+			effectdate,orgfunction,decription,
+					(select count(1) from etemployee where  depid=b.depid and empstatus in(1,2,4)) zaizhi,
+					(select count(1) from etemployee where  depid=b.depid and empstatus in(1,2,4) and emptype !=7) qrz,
+					(select count(1) from etemployee where  depid=b.depid and empstatus in(1,2,4) and emptype=7) fqrz,
+					depnum,
+					((select ifnull(count(1),0) from etemployee where  depid=b.depid and empstatus in(1,2,4)) -ifnull(depnum,0)) qbcb,
+					(select  ifnull(max(name),'') from etemployee where eid=b.director) director,
+					(select  ifnull(max(name),'') from etemployee where eid=b.director2) director2,
+					case when b.isou =1 then '是' else '否' end isou,
+					b.xorder,
+					false isExpand,
+					case when (select max(adminid) from otdepartment where  adminid = b.depid) is null then false
+					 else true end hasChildren
+			from otdepartment b where b.corpcode = #{query.corpcode} and b.AdminID= #{query.adminid} and b.isdisabled = 0
+	</select>
+
+
+</mapper>

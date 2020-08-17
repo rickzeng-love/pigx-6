@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.AtshiftTypeMapper">
+
+  <resultMap id="atshiftTypeMap" type="com.pig4cloud.pigx.admin.entity.AtshiftType">
+                  <id property="id" column="ID"/>
+                        <result property="shift" column="Shift"/>
+                        <result property="type" column="type"/>
+                        <result property="issection" column="IsSection"/>
+                        <result property="title" column="Title"/>
+                        <result property="begintime" column="Begintime"/>
+                        <result property="endtime" column="Endtime"/>
+                        <result property="begintime2" column="Begintime2"/>
+                        <result property="endtime2" column="Endtime2"/>
+                        <result property="begintime3" column="Begintime3"/>
+                        <result property="endtime3" column="Endtime3"/>
+                        <result property="isrest" column="IsRest"/>
+                        <result property="restbegintime" column="RestBegintime"/>
+                        <result property="restendtime" column="RestEndtime"/>
+                        <result property="scanbegintime" column="ScanBegintime"/>
+                        <result property="scanendtime" column="ScanEndtime"/>
+                        <result property="xhours" column="xHours"/>
+                        <result property="xorder" column="xOrder"/>
+                        <result property="remark" column="Remark"/>
+                        <result property="initialized" column="Initialized"/>
+                        <result property="submit" column="Submit"/>
+                        <result property="isdisabled" column="IsDisabled"/>
+                        <result property="agentmode" column="AgentMode"/>
+                        <result property="ischeck" column="IsCheck"/>
+                        <result property="maxot" column="MaxOT"/>
+                        <result property="btscanbegintime" column="BTScanBegintime"/>
+                        <result property="btscanendtime" column="BTScanEndtime"/>
+                        <result property="etscanbegintime" column="ETScanBegintime"/>
+                        <result property="etscanendtime" column="ETScanEndtime"/>
+                        <result property="btscanbegintime2" column="BTScanBegintime2"/>
+                        <result property="btscanendtime2" column="BTScanEndtime2"/>
+                        <result property="etscanbegintime2" column="ETScanBegintime2"/>
+                        <result property="etscanendtime2" column="ETScanEndtime2"/>
+                        <result property="btscanbegintime3" column="BTScanBegintime3"/>
+                        <result property="btscanendtime3" column="BTScanEndtime3"/>
+                        <result property="etscanbegintime3" column="ETScanBegintime3"/>
+                        <result property="etscanendtime3" column="ETScanEndtime3"/>
+                        <result property="corpid" column="CorpID"/>
+                        <result property="corpcode" column="CorpCode"/>
+            </resultMap>
+
+	<!--获取打卡模式的数据源-->
+	<select id="listAtshiftTypeType" resultType="java.util.Map">
+		select 1 As ID,'一次' As Title
+		union
+		select 2 As ID,'两次' As Title
+		union
+		select 3 As ID,'三次' As Title
+	</select>
+
+
+	<!--获取当前用户默认的考勤账套-->
+	<select id="listAtshiftTypeAgentMode" resultType="java.util.Map">
+		Select Top 1 AID from atCD_AgentMode_User Where UserID=#{userID} And CorpCode=#{corpcode} And isDefault=1
+	</select>
+
+	<!--计算班次的工作时长-->
+	<select id="listAtshiftTypeXHours" resultType="java.util.Map" parameterType="java.util.Map">
+		Select Case When #{Type}=1
+		Then Case When IFNULL(#{IsRest]},0)=1
+				Then (Datediff(mi,dbo.aFN_GenDateTime(GetDate(),#{Begintime}),dbo.aFN_GenDateTime(GetDate(),#{Endtime}))
+					-Datediff(mi,dbo.aFN_GenDateTime(GetDate(),#{RestBegintime}),dbo.aFN_GenDateTime(GetDate(),#{RestEndtime}))
+					)/60.0
+				Else Datediff(mi,dbo.aFN_GenDateTime(GetDate(),#{Begintime}),dbo.aFN_GenDateTime(GetDate(),#{Endtime}))/60.0 End
+		When #{Type}=2
+		Then (Datediff(mi,dbo.aFN_GenDateTime(GetDate(),#{Begintime}),dbo.aFN_GenDateTime(GetDate(),#{Endtime}))
+			+Datediff(mi,dbo.aFN_GenDateTime(GetDate(),#{Begintime2}),dbo.aFN_GenDateTime(GetDate(),#{Endtime2}))
+			)/60.0
+		When #{Type}=3
+		Then (Datediff(mi,dbo.aFN_GenDateTime(GetDate(),#{Begintime}),dbo.aFN_GenDateTime(GetDate(),#{Endtime}))
+			+Datediff(mi,dbo.aFN_GenDateTime(GetDate(),#{Begintime2}),dbo.aFN_GenDateTime(GetDate(),#{Endtime2}))
+			+Datediff(mi,dbo.aFN_GenDateTime(GetDate(),#{Begintime3}),dbo.aFN_GenDateTime(GetDate(),#{Endtime3}))
+			)/60.0
+		Else 0 End As xHours
+	</select>
+
+
+	<!--班次查询列表-->
+	<select id="listAtshiftType" resultType="java.util.Map">
+		select a.*,case when a.type=1 then CONCAT(afn_attendDateTimeChg(a.begintime),'-',afn_attendDateTimeChg(a.endtime))
+		when a.type=2 then CONCAT(afn_attendDateTimeChg(a.begintime),'-',afn_attendDateTimeChg(a.endtime),'|',afn_attendDateTimeChg(a.begintime2),'-',afn_attendDateTimeChg(a.endtime2))
+		when a.type=3 then CONCAT(afn_attendDateTimeChg(a.begintime),'-',afn_attendDateTimeChg(a.endtime),'|',afn_attendDateTimeChg(a.begintime2),'-',afn_attendDateTimeChg(a.endtime2),'|',afn_attendDateTimeChg(a.begintime3),'-',afn_attendDateTimeChg(a.endtime3))
+		else null end As AttendTime
+		from atshift_type a
+		where a.Shift Not In('R','X')
+		  and a.corpcode = #{query.corpcode}
+		<if test="query.title != null and query.title!= ''">
+			AND a.title LIKE CONCAT('%',#{query.title},'%')
+		</if>
+	</select>
+
+	<!--根据考勤管理员为UserID值的考勤账套关联的班次信息-->
+	<select id="listAtshiftTypeByUserId" resultType="java.util.Map">
+		Select Shift As ID,Title from atShift_Type
+		Where AgentMode In(Select ID from aVW_AgentMode Where UserID=#{UserID})
+		  And corpcode = #{corpcode}
+		  And Shift Not in ('X')
+	</select>
+
+	<!--考勤组管理的工作日更改班次的弹出界面班次列表-->
+	<select id="listAtshiftTypeSelList" resultType="java.util.Map">
+		Select a.Shift As ID,concat(a.Title,'|', case when a.type=1 then CONCAT(afn_attendDateTimeChg(a.begintime),'-',afn_attendDateTimeChg(a.endtime))
+				when a.type=2 then CONCAT(afn_attendDateTimeChg(a.begintime),'-',afn_attendDateTimeChg(a.endtime),'|',afn_attendDateTimeChg(a.begintime2),'-',afn_attendDateTimeChg(a.endtime2))
+				when a.type=3 then CONCAT(afn_attendDateTimeChg(a.begintime),'-',afn_attendDateTimeChg(a.endtime),'|',afn_attendDateTimeChg(a.begintime2),'-',afn_attendDateTimeChg(a.endtime2),'|',afn_attendDateTimeChg(a.begintime3),'-',afn_attendDateTimeChg(a.endtime3))
+				else null end) As Title,
+	  			Case When a.Shift=#{shift} Then 1
+				Else 0 End As IsSel
+		from atShift_Type a
+		Where corpcode = #{corpcode}
+		  And Shift Not in ('X')
+	</select>
+
+</mapper>

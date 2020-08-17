@@ -1,0 +1,859 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of sourlistEtEmployeeHMCce code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.EtemployeeMapper">
+
+  <resultMap id="etemployeeMap" type="com.pig4cloud.pigx.admin.entity.Etemployee">
+                  <id property="eid" column="EID"/>
+                        <result property="badge" column="Badge"/>
+                        <result property="name" column="Name"/>
+	  					<result property="name2" column="name2"/>
+                        <result property="ename" column="EName"/>
+                        <result property="corpcode" column="CorpCode"/>
+                        <result property="compid" column="CompID"/>
+                        <result property="depid" column="DepID"/>
+                        <result property="jobid" column="JobID"/>
+                        <result property="empstatus" column="EmpStatus"/>
+                        <result property="reportto" column="ReportTo"/>
+                        <result property="reporttoname" column="ReportToName"/>
+                        <result property="wfreportto" column="wfreportto"/>
+                        <result property="wfreporttoname" column="WfreporttoName"/>
+                        <result property="emptype" column="EmpType"/>
+                        <result property="position" column="Position"/>
+                        <result property="posgrade" column="Posgrade"/>
+                        <result property="empgrade" column="EmpGrade"/>
+                        <result property="workcity" column="WorkCity"/>
+                        <result property="jointype" column="JoinType"/>
+                        <result property="joindate" column="JoinDate"/>
+                        <result property="addsyear" column="AddSYear"/>
+                        <result property="workbegindate" column="WorkBeginDate"/>
+                        <result property="addwyear" column="AddWYear"/>
+                        <result property="jobbegindate" column="JobBeginDate"/>
+                        <result property="pracbegindate" column="PracBeginDate"/>
+                        <result property="practerm" column="PracTerm"/>
+                        <result property="pracenddate" column="PracEndDate"/>
+                        <result property="pracconfdate" column="PracConfDate"/>
+                        <result property="procbegindate" column="ProcBeginDate"/>
+                        <result property="procterm" column="ProcTerm"/>
+                        <result property="procenddate" column="ProcEndDate"/>
+                        <result property="procconfdate" column="ProcConfDate"/>
+                        <result property="probbegindate" column="ProbBeginDate"/>
+                        <result property="probterm" column="ProbTerm"/>
+                        <result property="probenddate" column="ProbEndDate"/>
+                        <result property="probconfdate" column="ProbConfDate"/>
+                        <result property="concount" column="ConCount"/>
+                        <result property="contractunit" column="ContractUnit"/>
+                        <result property="contype" column="ConType"/>
+                        <result property="conproperty" column="ConProperty"/>
+                        <result property="conno" column="ConNo"/>
+                        <result property="conbegindate" column="ConBeginDate"/>
+                        <result property="conterm" column="ConTerm"/>
+                        <result property="conenddate" column="ConEndDate"/>
+                        <result property="constopdate" column="ConStopDate"/>
+                        <result property="leavedate" column="LeaveDate"/>
+                        <result property="leavetype" column="LeaveType"/>
+                        <result property="leavereason" column="LeaveReason"/>
+                        <result property="country" column="Country"/>
+                        <result property="certtype" column="CertType"/>
+                        <result property="certno" column="CertNo"/>
+                        <result property="gender" column="Gender"/>
+                        <result property="birthday" column="BirthDay"/>
+                        <result property="email" column="email"/>
+                        <result property="adaccount" column="ADAccount"/>
+                        <result property="mobile" column="Mobile"/>
+                        <result property="officePhone" column="office_phone"/>
+                        <result property="remark" column="Remark"/>
+                        <result property="empgroup" column="EmpGroup"/>
+                        <result property="empkind" column="EmpKind"/>
+                        <result property="empcategory" column="EmpCategory"/>
+                        <result property="empproperty" column="EmpProperty"/>
+                        <result property="jobgz" column="JobGZ"/>
+                        <result property="wpid" column="WPID"/>
+                        <result property="machineid" column="MachineID"/>
+                        <result property="updatedate" column="UpdateDate"/>
+                        <result property="createdate" column="createdate"/>
+					  <result property="province" column="province"/>
+					  <result property="city" column="city"/>
+					  <result property="district" column="district"/>
+					  <result property="adress" column="adress"/>
+					  <result property="emptype" column="emptype"/>
+					  <result property="marriage" column="Marriage"/>
+					  <result property="nation" column="Nation"/>
+					  <result property="party" column="party"/>
+					  <result property="partydate" column="partydate"/>
+					  <result property="resident" column="Resident"/>
+	    <result property="resident2" column="resident2"/>
+					  <result property="residenttype" column="ResidentType"/>
+					  <result property="residentaddress" column="residentAddress"/>
+					  <result property="address" column="Address"/>
+					  <result property="cert1" column="Cert1"/>
+					  <result property="cert2" column="Cert2"/>
+					  <result property="certindate" column="CertIndate"/>
+					  <result property="wyear" column="Wyear"/>
+					  <result property="health" column="Health"/>
+					  <result property="healthreport" column="HealthReport"/>
+					  <result property="qq" column="QQ"/>
+					  <result property="wechart" column="Wechart"/>
+					  <result property="weibo" column="Weibo"/>
+					  <result property="age" column="age"/>
+	  <result property="age1" column="age1"/>
+	  <result property="age2" column="age2"/>
+	  <result property="day" column="day"/>
+	  				  <result property="portrait" column="portrait"/>
+	  				  <result property="corpid" column="corpid"/>
+
+
+  </resultMap>
+	<!--员工通讯录-->
+	<select id="listAllOtcdEmpgradeWithPinyin" resultType="java.util.HashMap">
+		SELECT b.user_id as userid,b.phone,a.eid,a.badge,a.name,a.jobid,a.depid,a.compid,b.portrait,(select title from otDepartment d where d.depid =a.depid ) as depname,(select title from otjob c where c.jobid =a.jobid ) as jobname  from etemployee a,sys_user b  where a.corpcode = #{corpcode} and a.eid =b.eid and a.empstatus  in(1,2,4,6)
+	</select>
+	<!-- 入：1.黑名单校验；确认时再校验-->
+	<select id="listEtEmployeeBlackList" resultType="java.util.Map">
+            SELECT 1 FROM etLeave_All   WHERE  certno=#{certno} and IFNULL(IsBlackList,0)=1
+      </select>
+	<!--入：2.公司、部门 要有对应关系且都有效，请重新选择-->
+	<select id="listEtEmployeeCDRelationship" resultType="java.util.Map">
+            SELECT 1 FROM otDepartment WHERE  DepID = #{depid} and CompID = #{compid}
+      </select>
+	<!-- 入：3.部门、岗位要有对应关系且都有效，请重新选择；-->
+	<select id="listEtEmployeeCJRelationship" resultType="java.util.Map">
+            SELECT 1 FROM otJob WHERE JobID = #{jobid} and DepID = #{depid} and compid=#{compid}
+      </select>
+	<!--入：4.员工工号已经存在；-->
+	<select id="listEtEmployeeExistsEmployee" resultType="java.util.Map">
+            SELECT 1 FROM etEmployee WHERE  compid=#{compid} and Badge=#{badge}
+     </select>
+	<!--入：4-1.员工号号已存在，正在办理入职手续；-->
+	<select id="listExistsEtstaffRegisterByBadge" resultType="java.util.Map">
+            SELECT 1 FROM etstaff_register WHERE  Badge=#{badge}
+     </select>
+
+
+	<!--入：5.直接主管不存在； -->
+	<select id="listEtEmployeeNotExistsReportTo" resultType="java.util.Map">
+            SELECT eid,name FROM etEmployee where eid = #{reportto}
+      </select>
+	<!--入：6.职能主管不存在； -->
+	<select id="listEtEmployeeNotExistsWFReportTo" resultType="java.util.Map">
+            SELECT 1 FROM etEmployee where wfreportto = #{eid}
+      </select>
+	<!-- 入：7.所选公司不存在；-->
+	<select id="listEtEmployeeNotExistsComp" resultType="java.util.Map">
+		SELECT 1 FROM otCompany where CompID = #{compid}
+     </select>
+	<!--入：8.所选公司已经失效；-->
+	<select id="listEtEmployeeCompIsDisable" resultType="java.util.Map">
+            SELECT 1 FROM otCompany WHERE CompID=#{compid} and IFNULL(isDisabled,0)=1
+      </select>
+	<!--入：9.所选部门不存在；-->
+	<select id="listEtEmployeeNotExistsDept" resultType="java.util.Map">
+            SELECT 1 FROM otdepartment where depid = #{depid}
+     </select>
+	<!--入：10.所选部门已经失效；-->
+	<select id="listEtEmployeeDeptIsDisable" resultType="java.util.Map">
+            SELECT 1 FROM otDepartment WHERE DepID=#{depid} and IFNULL(isDisabled,0)=1
+      </select>
+	<!-- 入：11.所选岗位不存在；-->
+	<select id="listEtEmployeeNotExistsJob" resultType="java.util.Map">
+            SELECT 1 FROM otJob where jobid = #{jobid}
+      </select>
+	<!--入：12.所选岗位已经失效；-->
+	<select id="listEtEmployeeJobIsDisable" resultType="java.util.Map">
+            SELECT 1 FROM otJob WHERE JobID=#{jobid} and IFNULL(isDisabled,0)=1
+      </select>
+	<!-- 入：13.身份证不符合要求，请看身份证验证提示窗口;程序中实现-->
+
+	<!--入：14.手机号与现有人员重复-->
+	<select id="listEtEmployeeMobileRepeat" resultType="java.util.Map">
+		SELECT 1 FROM etEmployee WHERE Mobile=#{mobile} and IFNULL(Mobile,'')!=''
+	</select>
+	<!--入：14-1 手机号与正在办理入职的人员重复-->
+	<select id="listEtstaffRegisterByMobile" resultType="java.util.Map">
+		SELECT 1 FROM etstaff_register WHERE Mobile=#{mobile} and IFNULL(Mobile,'')!='' and id!=#{id}
+	</select>
+
+
+	<!--员工花名册-->
+	<select id="listEtEmployeeHMC" resultType="java.util.Map">
+		SELECT ifnull(a.name,'未设置') name ,a.eid,a.ename,mobile,case when a.gender=1 then '男' when a.gender=2 then '女' else '未知' end gender,
+		TIMESTAMPDIFF(YEAR, a.BirthDay, CURDATE()) age,
+		(select ifnull(title,'未设置') title from otdepartment where depid = a.depid and corpcode=#{query.corpcode}) depname,
+		(select ifnull(title,'未设置') title from otjob where jobid = a.jobid and corpcode=#{query.corpcode}) jobname,
+		(select ifnull(title,'未设置')  title from otcd_position where id = a.Position and corpcode=#{query.corpcode}) positionname,
+		(select name etemployee where eid = a.ReportTo) adminname,
+		(select title from etcd_empstatus where id = a.empstatus) empstatus
+		FROM etEmployee a where a.corpcode = #{query.corpcode} and a.empstatus in (1,2,4)
+
+		<if test="query.name != null and query.name!= ''">
+			AND a.name LIKE CONCAT('%',#{query.name},'%')
+		</if>
+		<if test="query.depid != null and query.depid!= ''">
+			AND a.depid LIKE CONCAT('%',#{query.depid},'%')
+		</if>
+		<if test="query.jobid != null and query.jobid!= ''">
+			AND a.jobid =#{query.jobid}
+		</if>
+		<if test="query.empstatus != null and query.empstatus!= ''">
+			AND a.empstatus =#{query.empstatus}
+		</if>
+
+	</select>
+
+	<!--人事概况报表-->
+	<select id="listPersonnelProfileEmpStatus1" resultType="java.util.Map">
+		select empstatus,ifnull(count(empstatus),0) count from etemployee where corpcode=#{corpcode} and empstatus =1 group by empstatus
+	</select>
+	<select id="listPersonnelProfileEmpStatus2" resultType="java.util.Map">
+		select empstatus,ifnull(count(empstatus),0) count from etemployee where corpcode=#{corpcode} and empstatus =2 group by empstatus
+	</select>
+	<select id="listPersonnelProfileEmpStatus4" resultType="java.util.Map">
+		select empstatus,ifnull(count(empstatus),0) count from etemployee where corpcode=#{corpcode} and empstatus =4 group by empstatus
+	</select>
+	<select id="listPersonnelProfileSum" resultType="java.util.Map">
+		select ifnull(count(1),0) count from etemployee where corpcode=#{corpcode} and empstatus in(1,2,4)
+	</select>
+	<select id="listPersonnelProfileEmpStatus5" resultType="java.util.Map">
+		select ifnull(count(empstatus),0) count from etemployee where corpcode=#{corpcode} and emptype !=7
+	</select>
+	<select id="listPersonnelProfileEmpStatus6" resultType="java.util.Map">
+		select ifnull(count(empstatus),0) count from etemployee where corpcode=#{corpcode} and emptype =7
+	</select>
+	<select id="listPersonnelProfileEmpStatus9" resultType="java.util.Map">
+		select ifnull(count(1),0) count from etstaff_all where corpcode=#{corpcode} and   (DATEDIFF(now(),RegDate)) &lt; 30
+		and empstatus in(1,2,4)
+	</select>
+
+	<!--人事提醒报表-->
+	<!--未签订合同-->
+	<select id="listHasNoContract" resultType="java.util.Map">
+		select a.eid,a.name,ifnull(a.portrait,'未设置') portrait,ifnull(a.joindate,'未设置') joindate,(select ifnull(title,'未设置')  from etcd_empstatus where id=a.empstatus) empstatus,(select ifnull(title,'未设置') from etcd_emptype where id=a.emptype) emptype from etemployee a where a.corpcode=#{query.corpcode} and a.empstatus in(1,2,4) and  not exists (select 1 from etcontract_all b where b.eid= a.eid)
+	</select>
+
+	<!--合同到期-->
+	<select id="listContractExpire" resultType="java.util.Map">
+
+
+select a.eid,a.name,ifnull(a.portrait,'未设置') portrait,ifnull(a.joindate,'') joindate,(select ifnull(title,'未设置')  from etcd_empstatus where id=a.empstatus) empstatus,(select ifnull(title,'未设置') from etcd_emptype where id=a.emptype) emptype from etemployee a where a.corpcode=#{query.corpcode} and a.empstatus in(1,2,4) and   exists (
+select a.eid from etemployee a,etcontract_all b where a.corpcode=#{query.corpcode} and a.empstatus in(1,2,4) and  b.eid= a.eid)
+	</select>
+
+	<!--合同到期2-->
+	<select id="listContractExpire2" resultType="java.util.Map">
+		select a.eid,a.name,ifnull(a.portrait,'未设置') portrait,b.conenddate,DATEDIFF(b.conEndDate,now()) days,(select ifnull(title,'未设置') from etcd_emptype where id=a.emptype) emptype from etemployee a,etcontract_all b where a.corpcode=#{query.corpcode} and a.empstatus in(1,2,4) and  b.eid= a.eid and  (DATEDIFF(b.conEndDate,now())) &lt; 10
+	</select>
+
+
+
+	<!--待入职-->
+	<select id="listEtstaffRegisterForRuZhi" resultType="java.util.Map">
+		select id,name,ifnull(portrait,'未设置') portrait,joindate,DATEDIFF(CURDATE(),joindate) days from etstaff_register  where corpcode=#{query.corpcode}
+	</select>
+	<!--待转正-->
+	<select id="listEtemployeeWaitingForCorrection" resultType="java.util.Map">
+		select eid,name,badge,depid,jobid,empstatus,joindate,ifnull(portrait,'未设置')  portrait,
+		case
+			when empstatus = '2' then pracenddate
+			when empstatus = '4' then probenddate
+		end effecctdate,
+		case
+		when empstatus = '2' then practerm
+		when empstatus = '4' then probterm
+		end term,
+		case
+			when empstatus = '2' then DATEDIFF(CURDATE(),pracenddate)
+			when empstatus = '4' then DATEDIFF(CURDATE(),probenddate)
+		end days,
+		DATEDIFF(CURDATE(),joindate) sage
+		 from etemployee  where corpcode=#{query.corpcode}
+		<if test="query.name != null and query.name!= ''">
+			AND name LIKE CONCAT('%',#{query.name},'%')
+		</if>
+		<if test="query.depid != null and query.depid!= ''">
+			AND depid LIKE CONCAT('%',#{query.depid},'%')
+		</if>
+		<if test="query.jobid != null and query.jobid!= ''">
+			AND jobid =#{query.jobid}
+		</if>
+		and empstatus in(2,4)
+	</select>
+	<!--待离职-->
+	<select id="listEtleaveRegisterWaitingForLeave" resultType="java.util.Map">
+		select eid,name,ifnull(portrait,'未设置') portrait,leavedate,DATEDIFF(CURDATE(),leavedate) days from etleave_register  where corpcode=#{query.corpcode}
+	</select>
+
+
+	<!--性别报表-->
+	<select id="listEtemployeeForGender" resultType="java.util.Map">
+		select ifnull(gender,2) gender,ifnull(count(gender),0) gendercount from etemployee  where corpcode=#{corpcode}
+		and empstatus in(1,2,4)
+		group by Gender
+	</select>
+	<!--性别报表all-->
+	<select id="listEtemployeeForGenderALL" resultType="java.util.Map">
+		select count(1) allcount from etemployee  where corpcode=#{corpcode}
+		and empstatus in(1,2,4)
+
+	</select>
+	<!--年龄段统计-->
+	<select id="listEtemployeeForAge" resultType="java.util.Map">
+		select ifnull(sum(a.people),0) people from (select ifnull(count(1),0)  people,(year(now())- year(substring(certno,7,8))) age  from etemployee
+		where corpcode = #{corpcode}
+		group by year(now())- year(substring(certno,7,8))
+		) a
+		where a.age &gt;= #{age1} and a.age &lt;=#{age2} and a.age is not null
+
+	</select>
+	<!--员工转正-->
+	<select id="listEmployeeZhuangZheng" resultType="java.util.Map">
+		select a.eid,a.depid,a.name,ifnull(a.portrait,'未设置')  portrait,
+		(select ifnull(title,'未设置') title from otdepartment where depid = a.depid and corpcode=#{query.corpcode}) depname,
+		(select ifnull(title,'未设置') title from otjob where jobid = a.jobid and corpcode=#{query.corpcode}) jobname,
+		a.JoinDate joindate,case
+					when a.EmpStatus=2 then a.PracConfDate
+					when a.EmpStatus=4 then a.PracEndDate
+		end zzdate,
+		case
+				when a.EmpStatus=2 then   DATEDIFF(a.PracConfDate,now())
+				when a.EmpStatus=4 then  DATEDIFF(a.PracEndDate,now())
+		end days
+		 from etemployee a
+		where a.corpcode = #{query.corpcode}
+		and a.EmpStatus in(2,4)
+	</select>
+	<!--员工关怀-->
+	<select id="listEmployeeCare" resultType="java.util.Map">
+		select a.depid,a.eid,a.name,a.birthday,a.portrait,
+		(select ifnull(title,'未设置') title from otdepartment where depid = a.depid and corpcode=#{corpcode}) depname,
+		(select ifnull(title,'未设置') title from otjob where jobid = a.jobid and corpcode=#{corpcode}) jobname,
+		a.birthday,DATEDIFF(CURDATE(),a.birthday) leaveday from etemployee a
+		where a.corpcode = #{corpcode}
+		and DATEDIFF(CURDATE(),a.birthday) &lt;= #{day}
+	</select>
+	<!--入职周年-->
+	<select id="listEmployeeEntrAnniversary" resultType="java.util.Map">
+		select a.depid,a.jobid,a.eid,a.name,a.portrait,
+		(select ifnull(title,'未设置') title from otdepartment where depid = a.depid and corpcode=#{corpcode}) depname,
+		(select ifnull(title,'未设置') title from otjob where jobid = a.jobid and corpcode=#{corpcode}) jobname,
+		a.joindate,
+		(year(now())- year(a.joindate)) zn,DATEDIFF(CURDATE(),a.joindate) ts
+		from etemployee a
+		where a.corpcode = #{corpcode}
+		and DATEDIFF(CURDATE(),a.joindate) &lt;= #{day}
+	</select>
+	<!--已驳回-->
+	<select id="listEtstaffAllNotPassedCount" resultType="java.util.Map">
+		select ifnull(count(1),0) count from etstaff_all where corpcode=#{corpcode} and  submit =3
+	</select>
+	<!--已通过-->
+	<select id="listEtstaffAllPassedCount" resultType="java.util.Map">
+		select ifnull(count(1),0) count from etstaff_all where corpcode=#{corpcode} and  ifnull(submit,0)  =2
+	</select>
+	<!--待审批-->
+	<select id="listEtstaffRegisterApprovalPendingCount" resultType="java.util.Map">
+		select ifnull(count(1),0) count from etstaff_register where corpcode=#{corpcode} and  ifnull(submit,0) =1 and ifnull(isNeedAudit,2)=0
+	</select>
+	<!--放弃入职-->
+	<select id="listEtstaffAllGiveUpEntryCount" resultType="java.util.Map">
+		select ifnull(count(1),0) count from etstaff_all where corpcode=#{corpcode} and  initialized =2
+	</select>
+	<!--最近入职-->
+	<select id="listEtstaffAllRecentEntryCount" resultType="java.util.Map">
+		select ifnull(count(1),0) count from etstaff_all where corpcode=#{corpcode} and
+		TIMESTAMPDIFF(MONTH,regdate,DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%S')) &lt;31 AND Initialized = 1
+	</select>
+	<!--统计-->
+	<!--待入职-->
+	<select id="listEtstaffRegisterCount" resultType="java.util.Map">
+		select ifnull(count(1),0) count from etstaff_register where corpcode=#{corpcode} and initialized != 2
+	</select>
+	<!--待离职-->
+	<select id="listEtleaveRegisterCount" resultType="java.util.Map">
+		select ifnull(count(1),0) count from etleave_register where corpcode=#{corpcode}
+	</select>
+	<!--已离职-->
+	<select id="listEtleaveAllCount" resultType="java.util.Map">
+		select ifnull(count(1),0) count from etleave_all where corpcode=#{corpcode}
+	</select>
+	<!--政治面貌-->
+	<select id="listEmployeeForParty" resultType="java.util.Map">
+		select party,ifnull(count(party),0) partycount  from etemployee
+		where corpcode=#{corpcode}
+		group by party
+	</select>
+	<!--各月份人员流动统计-->
+	<select id="listEmployeeFlowByMonth" resultType="java.util.Map">
+		select ifnull(count(1),0) peoplecount from etstaff_all
+		where corpcode=#{corpcode} and YEAR(regdate) = YEAR(CURDATE())
+		group by MONTH(regdate)
+	</select>
+	<!--各月份人员流动统计-->
+	<!--入职-->
+	<select id="listEmployeeFlowRuZhiByMonth" resultType="java.util.Map">
+		select MONTH(regdate) regdate,ifnull(count(1),0) peoplecount from etstaff_all
+		where corpcode=#{corpcode} and YEAR(regdate) = YEAR(CURDATE())
+		and type = #{type}
+		group by MONTH(regdate)
+		order by MONTH(regdate)
+	</select>
+	<!--离职-->
+	<select id="listEmployeeLiZhiFlowByMonth" resultType="java.util.Map">
+		select MONTH(regdate) regdate,ifnull(count(1),0) peoplecount from etleave_all
+		where corpcode=#{corpcode} and YEAR(regdate) = YEAR(CURDATE())
+		and type = #{type}
+		group by MONTH(regdate)
+		order by MONTH(regdate)
+	</select>
+	<!--离职原因报表-->
+	<select id="listEmployeeLiZhiByReason" resultType="java.util.Map">
+		select leavereason,
+		(select max(label) from sys_dict_item where id=a.leavereason) reasonname,
+		ifnull(count(1),0) reasoncount
+		from etleave_all a
+		where a.corpcode=#{corpcode} and a.type = #{type}
+		group by a.leavereason
+		order by a.leavereason
+
+
+
+
+	</select>
+	<select id="listEmployeeLiZhiByReasonCount" resultType="java.util.Map">
+		select ifnull(count(1),0) reasoncount
+		from etleave_all
+		where corpcode=#{corpcode} and type = #{type}
+	</select>
+
+
+	<!--工龄报表-->
+	<select id="listEtemployeeForGAge" resultType="java.util.Map">
+
+		select sum(a.people) people
+		(select ifnull(count(1),0)  people,
+		(YEAR(CURDATE())-YEAR(joindate))*12+(MONTH(CURDATE())-MONTH(joindate))+(case when DAY(CURDATE())-DAY(joindate) &lt; 0 then -1 else 0 end)  gage
+
+		from etemployee corpcode = #{corpcode}
+		group by
+		(YEAR(CURDATE())-YEAR(joindate))*12+(MONTH(CURDATE())-MONTH(joindate))+(case when DAY(CURDATE())-DAY(joindate) &lt; 0 then -1 else 0 end)
+		) a
+		where a.gage &gt;= #{age1} and a.gage &lt;=#{age2} and a.gage is not null
+
+	</select>
+
+	<!--婚姻状况报表-->
+	<select id="listEmployeeByMarriage" resultType="java.util.Map">
+		select a.marriage,(select max(label) from sys_dict_item where id=a.marriage) marriagename,ifnull(count(1),0) marriagecount
+		from etemployee a
+		where a.corpcode=#{corpcode} and a.empstatus in(1,2,4)
+		group by a.marriage
+		order by a.marriage
+	</select>
+	<select id="listEmployeeByMarriageCount" resultType="java.util.Map">
+		select ifnull(count(1),0) marriagecount
+		from etemployee
+		where corpcode=#{corpcode} and empstatus in(1,2,4)
+	</select>
+
+	<!--籍贯报表-->
+	<select id="listEmployeeByResident" resultType="java.util.Map">
+	select b.resident,b.residentcount from
+		(select a.resident,ifnull(count(1),0) residentcount
+		from etemployee a
+		where a.corpcode=#{corpcode} and a.empstatus in(1,2,4)
+		group by a.resident
+		order by residentcount desc) b
+		limit 1,10
+	</select>
+	<select id="listEmployeeByResidentCount" resultType="java.util.Map">
+		select ifnull(count(1),0) residentcount
+		from etemployee
+		where corpcode=#{corpcode} and empstatus in(1,2,4)
+	</select>
+
+	<select id="listEmployeeByCommonCount" resultType="java.util.Map">
+		select ifnull(count(1),0) count
+		from etemployee
+		where corpcode=#{corpcode} and empstatus in(1,2,4)
+	</select>
+	<select id="listEmployeeByCommonCount2" resultType="java.util.Map">
+		select ifnull(count(1),0) count
+		from etemployee
+		where corpcode=#{corpcode} and empstatus in(1,2,4,6)
+	</select>
+
+	<!--部门合并-->
+	<select id="updateEmployeeForDepCombine" resultType="java.util.Map">
+
+		update etemployee set depid = #{newdepid},
+							  ReportTo = #{reportto},
+							  wfreportto = #{wfreportto}
+		where corpcode = #{corpcode} and depid = #{depid}
+	</select>
+	<!--岗位合并-->
+	<select id="updateEmployeeForJobCombine" resultType="java.util.Map">
+
+		update etemployee set compid = #{newcompid},
+							  depid = #{newdepid},
+							  jobid = #{newjobid}
+		where corpcode = #{corpcode} and jobid = #{jobid}
+	</select>
+
+	<!--分页查询只返回list-->
+	<select id="listEmployeeForPageBySql" resultType="java.util.Map">
+		select a.eid as code,a.name
+		from etemployee a
+		where a.corpcode = #{query.corpcode}
+		<if test="query.name != null and query.name!= ''">
+			AND a.name LIKE CONCAT('%',#{query.name},'%')
+		</if>
+		and a.empstatus in(1,2)
+	</select>
+	<!--员工花名册-->
+	<select id="listEtEmployeeHMCBySqlForPc" resultType="java.util.Map">
+		SELECT  name,a.eid,a.ename,a.badge,mobile,email,birthday,case when (a.gender=1 or a.gender=113) then '男' when (a.gender=2 or a.gender=114) then '女' else '未知' end gender,
+		TIMESTAMPDIFF(YEAR, a.BirthDay, CURDATE()) age,
+		TIMESTAMPDIFF(YEAR, a.joinDate, CURDATE()) sage,
+		a.depid,
+		(select ifnull(title,'未设置') title from otdepartment where depid = a.depid and corpcode=#{query.corpcode}) depname,
+		a.jobid,
+		(select ifnull(title,'未设置') title from otjob where jobid = a.jobid and corpcode=#{query.corpcode}) jobname,
+		a.position,
+		(select ifnull(title,'未设置')  title from otcd_position where id = a.Position and corpcode=#{query.corpcode}) positionname,
+		a.emptype,
+		(select ifnull(title,'未设置') from etcd_emptype where id=a.emptype) emptypename,
+		a.reportto,
+		(select name etemployee where eid = a.reportto) reporttoname,
+		a.empstatus,
+		(select title from etcd_empstatus where id = a.empstatus) empstatusname,
+		joindate,
+		certtype,
+		(select label from sys_dict_item where id=a.certtype) certtypename,
+		certno,
+		party,
+		(select label from sys_dict_item where id=a.party) partyname,
+		residenttype,
+		(select label from sys_dict_item where id=a.residenttype) residenttypename,
+		nation,
+		(select label from sys_dict_item where id=a.nation) nationname,
+		address,
+		marriage,
+		(select label from sys_dict_item where id=a.marriage) marriagename
+		FROM etEmployee a where a.corpcode = #{query.corpcode}
+
+		<if test="query.name != null and query.name!= ''">
+			AND a.name LIKE CONCAT('%',#{query.name},'%')
+		</if>
+		<if test="query.depid != null and query.depid!= ''">
+			AND a.depid LIKE CONCAT('%',#{query.depid},'%')
+		</if>
+		<if test="query.jobid != null and query.jobid!= ''">
+			AND a.jobid =#{query.jobid}
+		</if>
+		<if test="query.empstatus != null and query.empstatus!= ''">
+			AND a.empstatus =#{query.empstatus}
+		</if>
+		<if test="query.empstatuszaizhi != null and query.empstatuszaizhi!= ''">
+			AND a.empstatus in(1,2,4)
+		</if>
+		<if test="query.emptypequanzhi != null and query.emptypequanzhi!= ''">
+			AND a.emptype !=7
+		</if>
+		<if test="query.emptypefeiquanzhi != null and query.emptypefeiquanzhi!= ''">
+			AND a.emptype=7
+		</if>
+	</select>
+	<select id="listEtEmployeeHMCBySqlForPc2" resultType="java.util.Map">
+		SELECT  name,a.eid,a.name,a.badge,mobile,email,birthday, gender,
+		TIMESTAMPDIFF(YEAR, a.BirthDay, CURDATE()) age,
+		TIMESTAMPDIFF(YEAR, a.joinDate, CURDATE()) sage,
+		a.depid,
+		a.jobid,
+		a.position,
+		a.emptype,
+		a.reportto,
+		a.empstatus,
+		joindate,
+		certtype,
+		certno,
+		party,
+		residenttype,
+		nation,
+		address,
+		marriage
+		FROM etleave_register a where a.corpcode = #{query.corpcode}
+
+		<if test="query.name != null and query.name!= ''">
+			AND a.name LIKE CONCAT('%',#{query.name},'%')
+		</if>
+		<if test="query.depid != null and query.depid!= ''">
+			AND a.depid LIKE CONCAT('%',#{query.depid},'%')
+		</if>
+		<if test="query.jobid != null and query.jobid!= ''">
+			AND a.jobid =#{query.jobid}
+		</if>
+
+	</select>
+	<select id="listEtEmployeeHMCBySqlForPc3" resultType="java.util.Map">
+		SELECT  name,a.eid,a.name,a.badge,mobile,email,birthday, gender,
+		TIMESTAMPDIFF(YEAR, a.BirthDay, CURDATE()) age,
+		TIMESTAMPDIFF(YEAR, a.joinDate, CURDATE()) sage,
+		a.depid,
+		a.jobid,
+		a.position,
+		a.emptype,
+		a.reportto,
+		a.empstatus,
+		joindate,
+		certtype,
+		certno,
+		party,
+		residenttype,
+		nation,
+		address,
+		marriage
+		FROM etleave_all a where a.corpcode = #{query.corpcode}
+
+		<if test="query.name != null and query.name!= ''">
+			AND a.name LIKE CONCAT('%',#{query.name},'%')
+		</if>
+		<if test="query.depid != null and query.depid!= ''">
+			AND a.depid LIKE CONCAT('%',#{query.depid},'%')
+		</if>
+		<if test="query.jobid != null and query.jobid!= ''">
+			AND a.jobid =#{query.jobid}
+		</if>
+
+	</select>
+
+	<!--员工花名册-->
+	<!--<select id="listEtEmployeeHMCDetailByEidSql" resultType="java.util.Map">
+		SELECT  name,a.eid,a.ename,a.badge,mobile,email,birthday,case when a.gender=1 then '男' when a.gender=2 then '女' else '未知' end gender,
+		TIMESTAMPDIFF(YEAR, a.BirthDay, CURDATE()) age,
+		a.depid,
+		(select  title from otdepartment where depid = a.depid and corpcode=#{corpcode}) depname,
+		a.jobid,
+		(select  title from otjob where jobid = a.jobid and corpcode=#{corpcode}) jobname,
+		a.position,
+		(select  title from otcd_positiongrade where id = a.posgrade and corpcode=#{corpcode}) posgradename,
+		a.posgrade,
+		(select  title from otcd_position where id = a.posgrade and corpcode=#{corpcode}) posgradename,
+		a.empgrade,
+		(select title from otcd_empgrade where id = a.empgrade and corpcode=#{corpcode}) empgradenname,
+		a.emptype,
+		(select ifnull(title,'未设置') from etcd_emptype where id=a.emptype) emptypename,
+		a.reportto,
+		(select name etemployee where eid = a.reportto) reporttoname,
+		a.empstatus,
+		(select title from etcd_empstatus where id = a.empstatus) empstatus,
+		joindate,
+		certtype,
+		(select label from sys_dict_item where id=a.certtype) certtypename,
+		certno,
+		party,
+		(select label from sys_dict_item where id=a.party) partyname,
+		residenttype,
+		(select label from sys_dict_item where id=a.residenttype) residenttypename,
+		nation,
+		(select label from sys_dict_item where id=a.nation) nationname,
+		address,
+		marriage,
+		(select label from sys_dict_item where id=a.marriage) marriagename,
+		joindate,
+		TIMESTAMPDIFF(YEAR, a.joindate, CURDATE()) slage,
+		practerm,
+		pracconfdate,
+		probterm,
+		probconfdate
+		FROM etEmployee a where a.corpcode = #{corpcode}
+		and a.eid = #{eid}
+
+	</select>-->
+
+	<select id="listEtEmployeeHMCDetailByEidSql" resultType="java.util.Map">
+		SELECT  name,a.eid,a.ename,a.badge,mobile,email,birthday, gender,
+		TIMESTAMPDIFF(YEAR, a.BirthDay, CURDATE()) age,
+		a.depid,
+		a.jobid,
+		a.position,
+		a.posgrade,
+		a.empgrade,
+		a.emptype,
+		a.reportto,
+		a.empstatus,
+		joindate,
+		certtype,
+		certno,
+		party,
+		residenttype,
+		nation,
+		address,
+		marriage,
+		joindate,
+		TIMESTAMPDIFF(YEAR, a.joindate, CURDATE()) slage,
+		practerm,
+		pracconfdate,
+		probterm,
+		probconfdate
+		FROM etEmployee a where a.corpcode = #{corpcode}
+		and a.eid = #{eid}
+
+	</select>
+
+
+	<!--代办提醒相关-->
+	<!--01	入职
+	02	生日
+	03	入职周年
+	04	转正
+	05	离职
+	06	试用到期
+	07	实习到期
+	08	合同到期
+	09	即将退休-->
+	<!--入职-->
+	<select id="listReminderEvent01" resultType="java.util.Map">
+		select name,portrait,'01' as code,concat('还有',DATEDIFF(joindate,now()),'天入职')  as remark from etstaff_register  where corpcode=#{corpcode} and  (DATEDIFF(joindate,now())) &lt; #{reminderday}
+	</select>
+	<!--生日-->
+	<select id="listReminderEvent02" resultType="java.util.Map">
+			SELECT eid,name,portrait,'02' as code,
+    datediff(
+        IF (cur >= today, cur, next),-- 今年的生日是否已过
+        today
+        ) last
+    FROM
+        (
+            SELECT
+                today, eid,name,portrait,
+                date_add(BIRTHDAY, INTERVAL diff YEAR) cur,-- 今年生日日期
+                date_add(BIRTHDAY,INTERVAL diff + 1 YEAR) next-- 第二年生日日期
+                FROM
+                (
+                    SELECT
+                        BIRTHDAY, eid,name,portrait,
+                        (YEAR (now()) - YEAR (e.BIRTHDAY)) diff,-- 年龄（周岁）
+                        str_to_date(date_format(now(), '%Y-%m-%d'),'%Y-%m-%d') AS today-- 今日
+                    FROM
+                        etemployee e where corpcode = #{corpcode} and empstatus in(1,2,4)
+                ) AS a
+        ) AS b
+
+	</select>
+
+
+
+
+	<!--入职周年-->
+	<select id="listReminderEvent03" resultType="java.util.Map">
+				SELECT eid,name,portrait,'02' as code,
+   concat('还有',datediff(
+        IF (cur >= today, cur, next),
+        today
+        ),'天,满',diff+1,'周年') as remark
+    FROM
+        (
+            SELECT
+                today, eid,name,portrait,diff,
+                date_add(joindate, INTERVAL diff YEAR) cur,-- 今年生日日期
+                date_add(joindate,INTERVAL diff + 1 YEAR) next-- 第二年生日日期
+                FROM
+                (
+                    SELECT
+                        joindate, eid,name,portrait,
+                        (YEAR (now()) - YEAR (e.joindate)) diff,-- 工龄
+                        str_to_date(date_format(now(), '%Y-%m-%d'),'%Y-%m-%d') AS today-- 今日
+                    FROM
+                        etemployee e where corpcode = #{corpcode} and empstatus in(1,2,4)
+                ) AS a
+        ) AS b
+
+	</select>
+
+
+	<!--转正-->
+	<select id="listReminderEvent04" resultType="java.util.Map">
+		select eid,name,portrait, '04' as code,
+		case
+				when EmpStatus=2 then  concat('还有',DATEDIFF(PracConfDate,now()),'天转正')
+				when EmpStatus=4 then  concat('还有',DATEDIFF(ProbConfDate,now()),'天转正')
+		end remark
+		 from etemployee
+		where corpcode = #{corpcode}
+		and EmpStatus in(2,4)
+		and remark &lt; concat('还有',#{reminderday},'天转正')
+	</select>
+
+	<!--离职-->
+	<select id="listReminderEvent05" resultType="java.util.Map">
+
+		select  name,portrait,'05' as code,concat('还有',DATEDIFF(leavedate,now()),'天离职')  as remark from etleave_register
+		where corpcode=#{corpcode} and DATEDIFF(leavedate,now()) &lt;#{reminderday}
+	</select>
+
+
+	<!--试用到期-->
+	<select id="listReminderEvent06" resultType="java.util.Map">
+		select eid,name,portrait,'06' as code,concat('还有',DATEDIFF(ProbEndDate,now()),'天转正') as remark
+		 from etemployee
+		where corpcode = #{corpcode}
+		and EmpStatus =4
+		and DATEDIFF(ProbEndDate,now()) &lt; #{reminderday}
+	</select>
+
+	<!--实习到期-->
+	<select id="listReminderEvent07" resultType="java.util.Map">
+		select eid,name,portrait,'07' as code,concat('还有',DATEDIFF(PracEndDate,now()),'天转正') as remark
+		 from etemployee
+		where corpcode = #{corpcode}
+		and EmpStatus =2
+		and DATEDIFF(PracEndDate,now()) &lt; #{reminderday}
+	</select>
+
+	<!--合同到期-->
+	<select id="listReminderEvent08" resultType="java.util.Map">
+		select
+		 b.eid,b.name,b.portrait,,concat('合同还有',DATEDIFF(PracEndDate,now()),'天到期') as remark
+		from
+		(select a.eid,a.name,a.portrait,max(b.conenddate) from etemployee a,etcontract_all b
+		where a.corpcode=#{query.corpcode} and a.empstatus in(1,2,4) and  b.eid= a.eid
+		and b.conenddate is not null
+		group by a.eid,a.name,a.portrait) b
+		where DATEDIFF(b.conEndDate,now())  &lt; #{reminderday}
+	</select>
+
+	<!--合同未签订-->
+	<select id="listReminderEvent10" resultType="java.util.Map">
+		select eid,name,portrait,'10' as code,'合同未签订' as remark
+
+		 from etemployee
+		where corpcode = #{corpcode}
+		and EmpStatus in(1,2,4)
+		and ConBeginDate is null
+	</select>
+
+
+
+
+
+
+</mapper>

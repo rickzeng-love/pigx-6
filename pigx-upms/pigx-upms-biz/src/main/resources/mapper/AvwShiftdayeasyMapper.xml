@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.AvwShiftdayeasyMapper">
+
+  <resultMap id="avwShiftdayeasyMap" type="com.pig4cloud.pigx.admin.entity.AvwShiftdayeasy">
+                  <result property="term" column="Term"/>
+                        <result property="eid" column="EID"/>
+                        <result property="badge" column="Badge"/>
+                        <result property="name" column="Name"/>
+                        <result property="compid" column="CompID"/>
+                        <result property="depid" column="DepID"/>
+                        <result property="jobid" column="JobID"/>
+                        <result property="groupid" column="GroupID"/>
+                        <result property="shift" column="Shift"/>
+                        <result property="isexception" column="IsException"/>
+                        <result property="analymode" column="AnalyMode"/>
+                        <result property="cardbegintime1" column="CardBeginTime1"/>
+                        <result property="cardendtime1" column="CardEndTime1"/>
+                        <result property="cardbegintime2" column="CardBeginTime2"/>
+                        <result property="cardendtime2" column="CardEndTime2"/>
+                        <result property="cardbegintime3" column="CardBeginTime3"/>
+                        <result property="cardendtime3" column="CardEndTime3"/>
+                        <result property="cder" column="CDER"/>
+                        <result property="pnhr" column="PNHR"/>
+                        <result property="pndy" column="PNDY"/>
+                        <result property="wkhr" column="WKHR"/>
+                        <result property="wkdy" column="WKDY"/>
+                        <result property="limn" column="LIMN"/>
+                        <result property="eomn" column="EOMN"/>
+                        <result property="dnan" column="DNAN"/>
+                        <result property="litm" column="LITM"/>
+                        <result property="eotm" column="EOTM"/>
+                        <result property="abhr" column="ABHR"/>
+                        <result property="abdy" column="ABDY"/>
+                        <result property="uahr" column="UAHR"/>
+                        <result property="otab" column="OTAB"/>
+                        <result property="ot1" column="OT1"/>
+                        <result property="ot2" column="OT2"/>
+                        <result property="ot3" column="OT3"/>
+                        <result property="clot" column="CLOT"/>
+                        <result property="sicl" column="SicL"/>
+                        <result property="perl" column="PerL"/>
+                        <result property="annl" column="AnnL"/>
+                        <result property="coml" column="ComL"/>
+                        <result property="marl" column="MarL"/>
+                        <result property="prpl" column="PrPL"/>
+                        <result property="matl" column="MatL"/>
+                        <result property="patl" column="PatL"/>
+                        <result property="otcl" column="OTCL"/>
+                        <result property="puhl" column="PuHL"/>
+                        <result property="nurl" column="NurL"/>
+                        <result property="isjl" column="ISJL"/>
+                        <result property="fanf" column="FANF"/>
+                        <result property="ofal" column="OfAL"/>
+                        <result property="lvwk" column="LVWK"/>
+                        <result property="rewk" column="REWK"/>
+                        <result property="otcd" column="OTCD"/>
+                        <result property="nudy" column="NUDY"/>
+                        <result property="initialized" column="Initialized"/>
+                        <result property="corpid" column="CorpID"/>
+                        <result property="corpcode" column="CorpCode"/>
+            </resultMap>
+</mapper>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.CvwEmployeeMapper">
+
+  <resultMap id="cvwEmployeeMap" type="com.pig4cloud.pigx.admin.entity.CvwEmployee">
+                  <id property="eid" column="EID"/>
+                        <result property="badge" column="Badge"/>
+                        <result property="name" column="Name"/>
+                        <result property="compid" column="CompID"/>
+                        <result property="depid" column="DepID"/>
+                        <result property="jobid" column="JobID"/>
+                        <result property="empstatus" column="EmpStatus"/>
+                        <result property="emptype" column="EmpType"/>
+                        <result property="empgrade" column="EmpGrade"/>
+                        <result property="joindate" column="Joindate"/>
+                        <result property="workcity" column="WorkCity"/>
+                        <result property="country" column="Country"/>
+                        <result property="leavedate" column="LeaveDate"/>
+                        <result property="costid" column="CostID"/>
+                        <result property="salarystatus" column="SalaryStatus"/>
+                        <result property="salarytype" column="SalaryType"/>
+                        <result property="salarygrade" column="SalaryGrade"/>
+                        <result property="salarykind" column="SalaryKind"/>
+                        <result property="salarycity" column="SalaryCity"/>
+                        <result property="calcway" column="CalcWay"/>
+                        <result property="is80" column="Is80"/>
+                        <result property="paymode" column="PayMode"/>
+                        <result property="paystatus" column="PayStatus"/>
+                        <result property="bankstatus" column="BankStatus"/>
+                        <result property="bankid" column="BankID"/>
+                        <result property="bankno" column="BankNo"/>
+                        <result property="openbankemp" column="OpenBankEmp"/>
+                        <result property="bankname" column="BankName"/>
+                        <result property="bankrelateid" column="BankRelateID"/>
+                        <result property="bankid2" column="BankID2"/>
+                        <result property="bankno2" column="BankNo2"/>
+                        <result property="openbankemp2" column="OpenBankEmp2"/>
+                        <result property="a1" column="A1"/>
+                        <result property="a2" column="A2"/>
+                        <result property="a3" column="A3"/>
+                        <result property="a4" column="A4"/>
+                        <result property="a5" column="A5"/>
+                        <result property="remark" column="Remark"/>
+                        <result property="corpid" column="CorpID"/>
+            </resultMap>
+</mapper>

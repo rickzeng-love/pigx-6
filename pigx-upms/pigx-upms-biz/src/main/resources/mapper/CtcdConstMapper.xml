@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.CtcdConstMapper">
+
+  <resultMap id="ctcdConstMap" type="com.pig4cloud.pigx.admin.entity.CtcdConst">
+                  <id property="id" column="ID"/>
+                        <result property="title" column="Title"/>
+                        <result property="value" column="Value"/>
+                        <result property="unit" column="Unit"/>
+                        <result property="type" column="Type"/>
+                        <result property="isdefault" column="isDefault"/>
+                        <result property="isdisabled" column="isDisabled"/>
+                        <result property="remark" column="Remark"/>
+                        <result property="corpcode" column="CorpCode"/>
+                        <result property="corpid" column="CorpID"/>
+	  <result property="xorder" column="xorder"/>
+            </resultMap>
+
+	<!--获取薪资常数和函数 树-->
+	<select id="listCtcdConstForFormula" resultType="com.pig4cloud.pigx.admin.api.dto.TreeOrg">
+		select -1 as id, '自定义函数' as title,0 as pid,'' as fnname,'' as fncode,null as xorder from dual
+		union all
+		select -2 as id, '薪资常数' as title,0 as pid,'' as fnname,'' as fncode,null as xorder from dual
+		union all
+		select ID,concat(Title , sysFN_GetCustomFunction(ObjName,1)) As title,-1 pId,sysFN_GetCustomFunction(ObjName,2) As fnname,sysFN_GetCustomFunction(ObjName,0) As fncode,xorder from systDataObjs a where a.FType='C'
+		and exists(select 1 from systDataCols b where a.ObjName=b.ObjName and b.ColName='@EID')
+		union all
+		select ID,concat(title,'=',value) as title,-2 pId,'' as fnname,CONCAT('{',title,'}')  as  fncode,xorder from ctcd_const where corpcode = #{corpcode}
+		order by xorder asc
+	</select>
+
+</mapper>
